@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Octopus.Core.WorkerService
+namespace Octopus.Core.Loader.WorkerService
 {
     public class Program
     {
