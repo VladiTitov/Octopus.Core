@@ -2,7 +2,7 @@
 using Octopus.Core.Common.Configs;
 using RabbitMQ.Client;
 
-namespace Octopus.Core.Loader.RabbitMq.Context
+namespace Octopus.Core.RabbitMq.Context
 {
     public class RabbitMqContext : IRabbitMqContext
     {

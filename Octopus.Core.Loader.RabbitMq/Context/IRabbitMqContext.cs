@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
 
-namespace Octopus.Core.Loader.RabbitMq.Context
+namespace Octopus.Core.RabbitMq.Context
 {
     public interface IRabbitMqContext
     {

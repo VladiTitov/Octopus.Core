@@ -1,11 +1,12 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.Configs;
-using Octopus.Core.Loader.RabbitMq.Context;
+using Octopus.Core.RabbitMq.Context;
+using Octopus.Core.RabbitMq.Services.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Octopus.Core.Loader.RabbitMq.Services
+namespace Octopus.Core.RabbitMq.Services.Implementations
 {
     public class RabbitMqListener : IRabbitMqListener
     {

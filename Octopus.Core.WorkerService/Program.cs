@@ -2,8 +2,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Octopus.Core.Common.Configs;
-using Octopus.Core.Loader.RabbitMq.Context;
-using Octopus.Core.Loader.RabbitMq.Services;
+using Octopus.Core.RabbitMq.Context;
+using Octopus.Core.RabbitMq.Services.Implementations;
+using Octopus.Core.RabbitMq.Services.Interfaces;
 
 namespace Octopus.Core.Loader.WorkerService
 {
