@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.WorkerS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Common", "Octopus.Core.Common\Octopus.Core.Common.csproj", "{B32CB8B4-8C2C-4F51-8CFC-54F654742771}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.RabbitMq", "Octopus.Core.Loader.RabbitMq\Octopus.Core.Loader.RabbitMq.csproj", "{4EC0A34E-C842-4F7A-8990-109073E57480}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B32CB8B4-8C2C-4F51-8CFC-54F654742771}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B32CB8B4-8C2C-4F51-8CFC-54F654742771}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B32CB8B4-8C2C-4F51-8CFC-54F654742771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EC0A34E-C842-4F7A-8990-109073E57480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EC0A34E-C842-4F7A-8990-109073E57480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EC0A34E-C842-4F7A-8990-109073E57480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EC0A34E-C842-4F7A-8990-109073E57480}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
