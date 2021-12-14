@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Octopus.Core.Parser.WorkerService.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,17 @@ namespace Octopus.Core.Parser.WorkerService
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
+        private readonly IParserProcessor _parserProcessor;
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger, IParserProcessor parserProcessor)
         {
             _logger = logger;
+            _parserProcessor = parserProcessor;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(1000, stoppingToken);
-            }
+            await _parserProcessor.StartProcessing(stoppingToken);
         }
     }
 }
