@@ -1,9 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Octopus.Core.Parser.WorkerService.Interfaces.Services;
+using Octopus.Core.Parser.WorkerService.Services;
 
 namespace Octopus.Core.Parser.WorkerService
 {
@@ -18,6 +16,10 @@ namespace Octopus.Core.Parser.WorkerService
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.AddScoped<IParserProcessor, ParserProcessor>();
+                    services.AddScoped<IQueueConsumer, QueueConsumer>();
+                    //services.AddScoped<IBaseParser, BaseParser>();
+
                     services.AddHostedService<Worker>();
                 });
     }
