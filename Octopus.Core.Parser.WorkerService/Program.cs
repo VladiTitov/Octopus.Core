@@ -16,9 +16,8 @@ namespace Octopus.Core.Parser.WorkerService
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddScoped<IParserProcessor, ParserProcessor>();
-                    services.AddScoped<IQueueConsumer, QueueConsumer>();
-                    //services.AddScoped<IBaseParser, BaseParser>();
+                    services.AddSingleton<IQueueConsumer, QueueConsumer>();
+                    services.AddSingleton<IParserProcessor, ParserProcessor>();
 
                     services.AddHostedService<Worker>();
                 });
