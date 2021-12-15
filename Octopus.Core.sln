@@ -1,14 +1,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31919.166
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WorkerService", "Octopus.Core.WorkerService\Octopus.Core.Loader.WorkerService.csproj", "{010C10CD-E6F4-49EF-A0B8-5494A57FFD42}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Common", "Octopus.Core.Common\Octopus.Core.Common.csproj", "{B32CB8B4-8C2C-4F51-8CFC-54F654742771}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Parser.WorkerService", "Octopus.Core.Parser.WorkerService\Octopus.Core.Parser.WorkerService.csproj", "{109EC682-F9F8-4EAF-9AA4-C9CFE28B03BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Parser.WorkerService", "Octopus.Core.Parser.WorkerService\Octopus.Core.Parser.WorkerService.csproj", "{109EC682-F9F8-4EAF-9AA4-C9CFE28B03BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.RabbitMq", "Octopus.Core.RabbitMq\Octopus.Core.RabbitMq.csproj", "{DCE8255A-F969-4A66-9AC1-8F6B5B0C9198}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.BusinessLogic", "Octopus.Core.Loader.BusinessLogic\Octopus.Core.Loader.BusinessLogic.csproj", "{6234BEC0-B940-4356-B0A8-DF7DAF6ADE9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{DCE8255A-F969-4A66-9AC1-8F6B5B0C9198}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCE8255A-F969-4A66-9AC1-8F6B5B0C9198}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCE8255A-F969-4A66-9AC1-8F6B5B0C9198}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6234BEC0-B940-4356-B0A8-DF7DAF6ADE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6234BEC0-B940-4356-B0A8-DF7DAF6ADE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6234BEC0-B940-4356-B0A8-DF7DAF6ADE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6234BEC0-B940-4356-B0A8-DF7DAF6ADE9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

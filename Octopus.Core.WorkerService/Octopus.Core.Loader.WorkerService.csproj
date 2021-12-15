@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentScheduler" Version="5.5.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Octopus.Core.Common\Octopus.Core.Common.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Loader.BusinessLogic\Octopus.Core.Loader.BusinessLogic.csproj" />
     <ProjectReference Include="..\Octopus.Core.RabbitMq\Octopus.Core.RabbitMq.csproj" />
   </ItemGroup>
 </Project>

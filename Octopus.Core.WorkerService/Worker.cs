@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentScheduler;
+using Octopus.Core.Loader.BusinessLogic.Services;
 
 namespace Octopus.Core.Loader.WorkerService
 {
@@ -10,18 +12,16 @@ namespace Octopus.Core.Loader.WorkerService
     {
         private readonly ILogger<Worker> _logger;
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger, JobRegistryService jobRegistryService)
         {
             _logger = logger;
+            JobManager.Initialize(jobRegistryService);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(1000, stoppingToken);
-            }
+            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+            JobManager.Start();
         }
     }
 }
