@@ -1,5 +1,8 @@
-﻿using Octopus.Core.Common.Enums;
+﻿using Microsoft.Extensions.Options;
+using Octopus.Core.Common.Enums;
 using Octopus.Core.Common.Extensions;
+using Octopus.Core.Parser.WorkerService.Configs.Implementations;
+using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services;
 using Octopus.Core.Parser.WorkerService.Services.Factories;
 using Octopus.Core.Parser.WorkerService.Services.Parsers;
@@ -16,9 +19,26 @@ namespace Octopus.Core.Parser.WorkerService.Services
         private readonly IQueueConsumer _consumer;
         private ParserFactory _parserFactory;
 
-        public ParserProcessor(IQueueConsumer consumer)
+        private readonly ProcessorConfiguration _processorOptions;
+
+        private readonly IOptions<CsvParserConfiguration> _csvOptions;
+        private readonly IOptions<XmlParserConfiguration> _xmlOptions;
+        private readonly IOptions<JsonParserConfiguration> _jsonOptions;
+
+        public ParserProcessor(IQueueConsumer consumer,
+            IOptions<CsvParserConfiguration> csvOptions,
+            IOptions<XmlParserConfiguration> xmlOptions,
+            IOptions<JsonParserConfiguration> jsonOptions,
+            IOptions<ProcessorConfiguration> processorOptions)
         {
             _consumer = consumer;
+
+            _processorOptions = processorOptions.Value;
+
+            _csvOptions = csvOptions;
+            _xmlOptions = xmlOptions;
+            _jsonOptions = jsonOptions;
+
             _parserFactory = RegisterParserFactory();
         }
 
@@ -48,9 +68,9 @@ namespace Octopus.Core.Parser.WorkerService.Services
         {
             var factory = new ParserFactory();
 
-            factory.RegisterParser(FileExtension.CSV, () => new CSVParser());
-            factory.RegisterParser(FileExtension.JSON, () => new JSONParser());
-            factory.RegisterParser(FileExtension.XML, () => new XMLParser());
+            factory.RegisterParser(FileExtension.CSV, () => new CSVParser(_csvOptions));
+            factory.RegisterParser(FileExtension.JSON, () => new JSONParser(_jsonOptions));
+            factory.RegisterParser(FileExtension.XML, () => new XMLParser(_xmlOptions));
 
             return factory;
         }
@@ -60,6 +80,8 @@ namespace Octopus.Core.Parser.WorkerService.Services
             var extension = file.GetFileExtension();
 
             var parser = GetParserByExtension(extension);
+
+            parser.Parse(file);
         }
 
         private BaseParser GetParserByExtension(FileExtension fileExtension)
