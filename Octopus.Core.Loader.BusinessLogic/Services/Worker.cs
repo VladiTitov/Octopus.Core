@@ -4,9 +4,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentScheduler;
-using Octopus.Core.Loader.BusinessLogic.Services;
 
-namespace Octopus.Core.Loader.WorkerService
+namespace Octopus.Core.Loader.BusinessLogic.Services
 {
     public class Worker : BackgroundService
     {
