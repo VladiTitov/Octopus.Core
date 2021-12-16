@@ -20,6 +20,10 @@ namespace Octopus.Core.Parser.WorkerService
                 .ConfigureAppConfiguration(confBuilder =>
                 {
                     confBuilder.AddJsonFile("appsettings.json");
+                    confBuilder.AddJsonFile("processor-config.json");
+                    confBuilder.AddJsonFile("csvParser-config.json");
+                    confBuilder.AddJsonFile("jsonParser-config.json");
+                    confBuilder.AddJsonFile("xmlParser-config.json");
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
