@@ -8,6 +8,7 @@ using Octopus.Core.Parser.WorkerService.Services.Factories;
 using Octopus.Core.Parser.WorkerService.Services.Parsers;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Octopus.Core.Parser.WorkerService.Services
         private readonly IOptions<CsvParserConfiguration> _csvOptions;
         private readonly IOptions<XmlParserConfiguration> _xmlOptions;
         private readonly IOptions<JsonParserConfiguration> _jsonOptions;
+        private readonly List<string> _descriptionModelPaths;
 
         public ParserProcessor(IQueueConsumer consumer,
             IOptions<CsvParserConfiguration> csvOptions,
@@ -38,6 +40,8 @@ namespace Octopus.Core.Parser.WorkerService.Services
             _csvOptions = csvOptions;
             _xmlOptions = xmlOptions;
             _jsonOptions = jsonOptions;
+
+            _descriptionModelPaths = new List<string>(_processorOptions.ExpectedModelsDescriptionPaths);
 
             _parserFactory = RegisterParserFactory();
         }
@@ -55,7 +59,7 @@ namespace Octopus.Core.Parser.WorkerService.Services
                     ParseFile(inputFile);
                 }
 
-                await Task.Delay(1000, stoppingToken);
+                await Task.Delay(_processorOptions.RunInterval, stoppingToken);
             }
         }
 
