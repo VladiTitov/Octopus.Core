@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
-using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Octopus.Core.Parser.WorkerService.Services.Parsers
 {
@@ -16,9 +18,21 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
             _options = options.Value;
         }
 
-        public override IEnumerable<string> Parse(FileInfo inputFile)
+        public override async Task<IEnumerable<string[]>> Parse(FileInfo inputFile)
         {
-            throw new NotImplementedException();
+            var result = new List<string[]>();
+
+            using (var sr = new StreamReader(inputFile.FullName, Encoding.Default))
+            {
+                string line;
+
+                while ((line = await sr.ReadLineAsync()) != null)
+                {
+                    result.Add(line.Split(_options.FileSeparator));
+                }
+            }
+
+            return result.Skip(_options.SkipLines).ToList();
         }
     }
 }

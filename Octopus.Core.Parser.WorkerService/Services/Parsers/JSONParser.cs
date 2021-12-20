@@ -4,6 +4,7 @@ using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Octopus.Core.Parser.WorkerService.Services.Parsers
 {
@@ -16,7 +17,7 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
             _options = options.Value;
         }
 
-        public override IEnumerable<string> Parse(FileInfo inputFile)
+        public override Task<IEnumerable<string[]>> Parse(FileInfo inputFile)
         {
             throw new NotImplementedException();
         }
