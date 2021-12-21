@@ -5,5 +5,7 @@
         public int RunInterval { get; set; }
 
         public string[] ExpectedModelsDescriptionPaths { get; set; }
+
+        public string OutputDirectoryPath { get; set; }
     }
 }
