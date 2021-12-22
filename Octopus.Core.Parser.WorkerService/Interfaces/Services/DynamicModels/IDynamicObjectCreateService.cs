@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels
 {
     public interface IDynamicObjectCreateService
     {
-        IEnumerable<object> AddValuesToDynamicObject(string dynamicPropertiesFilePath, IEnumerable<string[]> values);
+        IEnumerable<object> AddValuesToDynamicObject(Type extendedType, IEnumerable<string[]> values);
+
+        Type CreateTypeByDescription(string dynamicPropertiesFilePath);
     }
 }

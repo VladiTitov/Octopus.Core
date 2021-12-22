@@ -24,7 +24,9 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
         {
             var values = await GetValues(inputFile);
 
-            var objects = _dynamicObjectCreateService.AddValuesToDynamicObject(modelDescriptionPath, values);
+            var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescriptionPath);
+
+            var objects = _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, values);
 
             return objects;
         }

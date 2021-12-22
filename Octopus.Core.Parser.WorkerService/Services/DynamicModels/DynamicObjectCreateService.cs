@@ -21,11 +21,15 @@ namespace Octopus.Core.Parser.WorkerService.Services.DynamicModels
             _dynamicProperties = new List<DynamicProperty>();
         }
 
-        public IEnumerable<object> AddValuesToDynamicObject(string dynamicPropertiesFilePath, IEnumerable<string[]> values)
+        public Type CreateTypeByDescription(string dynamicPropertiesFilePath)
         {
             ConfigureDynamicProperties(dynamicPropertiesFilePath);
 
-            var extendedType = _dynamicTypeFactory.CreateNewTypeWithDynamicProperty(typeof(DynamicEntity), _dynamicProperties);
+            return _dynamicTypeFactory.CreateNewTypeWithDynamicProperty(typeof(DynamicEntity), _dynamicProperties);
+        }
+
+        public IEnumerable<object> AddValuesToDynamicObject(Type extendedType, IEnumerable<string[]> values)
+        {
             return values.Select(value => GetObjectWithProperty(extendedType, value)).ToList();
         }
 
