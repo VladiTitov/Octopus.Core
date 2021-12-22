@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
+using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,13 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
     {
         private readonly XmlParserConfiguration _options;
 
-        public XMLParser(IOptions<XmlParserConfiguration> options)
+        public XMLParser(IOptions<XmlParserConfiguration> options, IDynamicObjectCreateService dynamicObjectCreateService)
+            : base(dynamicObjectCreateService)
         {
             _options = options.Value;
         }
 
-        public override Task<IEnumerable<string[]>> Parse(FileInfo inputFile)
+        public override Task<IEnumerable<object>> Parse(FileInfo inputFile, string modelDescriptionPath)
         {
             throw new NotImplementedException();
         }

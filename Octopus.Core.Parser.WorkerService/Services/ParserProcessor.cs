@@ -64,16 +64,9 @@ namespace Octopus.Core.Parser.WorkerService.Services
                 {
                     var modelDescriptionPath = GetExpectedModelDescriptionPath(request.EntityType);
 
-                    if (modelDescriptionPath == null)
-                    {
-                        throw new IncorrectInputDataException(ErrorMessages.NoDescriptionProvided);
-                    }
-
                     var inputFile = new FileInfo(request.EntityFilePath);
 
-                    var items = await ParseFile(inputFile);
-
-                    var objects = _dynamicObjectCreateService.AddValuesToDynamicObject(modelDescriptionPath, items);
+                    var objects = await ParseFile(inputFile, modelDescriptionPath);
 
                     SerializeObjectsToOutputFile(objects);
                 }
@@ -97,7 +90,7 @@ namespace Octopus.Core.Parser.WorkerService.Services
                 }
             }
 
-            return null;
+            throw new IncorrectInputDataException(ErrorMessages.NoDescriptionProvided);
         }
 
         private void SerializeObjectsToOutputFile(IEnumerable<object> objects)
@@ -117,20 +110,20 @@ namespace Octopus.Core.Parser.WorkerService.Services
         {
             var factory = new ParserFactory();
 
-            factory.RegisterParser(FileExtension.CSV, () => new CSVParser(_csvOptions));
-            factory.RegisterParser(FileExtension.JSON, () => new JSONParser(_jsonOptions));
-            factory.RegisterParser(FileExtension.XML, () => new XMLParser(_xmlOptions));
+            factory.RegisterParser(FileExtension.CSV, () => new CSVParser(_csvOptions, _dynamicObjectCreateService));
+            factory.RegisterParser(FileExtension.JSON, () => new JSONParser(_jsonOptions, _dynamicObjectCreateService));
+            factory.RegisterParser(FileExtension.XML, () => new XMLParser(_xmlOptions, _dynamicObjectCreateService));
 
             return factory;
         }
 
-        private async Task<IEnumerable<string[]>> ParseFile(FileInfo file)
+        private async Task<IEnumerable<object>> ParseFile(FileInfo file, string modelDescriptionPath)
         {
             var extension = file.GetFileExtension();
 
             var parser = GetParserByExtension(extension);
 
-            return await parser.Parse(file);
+            return await parser.Parse(file, modelDescriptionPath);
         }
 
         private BaseParser GetParserByExtension(FileExtension fileExtension)
