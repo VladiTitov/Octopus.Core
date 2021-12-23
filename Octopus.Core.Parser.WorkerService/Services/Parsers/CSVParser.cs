@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
+using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
-using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Octopus.Core.Parser.WorkerService.Services.Parsers
 {
@@ -11,14 +14,38 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
     {
         private readonly CsvParserConfiguration _options;
 
-        public CSVParser(IOptions<CsvParserConfiguration> options)
+        public CSVParser(IOptions<CsvParserConfiguration> options, IDynamicObjectCreateService dynamicObjectCreateService)
+            : base(dynamicObjectCreateService)
         {
             _options = options.Value;
         }
 
-        public override IEnumerable<string> Parse(FileInfo inputFile)
+        public override async Task<IEnumerable<object>> Parse(FileInfo inputFile, string modelDescriptionPath)
         {
-            throw new NotImplementedException();
+            var values = await GetValues(inputFile);
+
+            var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescriptionPath);
+
+            var objects = _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, values);
+
+            return objects;
+        }
+
+        private async Task<IEnumerable<string[]>> GetValues(FileInfo inputFile)
+        {
+            var result = new List<string[]>();
+
+            using (var sr = new StreamReader(inputFile.FullName, Encoding.Default))
+            {
+                string line;
+
+                while ((line = await sr.ReadLineAsync()) != null)
+                {
+                    result.Add(line.Split(_options.FileSeparator));
+                }
+            }
+
+            return result.Skip(_options.SkipLines).ToList();
         }
     }
 }

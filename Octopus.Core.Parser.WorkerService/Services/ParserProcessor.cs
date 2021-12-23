@@ -1,15 +1,19 @@
 ﻿using Microsoft.Extensions.Options;
+using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.Enums;
+using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Extensions;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
 using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services;
+using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services.Factories;
 using Octopus.Core.Parser.WorkerService.Services.Parsers;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,12 +30,14 @@ namespace Octopus.Core.Parser.WorkerService.Services
         private readonly IOptions<XmlParserConfiguration> _xmlOptions;
         private readonly IOptions<JsonParserConfiguration> _jsonOptions;
         private readonly List<string> _descriptionModelPaths;
+        private readonly IDynamicObjectCreateService _dynamicObjectCreateService;
 
         public ParserProcessor(IQueueConsumer consumer,
             IOptions<CsvParserConfiguration> csvOptions,
             IOptions<XmlParserConfiguration> xmlOptions,
             IOptions<JsonParserConfiguration> jsonOptions,
-            IOptions<ProcessorConfiguration> processorOptions)
+            IOptions<ProcessorConfiguration> processorOptions,
+            IDynamicObjectCreateService dynamicObjectCreateService)
         {
             _consumer = consumer;
 
@@ -44,6 +50,8 @@ namespace Octopus.Core.Parser.WorkerService.Services
             _descriptionModelPaths = new List<string>(_processorOptions.ExpectedModelsDescriptionPaths);
 
             _parserFactory = RegisterParserFactory();
+
+            _dynamicObjectCreateService = dynamicObjectCreateService;
         }
 
         public async Task StartProcessing(CancellationToken stoppingToken)
@@ -54,9 +62,13 @@ namespace Octopus.Core.Parser.WorkerService.Services
 
                 if (request != null)
                 {
+                    var modelDescriptionPath = GetExpectedModelDescriptionPath(request.EntityType);
+
                     var inputFile = new FileInfo(request.EntityFilePath);
 
-                    ParseFile(inputFile);
+                    var objects = await ParseFile(inputFile, modelDescriptionPath);
+
+                    SerializeObjectsToOutputFile(objects);
                 }
 
                 await Task.Delay(_processorOptions.RunInterval, stoppingToken);
@@ -68,24 +80,50 @@ namespace Octopus.Core.Parser.WorkerService.Services
             throw new NotImplementedException();
         }
 
+        private string GetExpectedModelDescriptionPath(string modelName)
+        {
+            foreach (var path in _descriptionModelPaths)
+            {
+                if (path.Contains(modelName))
+                {
+                    return path;
+                }
+            }
+
+            throw new IncorrectInputDataException(ErrorMessages.NoDescriptionProvided);
+        }
+
+        private void SerializeObjectsToOutputFile(IEnumerable<object> objects)
+        {
+            var outputFileName = $"{Guid.NewGuid()}.json";
+
+            var outputFilePath = Path.Combine(_processorOptions.OutputDirectoryPath, outputFileName);
+
+            var serializerOptions = new JsonSerializerOptions { WriteIndented = true };
+
+            var jsonString = JsonSerializer.Serialize(objects, serializerOptions);
+
+            File.WriteAllText(outputFilePath, jsonString);
+        }
+
         private ParserFactory RegisterParserFactory()
         {
             var factory = new ParserFactory();
 
-            factory.RegisterParser(FileExtension.CSV, () => new CSVParser(_csvOptions));
-            factory.RegisterParser(FileExtension.JSON, () => new JSONParser(_jsonOptions));
-            factory.RegisterParser(FileExtension.XML, () => new XMLParser(_xmlOptions));
+            factory.RegisterParser(FileExtension.CSV, () => new CSVParser(_csvOptions, _dynamicObjectCreateService));
+            factory.RegisterParser(FileExtension.JSON, () => new JSONParser(_jsonOptions, _dynamicObjectCreateService));
+            factory.RegisterParser(FileExtension.XML, () => new XMLParser(_xmlOptions, _dynamicObjectCreateService));
 
             return factory;
         }
 
-        private void ParseFile(FileInfo file)
+        private async Task<IEnumerable<object>> ParseFile(FileInfo file, string modelDescriptionPath)
         {
             var extension = file.GetFileExtension();
 
             var parser = GetParserByExtension(extension);
 
-            parser.Parse(file);
+            return await parser.Parse(file, modelDescriptionPath);
         }
 
         private BaseParser GetParserByExtension(FileExtension fileExtension)
