@@ -6,6 +6,7 @@ using Octopus.Core.Loader.BusinessLogic.Services;
 using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Services.Implementations;
 using Octopus.Core.RabbitMq.Services.Interfaces;
+using Octopus.Core.RabbitMq.Workers;
 
 namespace Octopus.Core.Loader.WorkerService
 {
@@ -30,9 +31,10 @@ namespace Octopus.Core.Loader.WorkerService
                     services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"));
 
                     services.AddSingleton<IRabbitMqContext, RabbitMqContext>();
-                    services.AddSingleton<IRabbitMqListener, RabbitMqListener>();
+                    services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
+                    services.AddSingleton<IEventProcessor, EventProcessor>();
 
-                    services.AddHostedService<Worker>();
+                    services.AddHostedService<MessageBusSubscriber>();
                 });
     }
 }
