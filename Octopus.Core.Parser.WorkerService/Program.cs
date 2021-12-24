@@ -31,7 +31,7 @@ namespace Octopus.Core.Parser.WorkerService
                 .ConfigureServices((hostContext, services) =>
                 {
                     var configuration = hostContext.Configuration;
-
+                    
                     services.Configure<ProcessorConfiguration>(configuration.GetSection(nameof(ProcessorConfiguration)));
 
                     services.Configure<CsvParserConfiguration>(configuration.GetSection(nameof(CsvParserConfiguration)));
