@@ -5,16 +5,16 @@ namespace Octopus.Core.Loader.BusinessLogic.Jobs
 {
     public class QueueConsumer : IJob
     {
-        private readonly IRabbitMqListener _listener;
+        //private readonly IRabbitMqListener _listener;
 
-        public QueueConsumer(IRabbitMqListener listener)
+        public QueueConsumer()
         {
-            _listener = listener;
+            
         }
 
         public void Execute()
         {
-            _listener.ChannelConsume();
+            
         }
     }
 }

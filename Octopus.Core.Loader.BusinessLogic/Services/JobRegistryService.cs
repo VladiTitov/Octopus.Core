@@ -6,9 +6,9 @@ namespace Octopus.Core.Loader.BusinessLogic.Services
 {
     public class JobRegistryService : Registry
     {
-        public JobRegistryService(IRabbitMqListener listener)
+        public JobRegistryService()
         {
-            Schedule(() => new QueueConsumer(listener))
+            Schedule(() => new QueueConsumer())
                 .NonReentrant()
                 .ToRunNow()
                 .AndEvery(1)
