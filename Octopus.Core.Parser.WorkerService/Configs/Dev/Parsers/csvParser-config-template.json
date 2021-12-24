@@ -1,0 +1,6 @@
+{
+  "CsvParserConfiguration": {
+    "SkipLines": 0,
+    "FileSeparator": ";"
+  }
+}
