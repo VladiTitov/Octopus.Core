@@ -1,5 +1,4 @@
-﻿using Octopus.Core.Common.DynamicObject.Services.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -17,11 +16,23 @@ namespace Octopus.Core.Common.Helpers.JsonDeserializer
         {
             using (FileStream openStream = File.OpenRead(fileName))
             {
-                var methodDeserialize = typeof(JsonSerializer).GetMethod("DeserializeAsync", new[] { typeof(Stream), typeof(JsonSerializerOptions), typeof(CancellationToken) });
+                var methodDeserialize = typeof(JsonSerializer).GetMethod("DeserializeAsync",
+                    new[]
+                {
+                    typeof(Stream),
+                    typeof(JsonSerializerOptions),
+                    typeof(CancellationToken)
+                });
 
                 methodDeserialize = methodDeserialize.MakeGenericMethod(extendedType);
 
-                return await (dynamic)methodDeserialize.Invoke(null, new object[] { openStream, null, default });
+                return await (dynamic)methodDeserialize.Invoke(null,
+                    new object[]
+                    {
+                        openStream,
+                        null,
+                        default
+                    });
             }
         }
     }

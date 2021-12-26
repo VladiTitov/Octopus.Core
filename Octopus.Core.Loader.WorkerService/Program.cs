@@ -5,6 +5,7 @@ using Octopus.Core.Common.Configs;
 using Octopus.Core.Common.DynamicObject.Services;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Helpers.JsonDeserializer;
+using Octopus.Core.Loader.BusinessLogic.Interfaces;
 using Octopus.Core.Loader.BusinessLogic.Services;
 using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Services.Implementations;
@@ -39,6 +40,7 @@ namespace Octopus.Core.Loader.WorkerService
                     services.AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>();
 
                     services.AddSingleton<IJsonDeserializer, JsonDeserializer>();
+                    services.AddSingleton<IDataReaderService, DataReaderService>();
 
                     services.AddHostedService<MessageBusSubscriber>();
                 });
