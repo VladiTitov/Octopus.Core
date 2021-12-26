@@ -3,6 +3,7 @@ using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.Enums;
 using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Extensions;
+using Octopus.Core.Common.Models;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
 using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services;
@@ -56,9 +57,18 @@ namespace Octopus.Core.Parser.WorkerService.Services
 
         public async Task StartProcessing(CancellationToken stoppingToken)
         {
+            IEntityDescription request;
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                var request = await _consumer.ConsumeAsync();
+                try
+                {
+                    request = await _consumer.ConsumeAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw new QueueException($"{ErrorMessages.QueueException} {ex.Message}");
+                }
 
                 if (request != null)
                 {

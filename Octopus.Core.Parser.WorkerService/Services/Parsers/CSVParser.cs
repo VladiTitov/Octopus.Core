@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
+using Octopus.Core.Common.Constants;
+using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,11 +25,28 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
 
         public override async Task<IEnumerable<object>> Parse(FileInfo inputFile, string modelDescriptionPath)
         {
-            var values = await GetValues(inputFile);
+            IEnumerable<string[]> values;
+            IEnumerable<object> objects;
 
-            var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescriptionPath);
+            try
+            {
+                values = await GetValues(inputFile);
+            }
+            catch (Exception ex)
+            {
+                throw new ParsingException($"{ErrorMessages.CsvParserException} {ex.Message}");
+            }
 
-            var objects = _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, values);
+            try
+            {
+                var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescriptionPath);
+
+                objects = _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, values);
+            }
+            catch (Exception ex)
+            {
+                throw new DynamicServiceException($"{ErrorMessages.DynamicServiceException} {ex.Message}");
+            }
 
             return objects;
         }
