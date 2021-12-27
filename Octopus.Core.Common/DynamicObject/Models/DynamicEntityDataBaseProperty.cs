@@ -1,4 +1,4 @@
-﻿namespace Octopus.Core.Common.Models
+﻿namespace Octopus.Core.Common.DynamicObject.Models
 {
     public class DynamicEntityDataBaseProperty
     {

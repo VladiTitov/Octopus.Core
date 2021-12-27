@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace Octopus.Core.Common.Models
+namespace Octopus.Core.Common.DynamicObject.Models
 {
     public class DynamicProperty
     {
