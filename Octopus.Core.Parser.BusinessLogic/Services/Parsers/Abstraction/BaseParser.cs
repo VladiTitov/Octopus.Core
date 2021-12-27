@@ -7,9 +7,9 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction
 {
     public abstract class BaseParser
     {
-        protected readonly IDynamicObjectCreateService_2 _dynamicObjectCreateService;
+        protected readonly IDynamicObjectCreateService _dynamicObjectCreateService;
 
-        public BaseParser(IDynamicObjectCreateService_2 dynamicObjectCreateService)
+        public BaseParser(IDynamicObjectCreateService dynamicObjectCreateService)
         {
             _dynamicObjectCreateService = dynamicObjectCreateService;
         }

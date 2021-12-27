@@ -11,6 +11,7 @@ using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services.Factories;
 using Octopus.Core.Parser.WorkerService.Services.Parsers;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
+using Octopus.Core.RabbitMq.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,13 +31,15 @@ namespace Octopus.Core.Parser.WorkerService.Services
         private readonly IOptions<XmlParserConfiguration> _xmlOptions;
         private readonly IOptions<JsonParserConfiguration> _jsonOptions;
         private readonly List<string> _descriptionModelPaths;
-        private readonly IDynamicObjectCreateService_2 _dynamicObjectCreateService;
+        private readonly IDynamicObjectCreateService _dynamicObjectCreateService;
+        private readonly IRabbitMqPublisher _rabbitMqPublisher;
 
         public ParserProcessor(IOptions<CsvParserConfiguration> csvOptions,
             IOptions<XmlParserConfiguration> xmlOptions,
             IOptions<JsonParserConfiguration> jsonOptions,
             IOptions<ProcessorConfiguration> processorOptions,
-            IDynamicObjectCreateService_2 dynamicObjectCreateService)
+            IDynamicObjectCreateService dynamicObjectCreateService,
+            IRabbitMqPublisher rabbitMqPublisher)
         {
             _processorOptions = processorOptions.Value;
 
@@ -49,6 +52,8 @@ namespace Octopus.Core.Parser.WorkerService.Services
             _parserFactory = RegisterParserFactory();
 
             _dynamicObjectCreateService = dynamicObjectCreateService;
+
+            _rabbitMqPublisher = rabbitMqPublisher;
         }
 
         public async Task Parse(IEntityDescription request)
@@ -61,7 +66,11 @@ namespace Octopus.Core.Parser.WorkerService.Services
 
                 var objects = await ParseFile(inputFile, modelDescriptionPath);
 
-                SerializeObjectsToOutputFile(objects);
+                var outputEntityDescription = GetOutputEntityDescription(request.EntityType);
+
+                SerializeObjectsToOutputFile(objects, outputEntityDescription.EntityFilePath);
+
+                _rabbitMqPublisher.ChannelConsume(JsonSerializer.Serialize(outputEntityDescription));
             }
         }
 
@@ -88,17 +97,23 @@ namespace Octopus.Core.Parser.WorkerService.Services
             throw new IncorrectInputDataException(ErrorMessages.NoDescriptionProvided);
         }
 
-        private void SerializeObjectsToOutputFile(IEnumerable<object> objects)
+        private void SerializeObjectsToOutputFile(IEnumerable<object> objects, string outputFilePath)
         {
-            var outputFileName = $"{Guid.NewGuid()}.json";
-
-            var outputFilePath = Path.Combine(_processorOptions.OutputDirectoryPath, outputFileName);
-
+           
             var serializerOptions = new JsonSerializerOptions { WriteIndented = true };
 
             var jsonString = JsonSerializer.Serialize(objects, serializerOptions);
 
             File.WriteAllText(outputFilePath, jsonString);
+        }
+
+        private IEntityDescription GetOutputEntityDescription(string modelName)
+        {
+            var outputFileName = $"{Guid.NewGuid()}.json";
+
+            var outputFilePath = Path.Combine(_processorOptions.OutputDirectoryPath, outputFileName);
+
+            return new EntityDescription() { EntityType = modelName, EntityFilePath = outputFilePath };
         }
 
         private ParserFactory RegisterParserFactory()

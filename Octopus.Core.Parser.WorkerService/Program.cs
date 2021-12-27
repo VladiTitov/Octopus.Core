@@ -9,13 +9,13 @@ using Octopus.Core.Parser.BusinessLogic.Services;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
 using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services;
-using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services;
-using Octopus.Core.Parser.WorkerService.Services.DynamicModels;
 using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Services.Implementations;
 using Octopus.Core.RabbitMq.Services.Interfaces;
 using Octopus.Core.RabbitMq.Workers;
+using DynamicObjectCreateService = Octopus.Core.Parser.WorkerService.Services.DynamicModels.DynamicObjectCreateService;
+using IDynamicObjectCreateService = Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels.IDynamicObjectCreateService;
 
 namespace Octopus.Core.Parser.WorkerService
 {
@@ -54,7 +54,7 @@ namespace Octopus.Core.Parser.WorkerService
                     services.AddSingleton<IEventProcessor, MessageHandler>();
 
                     services.AddSingleton<IParserProcessor, ParserProcessor>();
-                    services.AddSingleton<IDynamicObjectCreateService_2, DynamicObjectCreateService_2>();
+                    services.AddSingleton<IDynamicObjectCreateService, DynamicObjectCreateService>();
                     services.AddSingleton<IJsonDeserializer, JsonDeserializer>();
                     services.AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>();
 

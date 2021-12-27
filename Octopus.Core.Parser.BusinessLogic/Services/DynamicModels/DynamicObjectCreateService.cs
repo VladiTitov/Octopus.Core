@@ -6,16 +6,17 @@ using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IDynamicObjectCreateService = Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels.IDynamicObjectCreateService;
 
 namespace Octopus.Core.Parser.WorkerService.Services.DynamicModels
 {
-    public class DynamicObjectCreateService_2 : IDynamicObjectCreateService_2
+    public class DynamicObjectCreateService : IDynamicObjectCreateService
     {
         private IList<DynamicProperty> _dynamicProperties;
         private readonly IDynamicTypeFactory _dynamicTypeFactory;
         private readonly IJsonDeserializer _jsonDeserializer;
 
-        public DynamicObjectCreateService_2(IJsonDeserializer jsonDeserializer, IDynamicTypeFactory dynamicTypeFactory)
+        public DynamicObjectCreateService(IJsonDeserializer jsonDeserializer, IDynamicTypeFactory dynamicTypeFactory)
         {
             _dynamicTypeFactory = dynamicTypeFactory;
             _jsonDeserializer = jsonDeserializer;
