@@ -17,7 +17,7 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
     {
         private readonly JsonParserConfiguration _options;
 
-        public JSONParser(IOptions<JsonParserConfiguration> options, IDynamicObjectCreateService dynamicObjectCreateService)
+        public JSONParser(IOptions<JsonParserConfiguration> options, IDynamicObjectCreateService_2 dynamicObjectCreateService)
             : base(dynamicObjectCreateService)
         {
             _options = options.Value;

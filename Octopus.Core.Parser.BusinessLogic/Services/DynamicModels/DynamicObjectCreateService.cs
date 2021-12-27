@@ -1,6 +1,7 @@
-﻿using Octopus.Core.Common.Extensions;
+﻿using Octopus.Core.Common.DynamicObject.Models;
+using Octopus.Core.Common.DynamicObject.Services.Interfaces;
+using Octopus.Core.Common.Extensions;
 using Octopus.Core.Common.Helpers.JsonDeserializer;
-using Octopus.Core.Common.Models;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,13 @@ using System.Linq;
 
 namespace Octopus.Core.Parser.WorkerService.Services.DynamicModels
 {
-    public class DynamicObjectCreateService : IDynamicObjectCreateService
+    public class DynamicObjectCreateService_2 : IDynamicObjectCreateService_2
     {
         private IList<DynamicProperty> _dynamicProperties;
         private readonly IDynamicTypeFactory _dynamicTypeFactory;
         private readonly IJsonDeserializer _jsonDeserializer;
 
-        public DynamicObjectCreateService(IJsonDeserializer jsonDeserializer, IDynamicTypeFactory dynamicTypeFactory)
+        public DynamicObjectCreateService_2(IJsonDeserializer jsonDeserializer, IDynamicTypeFactory dynamicTypeFactory)
         {
             _dynamicTypeFactory = dynamicTypeFactory;
             _jsonDeserializer = jsonDeserializer;

@@ -29,7 +29,7 @@ namespace Octopus.Core.Loader.WorkerService
                     confBuilder.AddJsonFile("Configs/rabbitMq-config.json");
                 })
                 .ConfigureServices((hostContext, services) =>
-                {
+                { 
                     services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"));
 
                     services.AddSingleton<IRabbitMqContext, RabbitMqContext>();

@@ -17,7 +17,7 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
     {
         private readonly CsvParserConfiguration _options;
 
-        public CSVParser(IOptions<CsvParserConfiguration> options, IDynamicObjectCreateService dynamicObjectCreateService)
+        public CSVParser(IOptions<CsvParserConfiguration> options, IDynamicObjectCreateService_2 dynamicObjectCreateService)
             : base(dynamicObjectCreateService)
         {
             _options = options.Value;

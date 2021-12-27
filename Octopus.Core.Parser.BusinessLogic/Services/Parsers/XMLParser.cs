@@ -17,7 +17,7 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
     {
         private readonly XmlParserConfiguration _options;
 
-        public XMLParser(IOptions<XmlParserConfiguration> options, IDynamicObjectCreateService dynamicObjectCreateService)
+        public XMLParser(IOptions<XmlParserConfiguration> options, IDynamicObjectCreateService_2 dynamicObjectCreateService)
             : base(dynamicObjectCreateService)
         {
             _options = options.Value;
