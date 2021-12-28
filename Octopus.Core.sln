@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31919.166
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Common", "Octopus.Core.Common\Octopus.Core.Common.csproj", "{B32CB8B4-8C2C-4F51-8CFC-54F654742771}"
 EndProject
@@ -14,7 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WorkerS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Octopus.Core.Parser", "Octopus.Core.Parser", "{A787DD08-B1E3-471F-BD84-B0C2C2970563}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Parser.BusinessLogic", "Octopus.Core.Parser.BusinessLogic\Octopus.Core.Parser.BusinessLogic.csproj", "{C188A63E-0397-474B-B160-6D55582C2F37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Parser.BusinessLogic", "Octopus.Core.Parser.BusinessLogic\Octopus.Core.Parser.BusinessLogic.csproj", "{C188A63E-0397-474B-B160-6D55582C2F37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Octopus.Core.Loader", "Octopus.Core.Loader", "{54CB3014-03E1-4C59-A2D6-D24A09B40894}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +54,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{109EC682-F9F8-4EAF-9AA4-C9CFE28B03BB} = {A787DD08-B1E3-471F-BD84-B0C2C2970563}
+		{6234BEC0-B940-4356-B0A8-DF7DAF6ADE9D} = {54CB3014-03E1-4C59-A2D6-D24A09B40894}
+		{09E6CA7E-F48D-4CB2-8958-611E0629EB3F} = {54CB3014-03E1-4C59-A2D6-D24A09B40894}
 		{C188A63E-0397-474B-B160-6D55582C2F37} = {A787DD08-B1E3-471F-BD84-B0C2C2970563}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
