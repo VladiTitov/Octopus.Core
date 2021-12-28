@@ -1,5 +1,15 @@
 {
-  "RabbitParams": {
+  "RabbitMqSubscriber": {
+    "Hostname": "host",
+    "Port": 1111,
+    "ExchangeType": "Fanout",
+    "ExchangeName": "ExchangeName",
+    "QueueName": "QueueName",
+    "RoutingKey": "routingKey",
+    "UserName": "UserName",
+    "Password": "Password"
+  },
+  "RabbitMqPublisher": {
     "Hostname": "host",
     "Port": 1111,
     "ExchangeType": "Fanout",
