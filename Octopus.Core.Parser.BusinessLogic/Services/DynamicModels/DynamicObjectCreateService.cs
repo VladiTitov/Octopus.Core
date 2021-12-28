@@ -1,10 +1,12 @@
-﻿using Octopus.Core.Common.Extensions;
+﻿using Octopus.Core.Common.DynamicObject.Models;
+using Octopus.Core.Common.DynamicObject.Services.Interfaces;
+using Octopus.Core.Common.Extensions;
 using Octopus.Core.Common.Helpers.JsonDeserializer;
-using Octopus.Core.Common.Models;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IDynamicObjectCreateService = Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels.IDynamicObjectCreateService;
 
 namespace Octopus.Core.Parser.WorkerService.Services.DynamicModels
 {

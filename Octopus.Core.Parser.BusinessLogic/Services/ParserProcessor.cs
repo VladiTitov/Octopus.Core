@@ -11,6 +11,7 @@ using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services.Factories;
 using Octopus.Core.Parser.WorkerService.Services.Parsers;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
+using Octopus.Core.RabbitMq.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +23,6 @@ namespace Octopus.Core.Parser.WorkerService.Services
 {
     public class ParserProcessor : IParserProcessor
     {
-        private readonly IQueueConsumer _consumer;
         private ParserFactory _parserFactory;
 
         private readonly ProcessorConfiguration _processorOptions;
@@ -32,16 +32,15 @@ namespace Octopus.Core.Parser.WorkerService.Services
         private readonly IOptions<JsonParserConfiguration> _jsonOptions;
         private readonly List<string> _descriptionModelPaths;
         private readonly IDynamicObjectCreateService _dynamicObjectCreateService;
+        private readonly IRabbitMqPublisher _rabbitMqPublisher;
 
-        public ParserProcessor(IQueueConsumer consumer,
-            IOptions<CsvParserConfiguration> csvOptions,
+        public ParserProcessor(IOptions<CsvParserConfiguration> csvOptions,
             IOptions<XmlParserConfiguration> xmlOptions,
             IOptions<JsonParserConfiguration> jsonOptions,
             IOptions<ProcessorConfiguration> processorOptions,
-            IDynamicObjectCreateService dynamicObjectCreateService)
+            IDynamicObjectCreateService dynamicObjectCreateService,
+            IRabbitMqPublisher rabbitMqPublisher)
         {
-            _consumer = consumer;
-
             _processorOptions = processorOptions.Value;
 
             _csvOptions = csvOptions;
@@ -53,41 +52,36 @@ namespace Octopus.Core.Parser.WorkerService.Services
             _parserFactory = RegisterParserFactory();
 
             _dynamicObjectCreateService = dynamicObjectCreateService;
+
+            _rabbitMqPublisher = rabbitMqPublisher;
         }
 
-        public async Task StartProcessing(CancellationToken stoppingToken)
+        public async Task Parse(IEntityDescription request)
         {
-            IEntityDescription request;
-
-            while (!stoppingToken.IsCancellationRequested)
+            if (request != null)
             {
-                try
-                {
-                    request = await _consumer.ConsumeAsync();
-                }
-                catch (Exception ex)
-                {
-                    throw new QueueException($"{ErrorMessages.QueueException} {ex.Message}");
-                }
+                var modelDescriptionPath = GetExpectedModelDescriptionPath(request.EntityType);
 
-                if (request != null)
-                {
-                    var modelDescriptionPath = GetExpectedModelDescriptionPath(request.EntityType);
+                var inputFile = new FileInfo(request.EntityFilePath);
 
-                    var inputFile = new FileInfo(request.EntityFilePath);
+                var objects = await ParseFile(inputFile, modelDescriptionPath);
 
-                    var objects = await ParseFile(inputFile, modelDescriptionPath);
+                var outputEntityDescription = GetOutputEntityDescription(request.EntityType);
 
-                    SerializeObjectsToOutputFile(objects);
-                }
+                SerializeObjectsToOutputFile(objects, outputEntityDescription.EntityFilePath);
 
-                await Task.Delay(_processorOptions.RunInterval, stoppingToken);
+                _rabbitMqPublisher.ChannelConsume(JsonSerializer.Serialize(outputEntityDescription));
             }
         }
 
-        public async Task StopProcessing(CancellationToken stoppingToken)
+        public Task StartProcessing()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
+        }
+
+        public Task StopProcessing()
+        {
+            return Task.CompletedTask;
         }
 
         private string GetExpectedModelDescriptionPath(string modelName)
@@ -103,17 +97,23 @@ namespace Octopus.Core.Parser.WorkerService.Services
             throw new IncorrectInputDataException(ErrorMessages.NoDescriptionProvided);
         }
 
-        private void SerializeObjectsToOutputFile(IEnumerable<object> objects)
+        private void SerializeObjectsToOutputFile(IEnumerable<object> objects, string outputFilePath)
         {
-            var outputFileName = $"{Guid.NewGuid()}.json";
-
-            var outputFilePath = Path.Combine(_processorOptions.OutputDirectoryPath, outputFileName);
-
+           
             var serializerOptions = new JsonSerializerOptions { WriteIndented = true };
 
             var jsonString = JsonSerializer.Serialize(objects, serializerOptions);
 
             File.WriteAllText(outputFilePath, jsonString);
+        }
+
+        private IEntityDescription GetOutputEntityDescription(string modelName)
+        {
+            var outputFileName = $"{Guid.NewGuid()}.json";
+
+            var outputFilePath = Path.Combine(_processorOptions.OutputDirectoryPath, outputFileName);
+
+            return new EntityDescription() { EntityType = modelName, EntityFilePath = outputFilePath };
         }
 
         private ParserFactory RegisterParserFactory()

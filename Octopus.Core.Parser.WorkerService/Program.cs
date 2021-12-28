@@ -1,13 +1,21 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Octopus.Core.Common.Configs;
+using Octopus.Core.Common.DynamicObject.Services;
+using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Helpers.JsonDeserializer;
+using Octopus.Core.Parser.BusinessLogic.Services;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
 using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services;
-using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services;
-using Octopus.Core.Parser.WorkerService.Services.DynamicModels;
+using Octopus.Core.RabbitMq.Context;
+using Octopus.Core.RabbitMq.Services.Implementations;
+using Octopus.Core.RabbitMq.Services.Interfaces;
+using Octopus.Core.RabbitMq.Workers;
+using DynamicObjectCreateService = Octopus.Core.Parser.WorkerService.Services.DynamicModels.DynamicObjectCreateService;
+using IDynamicObjectCreateService = Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels.IDynamicObjectCreateService;
 
 namespace Octopus.Core.Parser.WorkerService
 {
@@ -23,10 +31,11 @@ namespace Octopus.Core.Parser.WorkerService
                 .ConfigureAppConfiguration(confBuilder =>
                 {
                     confBuilder.AddJsonFile("appsettings.json");
-                    confBuilder.AddJsonFile("Configs/processor-config.json");
-                    confBuilder.AddJsonFile("Configs/Parsers/csvParser-config.json");
-                    confBuilder.AddJsonFile("Configs/Parsers/jsonParser-config.json");
-                    confBuilder.AddJsonFile("Configs/Parsers/xmlParser-config.json");
+                    confBuilder.AddJsonFile("Configs/Production/processor-config.json");
+                    confBuilder.AddJsonFile("Configs/Production/Parsers/csvParser-config.json");
+                    confBuilder.AddJsonFile("Configs/Production/Parsers/jsonParser-config.json");
+                    confBuilder.AddJsonFile("Configs/Production/Parsers/xmlParser-config.json");
+                    confBuilder.AddJsonFile("Configs/Production/rabbitMq-config.json");
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -34,17 +43,22 @@ namespace Octopus.Core.Parser.WorkerService
                     
                     services.Configure<ProcessorConfiguration>(configuration.GetSection(nameof(ProcessorConfiguration)));
 
+                    services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"));
+
                     services.Configure<CsvParserConfiguration>(configuration.GetSection(nameof(CsvParserConfiguration)));
                     services.Configure<JsonParserConfiguration>(configuration.GetSection(nameof(JsonParserConfiguration)));
                     services.Configure<XmlParserConfiguration>(configuration.GetSection(nameof(XmlParserConfiguration)));
 
-                    services.AddSingleton<IQueueConsumer, QueueConsumer>();
+                    services.AddSingleton<IRabbitMqContext, RabbitMqContext>();
+                    services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
+                    services.AddSingleton<IEventProcessor, MessageHandler>();
+
                     services.AddSingleton<IParserProcessor, ParserProcessor>();
                     services.AddSingleton<IDynamicObjectCreateService, DynamicObjectCreateService>();
                     services.AddSingleton<IJsonDeserializer, JsonDeserializer>();
                     services.AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>();
 
-                    services.AddHostedService<Worker>();
+                    services.AddHostedService<MessageBusSubscriber>();
                 });
     }
 }

@@ -1,0 +1,10 @@
+{
+  "RabbitParams": {
+    "Hostname": "host",
+    "Port": 1111,
+    "ExchangeName": "ExchangeName",
+    "QueueName": "QueueName",
+    "UserName": "UserName",
+    "Password": "Password"
+  }
+}
