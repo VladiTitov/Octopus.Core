@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Parser.Busines
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Octopus.Core.Loader", "Octopus.Core.Loader", "{54CB3014-03E1-4C59-A2D6-D24A09B40894}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.DataAccess", "Octopus.Core.Loader.DataAccess\Octopus.Core.Loader.DataAccess.csproj", "{ABE78A99-E975-49BB-B722-1D3AABF64D89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{C188A63E-0397-474B-B160-6D55582C2F37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C188A63E-0397-474B-B160-6D55582C2F37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C188A63E-0397-474B-B160-6D55582C2F37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE78A99-E975-49BB-B722-1D3AABF64D89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE78A99-E975-49BB-B722-1D3AABF64D89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE78A99-E975-49BB-B722-1D3AABF64D89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE78A99-E975-49BB-B722-1D3AABF64D89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{6234BEC0-B940-4356-B0A8-DF7DAF6ADE9D} = {54CB3014-03E1-4C59-A2D6-D24A09B40894}
 		{09E6CA7E-F48D-4CB2-8958-611E0629EB3F} = {54CB3014-03E1-4C59-A2D6-D24A09B40894}
 		{C188A63E-0397-474B-B160-6D55582C2F37} = {A787DD08-B1E3-471F-BD84-B0C2C2970563}
+		{ABE78A99-E975-49BB-B722-1D3AABF64D89} = {54CB3014-03E1-4C59-A2D6-D24A09B40894}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D937E79C-E80C-4670-8CC4-7B2965DBF301}
