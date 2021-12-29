@@ -39,6 +39,9 @@ namespace Octopus.Core.Loader.WorkerService
                 {
                     services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"));
                     services.Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"));
+                { 
+                    services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitMqSubscriber"));
+                    services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitMqPublisher"));
 
                     services.AddSingleton<IRabbitMqContext, RabbitMqContext>();
                     services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
