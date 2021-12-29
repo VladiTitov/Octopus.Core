@@ -11,16 +11,25 @@ namespace Octopus.Core.Common.DynamicObject.Services
     public class DynamicObjectCreateService : IDynamicObjectCreateService
     {
         private IList<DynamicProperty> _dynamicProperties;
-        private readonly IDynamicTypeFactory _dynamicTypeFactory;
+        private readonly IJsonDeserializer _jsonDeserializer;
+        private IDynamicTypeFactory _dynamicTypeFactory;
 
         public DynamicObjectCreateService(IJsonDeserializer jsonDeserializer, IDynamicTypeFactory dynamicTypeFactory)
         {
             _dynamicTypeFactory = dynamicTypeFactory;
-            _dynamicProperties = jsonDeserializer.GetDynamicProperties<DynamicProperty>(@"Configs\dynamicProperties.json");
+            _jsonDeserializer = jsonDeserializer;
+            _dynamicProperties = new List<DynamicProperty>();
         }
 
-        public Type CreateTypeByDescription() => 
-            _dynamicTypeFactory.CreateNewTypeWithDynamicProperty(typeof(DynamicEntity), _dynamicProperties);
+        public IList<DynamicProperty> ConfigureDynamicProperties(string dynamicPropertiesFilePath) => 
+            _jsonDeserializer.GetDynamicProperties<DynamicProperty>(dynamicPropertiesFilePath);
+
+        public Type CreateTypeByDescription(string dynamicPropertiesFilePath) 
+        {
+            _dynamicProperties = ConfigureDynamicProperties(dynamicPropertiesFilePath);
+            return _dynamicTypeFactory.CreateNewTypeWithDynamicProperty(typeof(DynamicEntity), _dynamicProperties);
+        }
+            
 
         public IEnumerable<object> AddValuesToDynamicObject(Type extendedType, IEnumerable<string[]> values) => 
             values.Select(value => GetObjectWithProperty(extendedType, value)).ToList();

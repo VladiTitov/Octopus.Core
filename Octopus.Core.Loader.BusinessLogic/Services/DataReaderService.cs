@@ -21,7 +21,7 @@ namespace Octopus.Core.Loader.BusinessLogic.Services
         public async Task<IEnumerable<object>> GetDataFromFileAsync(string filePath)
         {
             var typeListOf = typeof(List<>);
-            var extendedType = _dynamicObjectCreate.CreateTypeByDescription();
+            var extendedType = _dynamicObjectCreate.CreateTypeByDescription(@"Configs\dynamicProperties.json");
             var typeListOfExtendedType = typeListOf.MakeGenericType(extendedType);
 
             return await _jsonDeserializer.GetDynamicObjects(typeListOfExtendedType, filePath);
