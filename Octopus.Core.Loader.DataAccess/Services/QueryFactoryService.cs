@@ -19,7 +19,7 @@ namespace Octopus.Core.Loader.DataAccess.Services
             IOptions<ConnectionStringConfig> connectionString)
         {
             _connectionString = connectionString.Value;
-            _dynamicProperties = dynamicObjectCreateService.GetDynamicProperties(@"Configs\dynamicProperties.json");
+            _dynamicProperties = dynamicObjectCreateService.ConfigureDynamicProperties(@"Configs\dynamicProperties.json");
         }
 
         public string GetInsertQuery(object item)
