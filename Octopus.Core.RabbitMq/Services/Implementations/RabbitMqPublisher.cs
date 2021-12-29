@@ -12,12 +12,17 @@ namespace Octopus.Core.RabbitMq.Services.Implementations
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly string _queueName;
+        private readonly string _exchangeName;
+        private readonly string _routingKey;
 
-        public RabbitMqPublisher(IRabbitMqContext context, IOptions<RabbitMqConfiguration> configuration)
+        public RabbitMqPublisher(IRabbitMqContext context, 
+            IOptions<RabbitMqConfiguration> configuration)
         {
             _connection = context.Connection;
             _channel = _connection.CreateModel();
             _queueName = configuration.Value.QueueName;
+            _exchangeName = configuration.Value.ExchangeName;
+            _routingKey = configuration.Value.RoutingKey;
         }
 
         public void ChannelConsume(string message)
@@ -30,8 +35,8 @@ namespace Octopus.Core.RabbitMq.Services.Implementations
 
             var body = Encoding.UTF8.GetBytes(message);
 
-            _channel.BasicPublish(exchange: "",
-                routingKey: _queueName,
+            _channel.BasicPublish(exchange: _exchangeName,
+                routingKey: _routingKey,
                 basicProperties: null,
                 body: body);
         }

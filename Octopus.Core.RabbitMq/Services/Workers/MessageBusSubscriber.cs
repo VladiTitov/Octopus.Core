@@ -16,7 +16,9 @@ namespace Octopus.Core.RabbitMq.Workers
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
+        private readonly string _exchangeType;
         private readonly string _exchangeName;
+        private readonly string _routingKey;
         private readonly string _queueName;
         private readonly IEventProcessor _eventProcessor;
 
@@ -31,7 +33,9 @@ namespace Octopus.Core.RabbitMq.Workers
 
             _connection = context.Connection;
             _channel = _connection.CreateModel();
+            _exchangeType = configuration.Value.ExchangeType;
             _exchangeName = configuration.Value.ExchangeName;
+            _routingKey = configuration.Value.RoutingKey;
             _queueName = configuration.Value.QueueName;
 
             _eventProcessor = eventProcessor;
@@ -41,9 +45,9 @@ namespace Octopus.Core.RabbitMq.Workers
 
         private void InitializeRabbitMQ()
         {
-            _channel.ExchangeDeclare(exchange: _exchangeName, type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange: _exchangeName, type: _exchangeType);
             _channel.QueueDeclare(queue: _queueName);
-            _channel.QueueBind(queue: _queueName, exchange: _exchangeName, routingKey: "");
+            _channel.QueueBind(queue: _queueName, exchange: _exchangeName, routingKey: _routingKey);
 
             _logger.LogInformation("Listening on the message bus");
 
