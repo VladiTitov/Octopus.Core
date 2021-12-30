@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Common.Constants;
+using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
-using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
 using System;
 using System.Collections.Generic;

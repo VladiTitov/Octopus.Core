@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Common.Constants;
+using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Enums;
 using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Extensions;
@@ -7,7 +8,6 @@ using Octopus.Core.Common.Models;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
 using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services;
-using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
 using Octopus.Core.Parser.WorkerService.Services.Factories;
 using Octopus.Core.Parser.WorkerService.Services.Parsers;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;

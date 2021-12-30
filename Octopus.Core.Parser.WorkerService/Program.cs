@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Octopus.Core.Common.Configs;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 using Octopus.Core.Common.DynamicObject.Services;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
@@ -15,8 +14,6 @@ using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Services.Implementations;
 using Octopus.Core.RabbitMq.Services.Interfaces;
 using Octopus.Core.RabbitMq.Workers;
-using DynamicObjectCreateService = Octopus.Core.Parser.WorkerService.Services.DynamicModels.DynamicObjectCreateService;
-using IDynamicObjectCreateService = Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels.IDynamicObjectCreateService;
 
 namespace Octopus.Core.Parser.WorkerService
 {
