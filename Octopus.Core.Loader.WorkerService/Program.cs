@@ -39,7 +39,7 @@ namespace Octopus.Core.Loader.WorkerService
                 {
                     services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"));
                     services.Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"));
-                { 
+                 
                     services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitMqSubscriber"));
                     services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitMqPublisher"));
 
@@ -66,5 +66,6 @@ namespace Octopus.Core.Loader.WorkerService
 
                     services.AddHostedService<MessageBusSubscriber>();
                 });
+        
     }
 }

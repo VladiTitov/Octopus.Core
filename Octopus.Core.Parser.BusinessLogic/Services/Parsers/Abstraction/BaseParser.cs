@@ -1,4 +1,4 @@
-﻿using Octopus.Core.Parser.WorkerService.Interfaces.Services.DynamicModels;
+﻿using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;

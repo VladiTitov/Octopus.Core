@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.Configs;
+using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Services.Interfaces;
 using RabbitMQ.Client;
@@ -26,12 +27,12 @@ namespace Octopus.Core.RabbitMq.Workers
 
         public MessageBusSubscriber(ILogger<MessageBusSubscriber> logger, 
             IRabbitMqContext context,
-            IOptions<RabbitMqConfiguration> configuration,
+            IOptions<SubscriberConfiguration> configuration,
             IEventProcessor eventProcessor)
         {
             _logger = logger;
 
-            _connection = context.Connection;
+            _connection = context.SubscriberConnection;
             _channel = _connection.CreateModel();
             _exchangeType = configuration.Value.ExchangeType;
             _exchangeName = configuration.Value.ExchangeName;

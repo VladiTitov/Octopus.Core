@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.Configs;
+using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Services.Interfaces;
 using RabbitMQ.Client;
@@ -16,9 +17,9 @@ namespace Octopus.Core.RabbitMq.Services.Implementations
         private readonly string _routingKey;
 
         public RabbitMqPublisher(IRabbitMqContext context, 
-            IOptions<RabbitMqConfiguration> configuration)
+            IOptions<PublisherConfiguration> configuration)
         {
-            _connection = context.Connection;
+            _connection = context.PublisherConnection;
             _channel = _connection.CreateModel();
             _queueName = configuration.Value.QueueName;
             _exchangeName = configuration.Value.ExchangeName;
@@ -32,6 +33,8 @@ namespace Octopus.Core.RabbitMq.Services.Implementations
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
+
+            _channel.QueueBind(queue: _queueName, exchange: _exchangeName, routingKey: _routingKey);
 
             var body = Encoding.UTF8.GetBytes(message);
 
