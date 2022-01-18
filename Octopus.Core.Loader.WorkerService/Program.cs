@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Octopus.Core.Common.Configs;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
+using Octopus.Core.Common.ConfigsModels.Rabbit;
 using Octopus.Core.Common.DynamicObject.Services;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Helpers.JsonDeserializer;
@@ -16,7 +16,6 @@ using Octopus.Core.Loader.DataAccess.Services;
 using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Services.Implementations;
 using Octopus.Core.RabbitMq.Services.Interfaces;
-using Octopus.Core.RabbitMq.Workers;
 
 namespace Octopus.Core.Loader.WorkerService
 {
@@ -64,7 +63,7 @@ namespace Octopus.Core.Loader.WorkerService
 
                     services.AddSingleton<IDatabaseContext, DapperDbContext>();
 
-                    services.AddHostedService<MessageBusSubscriber>();
+                    services.AddHostedService<LoaderService>();
                 });
         
     }

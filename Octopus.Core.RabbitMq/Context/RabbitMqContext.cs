@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Octopus.Core.Common.ConfigsModels.Rabbit;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 using RabbitMQ.Client;
 
@@ -6,22 +7,23 @@ namespace Octopus.Core.RabbitMq.Context
 {
     public class RabbitMqContext : IRabbitMqContext
     {
-        private readonly SubscriberConfiguration _subscriberConfiguration;
-        private readonly PublisherConfiguration _publisherConfiguration;
+        public IConnection Connection { get; }
 
-        public IConnection PublisherConnection { get; }
-        public IConnection SubscriberConnection { get; }
-
-        public RabbitMqContext(IOptions<SubscriberConfiguration> subscriberConfiguration, IOptions<PublisherConfiguration> publisherConfiguration)
+        public RabbitMqContext(IOptions<ConnectionConfiguration> rabbitMqConfiguration)
         {
-            _subscriberConfiguration = subscriberConfiguration.Value;
-            _publisherConfiguration = publisherConfiguration.Value;
-
-            PublisherConnection = CreateNewRabbitConnection(_publisherConfiguration.UserName, _publisherConfiguration.Password, _publisherConfiguration.Port, _publisherConfiguration.VirtualHost, _publisherConfiguration.Hostname);
-            SubscriberConnection = CreateNewRabbitConnection(_subscriberConfiguration.UserName, _subscriberConfiguration.Password, _subscriberConfiguration.Port, _subscriberConfiguration.VirtualHost, _subscriberConfiguration.Hostname);
+            Connection = CreateNewRabbitConnection(rabbitMqConfiguration.Value.UserName,
+                rabbitMqConfiguration.Value.Password,
+                rabbitMqConfiguration.Value.Port,
+                rabbitMqConfiguration.Value.VirtualHost,
+                rabbitMqConfiguration.Value.Hostname);
         }
 
-        public IConnection CreateNewRabbitConnection(string userName, string password, int port, string virtualHost, string hostName)
+        public IConnection CreateNewRabbitConnection(
+            string userName,
+            string password,
+            int port,
+            string virtualHost,
+            string hostName)
         {
             var factory = new ConnectionFactory()
             {

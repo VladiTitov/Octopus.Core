@@ -2,8 +2,8 @@
 
 namespace Octopus.Core.RabbitMq.Services.Interfaces
 {
-    public interface IRabbitMqPublisher
+    public interface IRabbitMqSubscriber
     {
-        Task SendMessage(string message);
+        Task Execute();
     }
 }
