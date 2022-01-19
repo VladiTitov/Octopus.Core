@@ -31,7 +31,7 @@ namespace Octopus.Core.Loader.BusinessLogic.Services
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _rabbitMqSubscriber.Execute();
+            _rabbitMqPublisher.SendMessage("Hello World!");
 
             return Task.CompletedTask;
         }

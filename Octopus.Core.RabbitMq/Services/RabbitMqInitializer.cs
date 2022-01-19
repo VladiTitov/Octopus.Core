@@ -1,57 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using Octopus.Core.Common.ConfigsModels.Rabbit;
+﻿using Octopus.Core.Common.ConfigsModels.Rabbit;
 using Octopus.Core.RabbitMq.Context;
 using RabbitMQ.Client;
 
 namespace Octopus.Core.RabbitMq.Services
 {
-    public class RabbitMqInitializer : IRabbitMqInitializer
+    public class RabbitMqInitializer
     {
-        private readonly IConnection _connection;
-        public readonly IModel Channel;
-        public readonly string ExchangeType;
-        public readonly string ExchangeName;
-        public readonly string RoutingKey;
-        public readonly string QueueName;
+        public IConnection Connection { get; set; }
 
-        public RabbitMqInitializer(IRabbitMqContext context, IEnumerable<RabbitMqConfiguration> configurations)
+        public RabbitMqInitializer(IRabbitMqContext context)
         {
-            if (_connection == null) _connection = context.Connection;
-            Channel = _connection.CreateModel();
-
-            foreach (var configuration in configurations)
-            {
-                ExchangeType = configuration.ExchangeType;
-                ExchangeName = configuration.ExchangeName;
-                RoutingKey = configuration.RoutingKey;
-                QueueName = configuration.QueueName;
-            }
+            if (Connection == null) Connection = context.Connection;
         }
 
-        public void InitializeRabbitMq()
+        public IModel InitializeRabbitMqChannel(RabbitMqConfiguration configuration)
         {
-            Channel.ExchangeDeclare(exchange: ExchangeName, type: ExchangeType);
-            Channel.QueueDeclare(queue: QueueName);
-            Channel.QueueBind(queue: QueueName, exchange: ExchangeName, routingKey: RoutingKey);
+            var channel = Connection.CreateModel();
 
-            Console.WriteLine("Listening on the message bus");
+            channel.ExchangeDeclare(exchange: configuration.ExchangeName, type: configuration.ExchangeType);
+            channel.QueueDeclare(queue: configuration.QueueName);
+            channel.QueueBind(queue: configuration.QueueName, exchange: configuration.ExchangeName, routingKey: configuration.RoutingKey);
 
-            _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+            return channel;
         }
 
-        private void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
-        {
-            Console.WriteLine("RabbitMQ connection shutdown");
-        }
-
-        public void Dispose()
-        {
-            if (Channel.IsOpen)
-            {
-                Channel.Close();
-                _connection.Close();
-            }
-        }
+        //public void Dispose()
+        //{
+        //    if (Channel.IsOpen)
+        //    {
+        //        Channel.Close();
+        //        _connection.Close();
+        //    }
+        //}
     }
 }

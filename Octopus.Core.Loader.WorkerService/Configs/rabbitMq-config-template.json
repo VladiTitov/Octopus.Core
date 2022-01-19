@@ -7,12 +7,10 @@
       "RoutingKey": "routingKey"
     }
   ],
-  "Publishers": [
-    {
+  "Publisher": {
       "ExchangeType": "fanout",
       "ExchangeName": "exchange.name",
       "QueueName": "queue.name",
       "RoutingKey": "routingKey"
     }
-  ]
 }

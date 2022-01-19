@@ -1,7 +1,7 @@
 ﻿using Octopus.Core.RabbitMq.Services.Interfaces;
 using System;
 
-namespace Octopus.Core.RabbitMq.Services.Implementations
+namespace Octopus.Core.RabbitMq.Services
 {
     public class EventProcessor : IEventProcessor
     {

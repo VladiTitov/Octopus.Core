@@ -17,7 +17,6 @@ using Octopus.Core.Loader.DataAccess.Repositories;
 using Octopus.Core.Loader.DataAccess.Services;
 using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Services;
-using Octopus.Core.RabbitMq.Services.Implementations;
 using Octopus.Core.RabbitMq.Services.Interfaces;
 
 namespace Octopus.Core.Loader.WorkerService
@@ -43,9 +42,9 @@ namespace Octopus.Core.Loader.WorkerService
                     services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"));
                     services.Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"));
                     services.Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"));
+                    services.Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"));
 
                     services.AddSingleton(hostContext.Configuration.GetSection("Subscribers").Get<IEnumerable<SubscriberConfiguration>>());
-                    services.AddSingleton(hostContext.Configuration.GetSection("Publishers").Get<IEnumerable<PublisherConfiguration>>());
 
                     services.AddSingleton<IDataReaderService, DataReaderService>();
                     services.AddSingleton<IEntityDescription, EntityDescription>();
@@ -67,8 +66,6 @@ namespace Octopus.Core.Loader.WorkerService
                     #region RabbitMQ
 
                     services.AddSingleton<IRabbitMqContext, RabbitMqContext>();
-
-                    services.AddSingleton<IRabbitMqInitializer, RabbitMqInitializer>();
                     services.AddSingleton<IRabbitMqSubscriber, RabbitMqSubscriber>();
                     services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
                     services.AddSingleton<IEventProcessor, MessageHandler>();

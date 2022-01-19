@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Common.ConfigsModels.Rabbit;
-using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 using RabbitMQ.Client;
 
 namespace Octopus.Core.RabbitMq.Context
