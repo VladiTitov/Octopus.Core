@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Octopus.Core.Loader.BusinessLogic\Octopus.Core.Loader.BusinessLogic.csproj" />
     <ProjectReference Include="..\Octopus.Core.RabbitMq\Octopus.Core.RabbitMq.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configs\DynamicProperties\" />
+  </ItemGroup>
 </Project>
