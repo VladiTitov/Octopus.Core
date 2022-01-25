@@ -69,7 +69,7 @@ namespace Octopus.Core.Parser.WorkerService.Services
 
                 SerializeObjectsToOutputFile(objects, outputEntityDescription.EntityFilePath);
 
-                _rabbitMqPublisher.ChannelConsume(JsonSerializer.Serialize(outputEntityDescription));
+                await _rabbitMqPublisher.SendMessage(JsonSerializer.Serialize(outputEntityDescription));
             }
         }
 
