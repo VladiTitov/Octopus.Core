@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Octopus.Core.Common.ConfigsModels.Rabbit;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 using Octopus.Core.Common.DynamicObject.Services;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
@@ -11,9 +12,9 @@ using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services;
 using Octopus.Core.Parser.WorkerService.Services;
 using Octopus.Core.RabbitMq.Context;
-using Octopus.Core.RabbitMq.Services.Implementations;
+using Octopus.Core.RabbitMq.Services;
 using Octopus.Core.RabbitMq.Services.Interfaces;
-using Octopus.Core.RabbitMq.Workers;
+using System.Collections.Generic;
 
 namespace Octopus.Core.Parser.WorkerService
 {
@@ -34,6 +35,7 @@ namespace Octopus.Core.Parser.WorkerService
                     confBuilder.AddJsonFile("Configs/Production/Parsers/jsonParser-config.json");
                     confBuilder.AddJsonFile("Configs/Production/Parsers/xmlParser-config.json");
                     confBuilder.AddJsonFile("Configs/Production/rabbitMq-config.json");
+                    confBuilder.AddJsonFile("Configs/Production/rabbitMqConnectionString-config.json");
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -41,8 +43,10 @@ namespace Octopus.Core.Parser.WorkerService
                     
                     services.Configure<ProcessorConfiguration>(configuration.GetSection(nameof(ProcessorConfiguration)));
 
-                    services.Configure<SubscriberConfiguration>(hostContext.Configuration.GetSection("RabbitMqSubscriber"));
-                    services.Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("RabbitMqPublisher"));
+                    services.Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"));
+                    services.Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"));
+
+                    services.AddSingleton(hostContext.Configuration.GetSection("Subscribers").Get<IEnumerable<SubscriberConfiguration>>());
 
                     services.Configure<CsvParserConfiguration>(configuration.GetSection(nameof(CsvParserConfiguration)));
                     services.Configure<JsonParserConfiguration>(configuration.GetSection(nameof(JsonParserConfiguration)));
@@ -50,6 +54,7 @@ namespace Octopus.Core.Parser.WorkerService
 
                     services.AddSingleton<IRabbitMqContext, RabbitMqContext>();
                     services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
+                    services.AddSingleton<IRabbitMqSubscriber, RabbitMqSubscriber>();
                     services.AddSingleton<IEventProcessor, MessageHandler>();
 
                     services.AddSingleton<IParserProcessor, ParserProcessor>();
@@ -57,7 +62,7 @@ namespace Octopus.Core.Parser.WorkerService
                     services.AddSingleton<IJsonDeserializer, JsonDeserializer>();
                     services.AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>();
 
-                    services.AddHostedService<MessageBusSubscriber>();
+                    services.AddHostedService<ParserService>();
                 });
     }
 }
