@@ -1,0 +1,50 @@
+[
+  {
+    "PropertyName": "ID",
+    "SystemTypeName": "System.Int32",
+    "ValueIndex": 0,
+    "DynamicEntityDataBaseProperty": {
+      "DataBaseTypeName": "integer",
+      "Length": 25,
+      "IsNotNull": true,
+      "IsKey": true,
+      "Comment": "ID поля"
+    }
+  },
+  {
+    "PropertyName": "Name",
+    "SystemTypeName": "System.String",
+    "ValueIndex": 1,
+    "DynamicEntityDataBaseProperty": {
+      "DataBaseTypeName": "text",
+      "Length": 25,
+      "IsNotNull": true,
+      "IsKey": false,
+      "Comment": "Имя пользователя"
+    }
+  },
+  {
+    "PropertyName": "Sex",
+    "SystemTypeName": "System.String",
+    "ValueIndex": 2,
+    "DynamicEntityDataBaseProperty": {
+      "DataBaseTypeName": "text",
+      "Length": 2,
+      "IsNotNull": true,
+      "IsKey": false,
+      "Comment": "Пол пользователя"
+    }
+  },
+  {
+    "PropertyName": "Age",
+    "SystemTypeName": "System.Int32",
+    "ValueIndex": 3,
+    "DynamicEntityDataBaseProperty": {
+      "DataBaseTypeName": "integer",
+      "Length": 2,
+      "IsNotNull": true,
+      "IsKey": false,
+      "Comment": "Возраст пользователя"
+    }
+  }
+]
