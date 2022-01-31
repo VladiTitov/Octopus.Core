@@ -1,36 +1,28 @@
-using System.Collections.Generic;
+using System;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
-using Octopus.Core.Common.ConfigsModels.Rabbit;
-using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
+using Octopus.Core.Loader.WebApi.Extensions;
 
 namespace Octopus.Core.Loader.WebApi
 {
     public class Program
     {
+        [Obsolete]
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
 
+        [Obsolete]
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(confBuilder =>
+                .ConfigureAppConfiguration((hostContext, confBuilder) =>
                 {
-                    confBuilder.AddJsonFile("Configs/configures.json");
+                    confBuilder.AddJsonFileExtension(hostContext);
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"));
-                    services.Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"));
-                    services.Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"));
-                    services.Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"));
-
-                    services.AddSingleton(hostContext.Configuration.GetSection("Subscribers").Get<IEnumerable<SubscriberConfiguration>>());
+                    services.ConfigureExtension(hostContext);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

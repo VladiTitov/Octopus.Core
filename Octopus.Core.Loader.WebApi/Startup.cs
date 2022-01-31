@@ -17,7 +17,7 @@ namespace Octopus.Core.Loader.WebApi
             Configuration = configuration;
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, HostBuilderContext hostBuilder)
         {
             services.AddControllers();
             services.AddSwaggerExtension();
