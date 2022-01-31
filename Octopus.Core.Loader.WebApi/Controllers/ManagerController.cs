@@ -8,7 +8,7 @@ namespace Octopus.Core.Loader.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ManageController : ControllerBase
+    public class ManagerController : ControllerBase
     {
 
     }
