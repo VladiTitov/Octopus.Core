@@ -6,7 +6,6 @@ namespace Octopus.Core.Loader.WebApi.Extensions
 {
     public static class ConfigurationExtensions
     {
-        [Obsolete]
         public static void AddJsonFileExtension(this IConfigurationBuilder configurationBuilder, HostBuilderContext hostContext) 
         {
             configurationBuilder.AddJsonFile($"Configs/{hostContext.HostingEnvironment.EnvironmentName}/DbConnectionString.json", optional: true);
