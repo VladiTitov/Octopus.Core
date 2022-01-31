@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Octopus.Core.Loader", "Octo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.DataAccess", "Octopus.Core.Loader.DataAccess\Octopus.Core.Loader.DataAccess.csproj", "{ABE78A99-E975-49BB-B722-1D3AABF64D89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.WebApi", "Octopus.Core.Loader.WebApi\Octopus.Core.Loader.WebApi.csproj", "{50CEF3E8-AD26-43C5-8C18-F36B835CE000}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WebApi", "Octopus.Core.Loader.WebApi\Octopus.Core.Loader.WebApi.csproj", "{50CEF3E8-AD26-43C5-8C18-F36B835CE000}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{E3FBF2E7-1FE5-4862-93CB-97B2C003B698}"
 EndProject
@@ -30,7 +30,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{47E93787-2A04-48F4-A041-2DCB9A78509E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.WebApi.DataAccess", "Octopus.Core.Loader.WebApi.DataAccess\Octopus.Core.Loader.WebApi.DataAccess.csproj", "{ACA7F15C-DDBE-4E62-AF50-396FF4CC8A6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WebApi.DataAccess", "Octopus.Core.Loader.WebApi.DataAccess\Octopus.Core.Loader.WebApi.DataAccess.csproj", "{ACA7F15C-DDBE-4E62-AF50-396FF4CC8A6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{56AE4BDB-4BEC-4F8C-930C-2D8478308C31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.WebApi.Domain", "Octopus.Core.Loader.WebApi.Domain\Octopus.Core.Loader.WebApi.Domain.csproj", "{8094F312-9C6F-4E0A-AA8A-C014AE15D3D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.WebApi.Application", "Octopus.Core.Loader.WebApi.Application\Octopus.Core.Loader.WebApi.Application.csproj", "{85347D15-807B-42C7-BFD3-EAB20006DDF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +80,14 @@ Global
 		{ACA7F15C-DDBE-4E62-AF50-396FF4CC8A6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACA7F15C-DDBE-4E62-AF50-396FF4CC8A6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACA7F15C-DDBE-4E62-AF50-396FF4CC8A6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8094F312-9C6F-4E0A-AA8A-C014AE15D3D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8094F312-9C6F-4E0A-AA8A-C014AE15D3D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8094F312-9C6F-4E0A-AA8A-C014AE15D3D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8094F312-9C6F-4E0A-AA8A-C014AE15D3D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85347D15-807B-42C7-BFD3-EAB20006DDF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85347D15-807B-42C7-BFD3-EAB20006DDF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85347D15-807B-42C7-BFD3-EAB20006DDF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85347D15-807B-42C7-BFD3-EAB20006DDF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +104,9 @@ Global
 		{A6CE7D9A-650C-439C-8607-E8AF03ED9767} = {E3FBF2E7-1FE5-4862-93CB-97B2C003B698}
 		{47E93787-2A04-48F4-A041-2DCB9A78509E} = {E3FBF2E7-1FE5-4862-93CB-97B2C003B698}
 		{ACA7F15C-DDBE-4E62-AF50-396FF4CC8A6C} = {A6CE7D9A-650C-439C-8607-E8AF03ED9767}
+		{56AE4BDB-4BEC-4F8C-930C-2D8478308C31} = {E3FBF2E7-1FE5-4862-93CB-97B2C003B698}
+		{8094F312-9C6F-4E0A-AA8A-C014AE15D3D2} = {56AE4BDB-4BEC-4F8C-930C-2D8478308C31}
+		{85347D15-807B-42C7-BFD3-EAB20006DDF6} = {56AE4BDB-4BEC-4F8C-930C-2D8478308C31}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D937E79C-E80C-4670-8CC4-7B2965DBF301}
