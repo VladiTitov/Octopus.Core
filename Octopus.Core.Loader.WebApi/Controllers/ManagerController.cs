@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Octopus.Core.Loader.WebApi.Controllers
 {
@@ -10,6 +8,39 @@ namespace Octopus.Core.Loader.WebApi.Controllers
     [ApiController]
     public class ManagerController : ControllerBase
     {
+        private readonly ILogger<ManagerController> _logger;
 
+        public ManagerController(ILogger<ManagerController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet]
+        [Route("Start")]
+        public void StartLoaderService()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("Stop")]
+        public void StopLoaderService()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("Balancer")]
+        public void BalancerService()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("Statistic")]
+        public void StatisticService()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
