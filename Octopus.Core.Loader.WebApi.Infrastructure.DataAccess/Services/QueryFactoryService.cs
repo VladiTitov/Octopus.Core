@@ -25,20 +25,32 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
         public string GetInsertQuery(object item)
         {
             var propertyInfo = item.GetType().GetProperties();
-            return $"{QueryConstants.CreateInsertQuery} {_connectionString.DbScheme}.{_connectionString.DbTable} ({propertyInfo.GetPropertiesNames()}) VALUES({propertyInfo.GetValuesNames()})";
+            return $"{QueryConstants.CreateInsertQuery} " +
+                   $"{_connectionString.DbScheme}.{_connectionString.DbTable} " +
+                   $"({propertyInfo.GetPropertiesNames()}) " +
+                   $"VALUES({propertyInfo.GetValuesNames()})";
         }
 
         public string GetCreateTableQuery()
         {
             var propertiesTable = _dynamicProperties.GetPropertiesNames().ToQuery(",\n");
-            return $"{QueryConstants.CreateTableQuery} {QueryConstants.IfNotExistsQuery} {_connectionString.DbScheme}.{_connectionString.DbTable} ({propertiesTable});";
+            return $"{QueryConstants.CreateTableQuery} " +
+                   $"{QueryConstants.IfNotExistsQuery} " +
+                   $"{_connectionString.DbScheme}.{_connectionString.DbTable} " +
+                   $"({propertiesTable});";
         }
 
-        public string GetCreateSchemeQuery() => $"{QueryConstants.CreateSchemaQuery} {QueryConstants.IfNotExistsQuery} {_connectionString.DbScheme};";
+        public string GetCreateSchemeQuery() => $"{QueryConstants.CreateSchemaQuery} " +
+                                                $"{QueryConstants.IfNotExistsQuery} " +
+                                                $"{_connectionString.DbScheme};";
 
         public string GetCreateCommentQuery()
         {
-            var commentsList = _dynamicProperties.Select(property => $"{QueryConstants.CreateCommentOnColumnQuery} \"{_connectionString.DbScheme}\".\"{property.PropertyName}\" IS '{property.DynamicEntityDataBaseProperty.Comment}';").ToList();
+            var commentsList = _dynamicProperties.Select(
+                property => $"{QueryConstants.CreateCommentOnColumnQuery} " +
+                            $"\"{_connectionString.DbScheme}\".\"{property.PropertyName}\" " +
+                            $"IS '{property.DynamicEntityDataBaseProperty.Comment}';").ToList();
+
             return commentsList.ToQuery("");
         }
     }
