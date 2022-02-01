@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Common.Constants;
@@ -24,7 +24,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
 
         public string GetInsertQuery(object item)
         {
-            var propertyInfo = item.GetType().GetProperties();
+            var propertyInfo = item
+                .GetType()
+                .GetProperties();
             return $"{QueryConstants.CreateInsertQuery} " +
                    $"{_connectionString.DbScheme}.{_connectionString.DbTable} " +
                    $"({propertyInfo.GetPropertiesNames()}) " +
@@ -33,7 +35,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
 
         public string GetCreateTableQuery()
         {
-            var propertiesTable = _dynamicProperties.GetPropertiesNames().ToQuery(",\n");
+            var propertiesTable = _dynamicProperties
+                .GetPropertiesNames()
+                .ToQuery(",\n");
             return $"{QueryConstants.CreateTableQuery} " +
                    $"{QueryConstants.IfNotExistsQuery} " +
                    $"{_connectionString.DbScheme}.{_connectionString.DbTable} " +
@@ -46,10 +50,10 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
 
         public string GetCreateCommentQuery()
         {
-            var commentsList = _dynamicProperties.Select(
-                property => $"{QueryConstants.CreateCommentOnColumnQuery} " +
-                            $"\"{_connectionString.DbScheme}\".\"{property.PropertyName}\" " +
-                            $"IS '{property.DynamicEntityDataBaseProperty.Comment}';").ToList();
+            var commentsList = _dynamicProperties
+                .Select(property => $"{QueryConstants.CreateCommentOnColumnQuery} " +
+                                    $"\"{_connectionString.DbScheme}\".\"{property.PropertyName}\" " +
+                                    $"IS '{property.DynamicEntityDataBaseProperty.Comment}';").ToList();
 
             return commentsList.ToQuery("");
         }

@@ -26,11 +26,10 @@ namespace Octopus.Core.Loader.WebApi.Extensions
 
         public static void ConfigureExtension(this IServiceCollection services, HostBuilderContext hostContext) 
         {
-            services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"));
-            services.Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"));
-            services.Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"));
-            services.Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"));
-
+            services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"))
+                .Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"))
+                .Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"))
+                .Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"));
             services.AddSingleton(hostContext.Configuration.GetSection("Subscribers").Get<IEnumerable<SubscriberConfiguration>>());
         }
 
