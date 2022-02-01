@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Constants;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.DatabaseContext
@@ -22,11 +23,11 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.DatabaseContext
         {
             return _connectionString.DbType switch
             {
-                "PostgreSql" => _providersFactory.CreatePostgresConnection(),
-                "SqlLite" => _providersFactory.CreateSqlLiteConnection(),
-                "SqlServer" => _providersFactory.CreateSqlServerConnection(),
-                "MySql" => _providersFactory.CreateMySqlConnection(),
-                "Oracle" => _providersFactory.CreateOracleConnection(),
+                ProvidersNamesConstants.PostgreSql => _providersFactory.CreatePostgresConnection(),
+                ProvidersNamesConstants.SqlLite => _providersFactory.CreateSqlLiteConnection(),
+                ProvidersNamesConstants.SqlServer => _providersFactory.CreateSqlServerConnection(),
+                ProvidersNamesConstants.MySql => _providersFactory.CreateMySqlConnection(),
+                ProvidersNamesConstants.Oracle => _providersFactory.CreateOracleConnection(),
                 _ => null
             };
         }
