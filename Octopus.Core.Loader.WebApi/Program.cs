@@ -20,6 +20,7 @@ namespace Octopus.Core.Loader.WebApi
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.ConfigureExtension(hostContext);
+                    services.AddConfigurationsExtension(hostContext);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

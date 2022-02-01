@@ -30,8 +30,13 @@ namespace Octopus.Core.Loader.WebApi.Extensions
                 .Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"))
                 .Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"))
                 .Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"));
-            services.AddSingleton(hostContext.Configuration.GetSection("Subscribers").Get<IEnumerable<SubscriberConfiguration>>());
+            
         }
+
+        public static void AddConfigurationsExtension(this IServiceCollection services, HostBuilderContext hostContext) =>
+            services
+                .AddSingleton(hostContext.Configuration.GetSection("Subscribers")
+                .Get<IEnumerable<SubscriberConfiguration>>());
 
         public static void AddDynamicEntityServicesExtension(this IServiceCollection services)
         {
