@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
-using RabbitMQ.Client;
+﻿using System.Collections.Generic;
+using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 
 namespace Octopus.Core.RabbitMq.Services.Interfaces
 {
     public interface IRabbitMqSubscriber
     {
-        Task Execute(IModel channel, string queueName);
+        void StartService(IEnumerable<SubscriberConfiguration> configurations);
+        void StopService();
     }
 }

@@ -24,13 +24,12 @@ namespace Octopus.Core.RabbitMq.Services
             return channel;
         }
 
-        //public void Dispose()
-        //{
-        //    if (Channel.IsOpen)
-        //    {
-        //        Channel.Close();
-        //        _connection.Close();
-        //    }
-        //}
+        public void Dispose()
+        {
+            if (Connection.IsOpen)
+            {
+                Connection.Close();
+            }
+        }
     }
 }

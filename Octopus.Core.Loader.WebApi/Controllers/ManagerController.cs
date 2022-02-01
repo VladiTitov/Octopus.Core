@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
+using Octopus.Core.RabbitMq.Services.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Controllers
 {
@@ -9,10 +12,16 @@ namespace Octopus.Core.Loader.WebApi.Controllers
     public class ManagerController : ControllerBase
     {
         private readonly ILogger<ManagerController> _logger;
+        private readonly IRabbitMqSubscriber _rabbitMqSubscriber;
+        private readonly IEnumerable<SubscriberConfiguration> _subscribersConfiguration;
 
-        public ManagerController(ILogger<ManagerController> logger)
+        public ManagerController(ILogger<ManagerController> logger,
+            IRabbitMqSubscriber rabbitMqSubscriber,
+            IEnumerable<SubscriberConfiguration> subscribersConfiguration)
         {
             _logger = logger;
+            _rabbitMqSubscriber = rabbitMqSubscriber;
+            _subscribersConfiguration = subscribersConfiguration;
         }
 
         [HttpGet]
@@ -20,7 +29,8 @@ namespace Octopus.Core.Loader.WebApi.Controllers
         public ActionResult StartLoaderService()
         {
             _logger.LogInformation($"Starting service at: {DateTime.Now}");
-            throw new NotImplementedException();
+            _rabbitMqSubscriber.StartService(_subscribersConfiguration);
+            return Ok("Service started");
         }
 
         [HttpGet]
@@ -28,7 +38,8 @@ namespace Octopus.Core.Loader.WebApi.Controllers
         public ActionResult StopLoaderService()
         {
             _logger.LogInformation($"Stopping service at: {DateTime.Now}");
-            throw new NotImplementedException();
+            _rabbitMqSubscriber.StopService();
+            return Ok("Service stopped");
         }
 
         [HttpGet]
