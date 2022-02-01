@@ -21,7 +21,9 @@ namespace Octopus.Core.Parser.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services
+                .AddMvcCore()
+                .AddApiExplorer();
 
             services.ConfigureServices(_configuration, _environment);
         }
@@ -33,8 +35,7 @@ namespace Octopus.Core.Parser.Api
                 .UseRouting()
                 .UseEndpoints(endpoints =>
                 {
-                    endpoints.MapControllerRoute(name: "Version1",
-                        pattern: "api/{controller=User}/{action=GetAll}");
+                    endpoints.MapControllers();
                 });
     }
 }
