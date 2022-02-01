@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Octopus.Core.Common.ConfigsModels.Rabbit;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
+using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.DynamicObject.Services;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Helpers.JsonDeserializer;
@@ -43,10 +44,10 @@ namespace Octopus.Core.Parser.WorkerService
                     
                     services.Configure<ProcessorConfiguration>(configuration.GetSection(nameof(ProcessorConfiguration)));
 
-                    services.Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"));
-                    services.Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"));
+                    services.Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection(ConfigurationSectionNames.RabbitConnection));
+                    services.Configure<PublisherConfiguration>(hostContext.Configuration.GetSection(ConfigurationSectionNames.Publisher));
 
-                    services.AddSingleton(hostContext.Configuration.GetSection("Subscribers").Get<IEnumerable<SubscriberConfiguration>>());
+                    services.AddSingleton(hostContext.Configuration.GetSection(ConfigurationSectionNames.Subscribers).Get<IEnumerable<SubscriberConfiguration>>());
 
                     services.Configure<CsvParserConfiguration>(configuration.GetSection(nameof(CsvParserConfiguration)));
                     services.Configure<JsonParserConfiguration>(configuration.GetSection(nameof(JsonParserConfiguration)));
