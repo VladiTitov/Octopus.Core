@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Octopus.Core.Loader.WebApi.Extensions;
 
 namespace Octopus.Core.Loader.WebApi
 {
@@ -12,6 +13,15 @@ namespace Octopus.Core.Loader.WebApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostContext, confBuilder) =>
+                {
+                    confBuilder.AddJsonFileExtension(hostContext);
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.ConfigureExtension(hostContext);
+                    services.AddConfigurationsExtension(hostContext);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

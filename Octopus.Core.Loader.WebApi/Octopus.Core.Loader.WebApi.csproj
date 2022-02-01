@@ -9,4 +9,16 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Octopus.Core.Common\Octopus.Core.Common.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Loader.WebApi.Core.Application\Octopus.Core.Loader.WebApi.Core.Application.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.csproj" />
+    <ProjectReference Include="..\Octopus.Core.RabbitMq\Octopus.Core.RabbitMq.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Folder Include="Configs\Development\" />
+	  <Folder Include="Configs\Production\" />
+  </ItemGroup>
+
 </Project>

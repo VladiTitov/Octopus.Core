@@ -1,0 +1,12 @@
+{
+  "ConnectionString": {
+    "DbType": "DbType",
+    "DbScheme": "DbScheme",
+    "DbTable": "DbTable",
+    "Server": "Server",
+    "Port": 1111,
+    "Database": "Database",
+    "UserName": "UserName",
+    "Password": "Password"
+  }
+}

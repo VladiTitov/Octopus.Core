@@ -11,7 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Octopus.Core.Common\Octopus.Core.Common.csproj" />
-    <ProjectReference Include="..\Octopus.Core.Loader.BusinessLogic\Octopus.Core.Loader.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Loader.WorkerService.BusinessLogic\Octopus.Core.Loader.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Loader.WorkerService.DataAccess\Octopus.Core.Loader.DataAccess.csproj" />
     <ProjectReference Include="..\Octopus.Core.RabbitMq\Octopus.Core.RabbitMq.csproj" />
   </ItemGroup>
 
