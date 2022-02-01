@@ -6,11 +6,13 @@ namespace Octopus.Core.Loader.WebApi.Extensions
 {
     public static class ConfigurationExtensions
     {
-        public static void AddJsonFileExtension(this IConfigurationBuilder configurationBuilder, HostBuilderContext hostContext) 
+        public static void AddJsonFileExtension(this IConfigurationBuilder configurationBuilder, HostBuilderContext hostContext)
         {
-            configurationBuilder.AddJsonFile($"Configs/{hostContext.HostingEnvironment.EnvironmentName}/DbConnectionString.json", optional: true);
-            configurationBuilder.AddJsonFile($"Configs/{hostContext.HostingEnvironment.EnvironmentName}/RabbitMqConfigure.json", optional: true);
-            configurationBuilder.AddJsonFile($"Configs/{hostContext.HostingEnvironment.EnvironmentName}/RabbitMqConnection.json", optional: true);
+            var baseConfigPath = $"Configs/{ hostContext.HostingEnvironment.EnvironmentName}";
+
+            configurationBuilder.AddJsonFile($"{baseConfigPath}/DbConnectionString.json", optional: true);
+            configurationBuilder.AddJsonFile($"{baseConfigPath}/RabbitMqConfigure.json", optional: true);
+            configurationBuilder.AddJsonFile($"{baseConfigPath}/RabbitMqConnection.json", optional: true);
         }
     }
 }
