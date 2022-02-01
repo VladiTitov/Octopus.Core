@@ -20,7 +20,6 @@ namespace Octopus.Core.Loader.WebApi
         {
             services.AddControllers();
             services.AddSwaggerExtension();
-
             services.AddHelpersServicesExtension();
             services.AddDynamicEntityServicesExtension();
             services.AddDataBaseServicesExtension();
@@ -35,7 +34,6 @@ namespace Octopus.Core.Loader.WebApi
 
             app.UseRouting();
             app.UseSwaggerExtension();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
