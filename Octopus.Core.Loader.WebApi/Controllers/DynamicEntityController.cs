@@ -6,11 +6,11 @@ namespace Octopus.Core.Loader.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EntityDescriptionController : ControllerBase
+    public class DynamicEntityController : ControllerBase
     {
-        private readonly ILogger<EntityDescriptionController> _logger;
+        private readonly ILogger<DynamicEntityController> _logger;
 
-        public EntityDescriptionController(ILogger<EntityDescriptionController> logger)
+        public DynamicEntityController(ILogger<DynamicEntityController> logger)
         {
             _logger = logger;
         }

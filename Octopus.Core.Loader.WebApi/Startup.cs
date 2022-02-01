@@ -1,10 +1,10 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Octopus.Core.Loader.WebApi.Extensions;
+
 
 namespace Octopus.Core.Loader.WebApi
 {
@@ -17,10 +17,14 @@ namespace Octopus.Core.Loader.WebApi
             Configuration = configuration;
         }
 
-        public void ConfigureServices(IServiceCollection services, HostBuilderContext hostBuilder)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddSwaggerExtension();
+
+            services.AddHelpersServicesExtension();
+            services.AddDynamicEntityServicesExtension();
+            services.AddDataBaseServicesExtension();
         }
          
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

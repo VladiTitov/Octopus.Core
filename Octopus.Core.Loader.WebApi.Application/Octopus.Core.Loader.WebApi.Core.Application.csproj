@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Octopus.Core.Common\Octopus.Core.Common.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Loader.WebApi.DataAccess\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

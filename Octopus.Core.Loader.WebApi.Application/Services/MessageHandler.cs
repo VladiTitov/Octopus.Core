@@ -2,9 +2,9 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Octopus.Core.Common.Models;
-using Octopus.Core.Loader.WebApi.Application.Interfaces;
+using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 
-namespace Octopus.Core.Loader.WebApi.Application.Services
+namespace Octopus.Core.Loader.WebApi.Core.Application.Services
 {
     public class MessageHandler : IEventProcessor
     {

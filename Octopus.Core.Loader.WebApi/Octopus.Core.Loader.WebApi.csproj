@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Octopus.Core.Common\Octopus.Core.Common.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Loader.WebApi.Application\Octopus.Core.Loader.WebApi.Core.Application.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Loader.WebApi.DataAccess\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
