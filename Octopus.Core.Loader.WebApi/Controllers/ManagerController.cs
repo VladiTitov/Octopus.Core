@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Octopus.Core.Loader.WebApi.Controllers
@@ -12,7 +9,6 @@ namespace Octopus.Core.Loader.WebApi.Controllers
     public class ManagerController : ControllerBase
     {
         private readonly ILogger<ManagerController> _logger;
-        private readonly IHostedService _hostedService;
 
         public ManagerController(ILogger<ManagerController> logger)
         {
@@ -21,29 +17,30 @@ namespace Octopus.Core.Loader.WebApi.Controllers
 
         [HttpGet]
         [Route("Start")]
-        public async Task<ActionResult> StartLoaderService()
+        public ActionResult StartLoaderService()
         {
-
-            return Ok();
+            _logger.LogInformation($"Starting service at: {DateTime.Now}");
+            throw new NotImplementedException();
         }
 
         [HttpGet]
         [Route("Stop")]
-        public void StopLoaderService()
+        public ActionResult StopLoaderService()
         {
+            _logger.LogInformation($"Stopping service at: {DateTime.Now}");
             throw new NotImplementedException();
         }
 
         [HttpGet]
         [Route("Balancer")]
-        public void BalancerService()
+        public ActionResult BalancerService()
         {
             throw new NotImplementedException();
         }
 
         [HttpGet]
         [Route("Statistic")]
-        public void StatisticService()
+        public ActionResult StatisticService()
         {
             throw new NotImplementedException();
         }

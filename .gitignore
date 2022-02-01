@@ -9,8 +9,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 #Configs for services
-#[Cc]onfigs/
-configures.Dev*.json
+[Cc]onfigs/Development/*.json
+[Cc]onfigs/Production/*.json
 *-config.json
 
 # User-specific files
