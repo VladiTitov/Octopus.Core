@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Octopus.Core.Loader.WebApi.Extensions;
 
-
 namespace Octopus.Core.Loader.WebApi
 {
     public class Startup
