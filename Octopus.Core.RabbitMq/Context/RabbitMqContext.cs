@@ -1,36 +1,35 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Common.ConfigsModels.Rabbit;
+using Octopus.Core.RabbitMq.Interfaces;
 using RabbitMQ.Client;
 
 namespace Octopus.Core.RabbitMq.Context
 {
     public class RabbitMqContext : IRabbitMqContext
     {
-        public IConnection Connection { get; }
+        private IConnection _connection;
+        public IConnection Connection 
+        {
+            get { return _connection ??= CreateNewRabbitConnection(); }
+            set => _connection = value;
+        }
+
+        private readonly ConnectionConfiguration _rabbitMqConfiguration;
 
         public RabbitMqContext(IOptions<ConnectionConfiguration> rabbitMqConfiguration)
         {
-            Connection = CreateNewRabbitConnection(rabbitMqConfiguration.Value.UserName,
-                rabbitMqConfiguration.Value.Password,
-                rabbitMqConfiguration.Value.Port,
-                rabbitMqConfiguration.Value.VirtualHost,
-                rabbitMqConfiguration.Value.Hostname);
+            _rabbitMqConfiguration = rabbitMqConfiguration.Value;
         }
 
-        public IConnection CreateNewRabbitConnection(
-            string userName,
-            string password,
-            int port,
-            string virtualHost,
-            string hostName)
+        public IConnection CreateNewRabbitConnection()
         {
             var factory = new ConnectionFactory()
             {
-                UserName = userName,
-                Password = password,
-                Port = port,
-                VirtualHost = virtualHost,
-                HostName = hostName
+                UserName = _rabbitMqConfiguration.UserName,
+                Password = _rabbitMqConfiguration.Password,
+                Port = _rabbitMqConfiguration.Port,
+                VirtualHost = _rabbitMqConfiguration.VirtualHost,
+                HostName = _rabbitMqConfiguration.Hostname
             };
 
             return factory.CreateConnection();

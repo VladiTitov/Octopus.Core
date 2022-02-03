@@ -12,7 +12,7 @@ namespace Octopus.Core.Common.DynamicObject.Services
     {
         private IList<DynamicProperty> _dynamicProperties;
         private readonly IJsonDeserializer _jsonDeserializer;
-        private IDynamicTypeFactory _dynamicTypeFactory;
+        private readonly IDynamicTypeFactory _dynamicTypeFactory;
 
         public DynamicObjectCreateService(IJsonDeserializer jsonDeserializer, IDynamicTypeFactory dynamicTypeFactory)
         {

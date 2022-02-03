@@ -14,6 +14,9 @@ using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.DatabaseContext;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Repositories;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
+using Octopus.Core.RabbitMq.Context;
+using Octopus.Core.RabbitMq.Interfaces;
+using Octopus.Core.RabbitMq.Services;
 
 namespace Octopus.Core.Loader.WebApi.Extensions
 {
@@ -59,6 +62,14 @@ namespace Octopus.Core.Loader.WebApi.Extensions
         {
             services.AddSingleton<IDataReaderService, DataReaderService>();
             services.AddSingleton<IJsonDeserializer, JsonDeserializer>();
+        }
+
+        public static void AddRabbitMqServicesExtension(this IServiceCollection services)
+        {
+            services.AddSingleton<IRabbitMqContext, RabbitMqContext>();
+            services.AddSingleton<IRabbitMqSubscriber, RabbitMqSubscriber>();
+            services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
+            services.AddSingleton<IEventProcessor, MessageHandler>();
         }
     }
 }

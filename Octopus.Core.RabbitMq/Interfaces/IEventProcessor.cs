@@ -1,6 +1,4 @@
-﻿using Octopus.Core.Common.Models;
-
-namespace Octopus.Core.RabbitMq.Services.Interfaces
+﻿namespace Octopus.Core.RabbitMq.Interfaces
 {
     public interface IEventProcessor
     {

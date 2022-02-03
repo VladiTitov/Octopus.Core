@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
-using Octopus.Core.RabbitMq.Context;
-using Octopus.Core.RabbitMq.Services.Interfaces;
+using Octopus.Core.RabbitMq.Interfaces;
 using RabbitMQ.Client;
 
 namespace Octopus.Core.RabbitMq.Services
@@ -17,7 +16,9 @@ namespace Octopus.Core.RabbitMq.Services
         public string QueueName;
         public string RoutingKey;
 
-        public RabbitMqPublisher(ILogger<RabbitMqPublisher> logger, IRabbitMqContext context, IOptions<PublisherConfiguration> configuration) : base(context)
+        public RabbitMqPublisher(ILogger<RabbitMqPublisher> logger, 
+            IRabbitMqContext context, 
+            IOptions<PublisherConfiguration> configuration) : base(context)
         {
             _logger = logger;
 
@@ -27,13 +28,6 @@ namespace Octopus.Core.RabbitMq.Services
 
             Channel = InitializeRabbitMqChannel(configuration.Value);
             _logger.LogInformation($"Listening on the message bus. Exchange: {ExchangeName}, Queue: {QueueName}");
-
-            Connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
-        }
-
-        private void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
-        {
-            _logger.LogInformation("RabbitMQ connection shutdown");
         }
 
         public Task SendMessage(string message)

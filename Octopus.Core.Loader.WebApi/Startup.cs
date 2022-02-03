@@ -23,6 +23,7 @@ namespace Octopus.Core.Loader.WebApi
             services.AddHelpersServicesExtension();
             services.AddDynamicEntityServicesExtension();
             services.AddDataBaseServicesExtension();
+            services.AddRabbitMqServicesExtension();
         }
          
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

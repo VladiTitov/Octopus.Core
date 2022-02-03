@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
-using Octopus.Core.RabbitMq.Context;
-using Octopus.Core.RabbitMq.Services.Interfaces;
+using Octopus.Core.RabbitMq.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -22,23 +22,9 @@ namespace Octopus.Core.RabbitMq.Services
         {
             _logger = logger;
             _eventProcessor = eventProcessor;
-
-            foreach (var configuration in configurations)
-            {
-                var channel = InitializeRabbitMqChannel(configuration);
-                Execute(channel, configuration.QueueName);
-                _logger.LogInformation($"Listening on the message bus. Exchange: {configuration.ExchangeName}, Queue: {configuration.QueueName}");
-            }
-
-            Connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
         }
 
-        private void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
-        {
-            _logger.LogInformation("RabbitMQ connection shutdown");
-        }
-
-        public Task Execute(IModel channel, string queueName)
+        private Task Execute(IModel channel, string queueName)
         {
             var consumer = new EventingBasicConsumer(channel);
 
@@ -57,6 +43,20 @@ namespace Octopus.Core.RabbitMq.Services
             return Task.CompletedTask;
         }
 
-        
+        public async void StartService(IEnumerable<SubscriberConfiguration> configurations)
+        {
+            foreach (var configuration in configurations)
+            {
+                var channel = InitializeRabbitMqChannel(configuration);
+                await Execute(channel, configuration.QueueName);
+                _logger.LogInformation($"Listening on the message bus. Exchange: {configuration.ExchangeName}, Queue: {configuration.QueueName}");
+            }
+        }
+
+        public void StopService()
+        {
+            _logger.LogInformation($"Subscriber service stopping at: {DateTime.Now}");
+            base.Dispose();
+        }
     }
 }
