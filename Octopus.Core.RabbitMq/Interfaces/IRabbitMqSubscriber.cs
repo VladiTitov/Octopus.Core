@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 
-namespace Octopus.Core.RabbitMq.Services.Interfaces
+namespace Octopus.Core.RabbitMq.Interfaces
 {
     public interface IRabbitMqSubscriber
     {

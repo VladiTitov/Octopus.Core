@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
-using Octopus.Core.RabbitMq.Services.Interfaces;
+using Octopus.Core.RabbitMq.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Controllers
 {

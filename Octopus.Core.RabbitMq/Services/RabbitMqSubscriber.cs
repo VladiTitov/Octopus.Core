@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
-using Octopus.Core.RabbitMq.Context;
-using Octopus.Core.RabbitMq.Services.Interfaces;
+using Octopus.Core.RabbitMq.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -23,8 +22,6 @@ namespace Octopus.Core.RabbitMq.Services
         {
             _logger = logger;
             _eventProcessor = eventProcessor;
-
-            StartService(configurations);
         }
 
         private Task Execute(IModel channel, string queueName)
@@ -45,7 +42,6 @@ namespace Octopus.Core.RabbitMq.Services
 
             return Task.CompletedTask;
         }
-
 
         public async void StartService(IEnumerable<SubscriberConfiguration> configurations)
         {

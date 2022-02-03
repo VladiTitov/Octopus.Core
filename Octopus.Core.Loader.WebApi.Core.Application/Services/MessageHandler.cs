@@ -3,7 +3,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Octopus.Core.Common.Models;
 using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
-using Octopus.Core.RabbitMq.Services.Interfaces;
+using Octopus.Core.RabbitMq.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Core.Application.Services
 {

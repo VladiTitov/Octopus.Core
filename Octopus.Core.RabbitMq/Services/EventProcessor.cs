@@ -1,5 +1,5 @@
-﻿using Octopus.Core.RabbitMq.Services.Interfaces;
-using System;
+﻿using System;
+using Octopus.Core.RabbitMq.Interfaces;
 
 namespace Octopus.Core.RabbitMq.Services
 {

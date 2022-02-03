@@ -15,8 +15,8 @@ using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Repositories;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
 using Octopus.Core.RabbitMq.Context;
+using Octopus.Core.RabbitMq.Interfaces;
 using Octopus.Core.RabbitMq.Services;
-using Octopus.Core.RabbitMq.Services.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Extensions
 {
