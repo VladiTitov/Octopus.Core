@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
+using Octopus.Core.Common.Constants;
 using Octopus.Core.RabbitMq.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Controllers
@@ -30,7 +31,7 @@ namespace Octopus.Core.Loader.WebApi.Controllers
         {
             _logger.LogInformation($"Starting service at: {DateTime.Now}");
             _rabbitMqSubscriber.StartService(_subscribersConfiguration);
-            return Ok("Service started");
+            return Ok(ApiStatusMessages.ServiceStartedMessage);
         }
 
         [HttpGet]
@@ -39,7 +40,7 @@ namespace Octopus.Core.Loader.WebApi.Controllers
         {
             _logger.LogInformation($"Stopping service at: {DateTime.Now}");
             _rabbitMqSubscriber.StopService();
-            return Ok("Service stopped");
+            return Ok(ApiStatusMessages.ServiceStoppedMessage);
         }
 
         [HttpGet]
