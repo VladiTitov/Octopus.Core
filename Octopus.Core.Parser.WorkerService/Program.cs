@@ -13,8 +13,8 @@ using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services;
 using Octopus.Core.Parser.WorkerService.Services;
 using Octopus.Core.RabbitMq.Context;
+using Octopus.Core.RabbitMq.Interfaces;
 using Octopus.Core.RabbitMq.Services;
-using Octopus.Core.RabbitMq.Services.Interfaces;
 using System.Collections.Generic;
 
 namespace Octopus.Core.Parser.WorkerService
