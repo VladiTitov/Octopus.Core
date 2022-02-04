@@ -1,9 +1,0 @@
-{
-  "RabbitMqConnectionString": {
-    "Hostname": "host",
-    "Port": 1111,
-    "VirtualHost": "/",
-    "UserName": "UserName",
-    "Password": "Password"
-  }
-}
