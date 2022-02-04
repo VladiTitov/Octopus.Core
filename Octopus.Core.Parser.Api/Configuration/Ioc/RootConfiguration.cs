@@ -13,6 +13,8 @@ namespace Octopus.Core.Parser.Api.Configuration.Ioc
             IWebHostEnvironment environment)
             => services
                 .RegisterAppSettingsSections(configuration)
-                .RegisterSwagger(configuration);
+                .RegisterSwagger(configuration)
+                .RegisterRabbitMq()
+                .RegisterBusinessLogicServices();
     }
 }
