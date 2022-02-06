@@ -14,13 +14,11 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context
         public MongoContext(IOptions<MongoDatabaseConfiguration> mongoDatabaseConfiguration)
         {
             var client = new MongoClient(mongoDatabaseConfiguration.Value.ConnectionString);
-
             _database = client.GetDatabase(mongoDatabaseConfiguration.Value.DataBaseName);
         }
 
         public IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string EntityName) => 
             _database.GetCollection<DynamicEntityWithProperties>(EntityName);
-        
 
         public void Dispose()
         {

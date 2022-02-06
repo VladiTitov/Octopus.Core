@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
 
@@ -12,34 +14,33 @@ namespace Octopus.Core.Loader.WebApi.Controllers
     {
         private readonly ILogger<DynamicEntitiesController> _logger;
         private readonly IMongoRepository _mongoRepository;
-        private readonly IMongoContext _mongoContext;
 
         public DynamicEntitiesController(ILogger<DynamicEntitiesController> logger,
             IMongoRepository mongoRepository,
             IMongoContext mongoContext)
         {
             _logger = logger;
-            _mongoContext = mongoContext;
             _mongoRepository = mongoRepository;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<DynamicProperty>> GetEntities()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         [HttpPost]
         public ActionResult CreateEntity(DynamicEntityWithProperties entity)
         {
+            _logger.LogInformation($"Entity added at: {DateTime.Now}");
             _mongoRepository.AddEntity(entity);
-            return Ok("Entity created");
+            return Ok(ApiStatusMessages.DynamicEntityAddedMessage);
         }
 
         [HttpGet("{id}", Name = "GetEntityById")]
         public ActionResult<IEnumerable<DynamicProperty>> GetEntityById(int id)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
