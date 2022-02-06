@@ -29,13 +29,13 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
             return dynamicEntity.Properties;
         }
 
-        public string GetInsertQuery(object item)
+        public string GetInsertQuery(object item, string entityName)
         {
             var propertyInfo = item
                 .GetType()
                 .GetProperties();
             return $"{QueryConstants.CreateInsertQuery} " +
-                   $"{_connectionString.DbScheme}.{_connectionString.DbTable} " +
+                   $"{_connectionString.DbScheme}.{entityName} " +
                    $"({propertyInfo.GetPropertiesNames()}) " +
                    $"VALUES({propertyInfo.GetValuesNames()})";
         }
@@ -48,7 +48,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
                 .ToQuery(",\n");
             return $"{QueryConstants.CreateTableQuery} " +
                    $"{QueryConstants.IfNotExistsQuery} " +
-                   $"{_connectionString.DbScheme}.{_connectionString.DbTable} " +
+                   $"{_connectionString.DbScheme}.{entityName} " +
                    $"({propertiesTable});";
         }
 

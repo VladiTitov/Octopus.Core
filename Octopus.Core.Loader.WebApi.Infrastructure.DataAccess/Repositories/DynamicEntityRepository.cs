@@ -22,7 +22,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Repositories
 
         public async Task AddRange(IEnumerable<object> items, string entityName)
         {
-            var query = _queryFactory.GetInsertQuery(items.FirstOrDefault());
+            var query = _queryFactory.GetInsertQuery(items.FirstOrDefault(), entityName);
             try
             {
                 await _queryHandler.Execute(query, items);
