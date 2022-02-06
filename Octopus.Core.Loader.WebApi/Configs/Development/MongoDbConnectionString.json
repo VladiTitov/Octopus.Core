@@ -1,0 +1,8 @@
+{
+  "MongoDbParams": {
+    "CollectionName": "Logs",
+    "DataBaseName": "LogsDatabase",
+    "Server": "localhost",
+    "Port": "27017"
+  }
+}

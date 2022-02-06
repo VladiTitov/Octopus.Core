@@ -11,6 +11,7 @@ namespace Octopus.Core.Loader.WebApi.Extensions
             var baseConfigPath = $"Configs/{ hostContext.HostingEnvironment.EnvironmentName}";
 
             configurationBuilder.AddJsonFile($"{baseConfigPath}/DbConnectionString.json", optional: true);
+            configurationBuilder.AddJsonFile($"{baseConfigPath}/MongoDbConnectionString.json", optional: true);
             configurationBuilder.AddJsonFile($"{baseConfigPath}/RabbitMqConfigure.json", optional: true);
             configurationBuilder.AddJsonFile($"{baseConfigPath}/RabbitMqConnection.json", optional: true);
         }

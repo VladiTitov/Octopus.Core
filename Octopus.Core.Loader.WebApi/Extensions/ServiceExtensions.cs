@@ -17,6 +17,9 @@ using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
 using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Interfaces;
 using Octopus.Core.RabbitMq.Services;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Repositories;
 
 namespace Octopus.Core.Loader.WebApi.Extensions
 {
@@ -32,8 +35,8 @@ namespace Octopus.Core.Loader.WebApi.Extensions
             services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"))
                 .Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"))
                 .Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"))
-                .Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"));
-            
+                .Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"))
+                .Configure<MongoDatabaseConfiguration>(hostContext.Configuration.GetSection("MongoDbParams"));
         }
 
         public static void AddConfigurationsExtension(this IServiceCollection services, HostBuilderContext hostContext) =>
@@ -70,6 +73,12 @@ namespace Octopus.Core.Loader.WebApi.Extensions
             services.AddSingleton<IRabbitMqSubscriber, RabbitMqSubscriber>();
             services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
             services.AddSingleton<IEventProcessor, MessageHandler>();
+        }
+
+        public static void AddMongoDbServicesExtension(this IServiceCollection services) 
+        {
+            services.AddSingleton<IMongoContext, MongoContext>();
+            services.AddSingleton<IMongoRepository, MongoRepository>();
         }
     }
 }
