@@ -9,16 +9,18 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context
 {
     public class MongoContext : IMongoContext, IDisposable
     {
-        public IMongoDatabase Database { get; set; }
-        public IMongoCollection<DynamicEntityWithProperties> Collection { get; set; }
+        private readonly IMongoDatabase _database;
 
         public MongoContext(IOptions<MongoDatabaseConfiguration> mongoDatabaseConfiguration)
         {
             var client = new MongoClient(mongoDatabaseConfiguration.Value.ConnectionString);
 
-            Database = client.GetDatabase(mongoDatabaseConfiguration.Value.DataBaseName);
-            Collection = Database.GetCollection<DynamicEntityWithProperties>(mongoDatabaseConfiguration.Value.CollectionName);
+            _database = client.GetDatabase(mongoDatabaseConfiguration.Value.DataBaseName);
         }
+
+        public IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string EntityName) => 
+            _database.GetCollection<DynamicEntityWithProperties>(EntityName);
+        
 
         public void Dispose()
         {

@@ -40,11 +40,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.DataAcc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WebApi.Infrastructure.DataAccess", "Octopus.Core.Loader.WebApi.Infrastructure.DataAccess\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.csproj", "{7E77A340-6B1C-4E8D-8CA9-9634DDFC7DB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WebApi.Core.Domain", "Octopus.Core.Loader.WebApi.Core.Domain\Octopus.Core.Loader.WebApi.Core.Domain.csproj", "{9B1CCCF4-2249-456E-A4DE-A52066F19D20}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WebApi.Core.Application", "Octopus.Core.Loader.WebApi.Core.Application\Octopus.Core.Loader.WebApi.Core.Application.csproj", "{F062BACF-BD4E-4E78-8754-124A3CD74208}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.WebApi.Infrastructure.MongoDb", "Octopus.Core.Loader.WebApi.Infrastructure.MongoDb\Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.csproj", "{FC4082A5-92B3-4A25-B31C-39FDC4EBA061}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WebApi.Infrastructure.MongoDb", "Octopus.Core.Loader.WebApi.Infrastructure.MongoDb\Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.csproj", "{30DB9F94-E279-4067-81E9-C23816453433}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,18 +90,14 @@ Global
 		{7E77A340-6B1C-4E8D-8CA9-9634DDFC7DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E77A340-6B1C-4E8D-8CA9-9634DDFC7DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E77A340-6B1C-4E8D-8CA9-9634DDFC7DB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B1CCCF4-2249-456E-A4DE-A52066F19D20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B1CCCF4-2249-456E-A4DE-A52066F19D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B1CCCF4-2249-456E-A4DE-A52066F19D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B1CCCF4-2249-456E-A4DE-A52066F19D20}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F062BACF-BD4E-4E78-8754-124A3CD74208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F062BACF-BD4E-4E78-8754-124A3CD74208}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F062BACF-BD4E-4E78-8754-124A3CD74208}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F062BACF-BD4E-4E78-8754-124A3CD74208}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC4082A5-92B3-4A25-B31C-39FDC4EBA061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC4082A5-92B3-4A25-B31C-39FDC4EBA061}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC4082A5-92B3-4A25-B31C-39FDC4EBA061}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC4082A5-92B3-4A25-B31C-39FDC4EBA061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30DB9F94-E279-4067-81E9-C23816453433}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30DB9F94-E279-4067-81E9-C23816453433}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30DB9F94-E279-4067-81E9-C23816453433}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30DB9F94-E279-4067-81E9-C23816453433}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,9 +118,8 @@ Global
 		{55819C93-271A-48CE-BA8D-8A890BDC1DB1} = {E5C21A48-88B5-475D-B015-8DC9870C4E9E}
 		{55A9CA94-FE52-4F40-8D07-21AECFF443EC} = {E5C21A48-88B5-475D-B015-8DC9870C4E9E}
 		{7E77A340-6B1C-4E8D-8CA9-9634DDFC7DB4} = {A6CE7D9A-650C-439C-8607-E8AF03ED9767}
-		{9B1CCCF4-2249-456E-A4DE-A52066F19D20} = {56AE4BDB-4BEC-4F8C-930C-2D8478308C31}
 		{F062BACF-BD4E-4E78-8754-124A3CD74208} = {56AE4BDB-4BEC-4F8C-930C-2D8478308C31}
-		{FC4082A5-92B3-4A25-B31C-39FDC4EBA061} = {A6CE7D9A-650C-439C-8607-E8AF03ED9767}
+		{30DB9F94-E279-4067-81E9-C23816453433} = {A6CE7D9A-650C-439C-8607-E8AF03ED9767}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D937E79C-E80C-4670-8CC4-7B2965DBF301}

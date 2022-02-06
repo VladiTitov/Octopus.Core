@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MongoDB.Driver;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
@@ -15,9 +14,16 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Repositories
             _mongoContext = mongoContext;
         }
 
-        public async Task Add(DynamicEntityWithProperties item)
+        public async Task AddEntity(DynamicEntityWithProperties item)
         {
-            await _mongoContext.Collection.InsertOneAsync(item);
+            var collection = _mongoContext.GetMongoCollection(item.EntityName);
+            await collection.InsertOneAsync(item);
+        }
+
+        public async Task<DynamicEntityWithProperties> GetEntity(string entityName)
+        {
+            var collection = _mongoContext.GetMongoCollection(entityName);
+            return await collection.Find(x => x.EntityName.Equals(entityName)).FirstOrDefaultAsync();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Repositories
             _migrationService = migrationService;
         }
 
-        public async Task AddRange(IEnumerable<object> items)
+        public async Task AddRange(IEnumerable<object> items, string entityName)
         {
             var query = _queryFactory.GetInsertQuery(items.FirstOrDefault());
             try
@@ -29,8 +29,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Repositories
             }
             catch
             {
-                await _migrationService.CreateMigrationAsync();
-                await this.AddRange(items);
+                await _migrationService.CreateMigrationAsync(entityName);
+                await this.AddRange(items, entityName);
             }
         }
     }

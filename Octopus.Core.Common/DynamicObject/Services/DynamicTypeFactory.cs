@@ -25,9 +25,11 @@ namespace Octopus.Core.Common.DynamicObject.Services
             _moduleBuilder = _assemblyBuilder.DefineDynamicModule(uniqueIdentifier);
         }
 
-        public Type CreateNewTypeWithDynamicProperty(Type parentType, IEnumerable<DynamicProperty> dynamicProperties)
+        public Type CreateNewTypeWithDynamicProperty(Type parentType,
+            string typeName,
+            IEnumerable<DynamicProperty> dynamicProperties)
         {
-            _typeBuilder = _moduleBuilder.DefineType(parentType.Name, TypeAttributes.Public);
+            _typeBuilder = _moduleBuilder.DefineType(typeName, TypeAttributes.Public);
             _typeBuilder.SetParent(parentType);
 
             foreach (var property in dynamicProperties)

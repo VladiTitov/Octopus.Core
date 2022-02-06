@@ -36,7 +36,7 @@ namespace Octopus.Core.Loader.WebApi.Extensions
                 .Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"))
                 .Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"))
                 .Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"))
-                .Configure<MongoDatabaseConfiguration>(hostContext.Configuration.GetSection("MongoDbParams"));
+                .Configure<MongoDatabaseConfiguration>(hostContext.Configuration.GetSection("MongoDatabaseParams"));
         }
 
         public static void AddConfigurationsExtension(this IServiceCollection services, HostBuilderContext hostContext) =>

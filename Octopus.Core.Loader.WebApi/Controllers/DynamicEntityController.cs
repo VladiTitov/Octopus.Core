@@ -32,7 +32,7 @@ namespace Octopus.Core.Loader.WebApi.Controllers
         [HttpPost]
         public ActionResult CreateEntity(DynamicEntityWithProperties entity)
         {
-            _mongoRepository.Add(entity);
+            _mongoRepository.AddEntity(entity);
             return Ok("Entity created");
         }
 

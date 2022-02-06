@@ -6,6 +6,6 @@ namespace Octopus.Core.Common.DynamicObject.Services.Interfaces
 {
     public interface IDynamicTypeFactory
     {
-        Type CreateNewTypeWithDynamicProperty(Type parentType, IEnumerable<DynamicProperty> dynamicProperties);
+        Type CreateNewTypeWithDynamicProperty(Type parentType, string typeName, IEnumerable<DynamicProperty> dynamicProperties);
     }
 }

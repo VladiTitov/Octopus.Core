@@ -1,10 +1,12 @@
-﻿namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces
 {
     public interface IQueryFactoryService
     {
         string GetInsertQuery(object item);
-        string GetCreateTableQuery();
+        Task<string> GetCreateTableQuery(string entityName);
         string GetCreateSchemeQuery();
-        string GetCreateCommentQuery();
+        Task<string> GetCreateCommentQuery(string entityName);
     }
 }

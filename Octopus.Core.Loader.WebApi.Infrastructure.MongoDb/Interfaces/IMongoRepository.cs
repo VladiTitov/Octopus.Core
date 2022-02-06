@@ -1,12 +1,11 @@
-﻿using MongoDB.Driver;
+﻿using System.Threading.Tasks;
 using Octopus.Core.Common.DynamicObject.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces
 {
     public interface IMongoRepository
     {
-        Task Add(DynamicEntityWithProperties item);
+        Task AddEntity(DynamicEntityWithProperties item);
+        Task<DynamicEntityWithProperties> GetEntity(string entityName);
     }
 }

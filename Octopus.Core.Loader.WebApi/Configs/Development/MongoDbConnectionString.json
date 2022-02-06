@@ -1,7 +1,6 @@
 {
-  "MongoDbParams": {
-    "CollectionName": "Logs",
-    "DataBaseName": "LogsDatabase",
+  "MongoDatabaseParams": {
+    "DataBaseName": "DynamicEntitiesDatabase",
     "Server": "localhost",
     "Port": "27017"
   }
