@@ -37,7 +37,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Repositories
             {
                 _logger.LogWarning(ex.Message);
                 await _migrationService.CreateMigrationAsync(entityName);
-                await this.AddRange(items, entityName);
+                await AddRange(items, entityName);
             }
         }
     }
