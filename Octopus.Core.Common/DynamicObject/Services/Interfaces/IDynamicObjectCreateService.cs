@@ -7,7 +7,6 @@ namespace Octopus.Core.Common.DynamicObject.Services.Interfaces
     public interface IDynamicObjectCreateService
     {
         IEnumerable<object> AddValuesToDynamicObject(Type extendedType, IEnumerable<string[]> values);
-        IList<DynamicProperty> ConfigureDynamicProperties(string pathFile);
-        Type CreateTypeByDescription(string dynamicPropertiesFilePath);
+        Type CreateTypeByDescription(DynamicEntityWithProperties dynamicEntity);
     }
 }

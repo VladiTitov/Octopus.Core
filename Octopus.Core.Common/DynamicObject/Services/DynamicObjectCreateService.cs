@@ -4,32 +4,28 @@ using System.Collections.Generic;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Extensions;
-using Octopus.Core.Common.Helpers.JsonDeserializer;
 
 namespace Octopus.Core.Common.DynamicObject.Services
 {
     public class DynamicObjectCreateService : IDynamicObjectCreateService
     {
-        private IList<DynamicProperty> _dynamicProperties;
-        private readonly IJsonDeserializer _jsonDeserializer;
+        private IEnumerable<DynamicProperty> _dynamicProperties;
         private readonly IDynamicTypeFactory _dynamicTypeFactory;
 
-        public DynamicObjectCreateService(IJsonDeserializer jsonDeserializer, IDynamicTypeFactory dynamicTypeFactory)
+        public DynamicObjectCreateService(IDynamicTypeFactory dynamicTypeFactory)
         {
             _dynamicTypeFactory = dynamicTypeFactory;
-            _jsonDeserializer = jsonDeserializer;
             _dynamicProperties = new List<DynamicProperty>();
         }
 
-        public IList<DynamicProperty> ConfigureDynamicProperties(string dynamicPropertiesFilePath) => 
-            _jsonDeserializer.GetDynamicProperties<DynamicProperty>(dynamicPropertiesFilePath);
-
-        public Type CreateTypeByDescription(string dynamicPropertiesFilePath) 
+        public Type CreateTypeByDescription(DynamicEntityWithProperties dynamicEntity) 
         {
-            _dynamicProperties = ConfigureDynamicProperties(dynamicPropertiesFilePath);
-            return _dynamicTypeFactory.GetTypeWithDynamicProperty(typeof(DynamicEntity), _dynamicProperties);
+            _dynamicProperties = dynamicEntity.Properties;
+            return _dynamicTypeFactory.GetTypeWithDynamicProperty(
+                typeof(DynamicEntity),
+                dynamicEntity.EntityName,
+                _dynamicProperties);
         }
-            
 
         public IEnumerable<object> AddValuesToDynamicObject(Type extendedType, IEnumerable<string[]> values) => 
             values.Select(value => GetObjectWithProperty(extendedType, value)).ToList();
@@ -56,7 +52,6 @@ namespace Octopus.Core.Common.DynamicObject.Services
                         break;
                 }
             }
-
             return obj;
         }
     }

@@ -25,8 +25,9 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
         {
             var entityDescription = GetEntityDescription(message);
             if (entityDescription == null) return;
-            var objects = await _dataReaderService.GetDataFromFileAsync(entityDescription.EntityFilePath);
-            await _dynamicEntityService.AddRangeAsync(objects);
+
+            var objects = await _dataReaderService.GetDataFromFileAsync(entityDescription);
+            await _dynamicEntityService.AddRangeAsync(objects, entityDescription.EntityType);
         }
 
         public IEntityDescription GetEntityDescription(string message)

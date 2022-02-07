@@ -17,6 +17,9 @@ using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
 using Octopus.Core.RabbitMq.Context;
 using Octopus.Core.RabbitMq.Interfaces;
 using Octopus.Core.RabbitMq.Services;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Repositories;
 
 namespace Octopus.Core.Loader.WebApi.Extensions
 {
@@ -32,8 +35,8 @@ namespace Octopus.Core.Loader.WebApi.Extensions
             services.Configure<RabbitMqConfiguration>(hostContext.Configuration.GetSection("RabbitParams"))
                 .Configure<ConnectionStringConfig>(hostContext.Configuration.GetSection("ConnectionString"))
                 .Configure<ConnectionConfiguration>(hostContext.Configuration.GetSection("RabbitMqConnectionString"))
-                .Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"));
-            
+                .Configure<PublisherConfiguration>(hostContext.Configuration.GetSection("Publisher"))
+                .Configure<MongoDatabaseConfiguration>(hostContext.Configuration.GetSection("MongoDatabaseParams"));
         }
 
         public static void AddConfigurationsExtension(this IServiceCollection services, HostBuilderContext hostContext) =>
@@ -43,33 +46,39 @@ namespace Octopus.Core.Loader.WebApi.Extensions
 
         public static void AddDynamicEntityServicesExtension(this IServiceCollection services)
         {
-            services.AddSingleton<IDynamicObjectCreateService, DynamicObjectCreateService>();
-            services.AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>();
-            services.AddSingleton<IDynamicEntityService, DynamicEntityService>();
-            services.AddSingleton<IDynamicEntityRepository, DynamicEntityRepository>();
+            services.AddSingleton<IDynamicObjectCreateService, DynamicObjectCreateService>()
+                .AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>()
+                .AddSingleton<IDynamicEntityService, DynamicEntityService>()
+                .AddSingleton<IDynamicEntityRepository, DynamicEntityRepository>();
         }
 
         public static void AddDataBaseServicesExtension(this IServiceCollection services)
         {
-            services.AddSingleton<IDatabaseProvidersFactory, DatabaseProvidersFactory>();
-            services.AddSingleton<IMigrationCreateService, MigrationCreateService>();
-            services.AddSingleton<IQueryFactoryService, QueryFactoryService>();
-            services.AddSingleton<IQueryHandlerService, QueryHandlerService>();
-            services.AddSingleton<IDatabaseContext, DapperDbContext>();
+            services.AddSingleton<IDatabaseProvidersFactory, DatabaseProvidersFactory>()
+                .AddSingleton<IMigrationCreateService, MigrationCreateService>()
+                .AddSingleton<IQueryFactoryService, QueryFactoryService>()
+                .AddSingleton<IQueryHandlerService, QueryHandlerService>()
+                .AddSingleton<IDatabaseContext, DapperDbContext>();
         }
 
         public static void AddHelpersServicesExtension(this IServiceCollection services)
         {
-            services.AddSingleton<IDataReaderService, DataReaderService>();
-            services.AddSingleton<IJsonDeserializer, JsonDeserializer>();
+            services.AddSingleton<IDataReaderService, DataReaderService>()
+                .AddSingleton<IJsonDeserializer, JsonDeserializer>();
         }
 
         public static void AddRabbitMqServicesExtension(this IServiceCollection services)
         {
-            services.AddSingleton<IRabbitMqContext, RabbitMqContext>();
-            services.AddSingleton<IRabbitMqSubscriber, RabbitMqSubscriber>();
-            services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
-            services.AddSingleton<IEventProcessor, MessageHandler>();
+            services.AddSingleton<IRabbitMqContext, RabbitMqContext>()
+                .AddSingleton<IRabbitMqSubscriber, RabbitMqSubscriber>()
+                .AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>()
+                .AddSingleton<IEventProcessor, MessageHandler>();
+        }
+
+        public static void AddMongoDbServicesExtension(this IServiceCollection services)
+        {
+            services.AddSingleton<IMongoContext, MongoContext>()
+                .AddSingleton<IMongoRepository, MongoRepository>();
         }
     }
 }

@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Octopus.Core.Loader.WebApi.Extensions;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Repositories;
 
 namespace Octopus.Core.Loader.WebApi
 {
@@ -24,6 +27,7 @@ namespace Octopus.Core.Loader.WebApi
             services.AddDynamicEntityServicesExtension();
             services.AddDataBaseServicesExtension();
             services.AddRabbitMqServicesExtension();
+            services.AddMongoDbServicesExtension();
         }
          
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
