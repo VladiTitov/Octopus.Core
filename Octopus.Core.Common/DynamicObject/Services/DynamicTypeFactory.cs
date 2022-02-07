@@ -24,10 +24,18 @@ namespace Octopus.Core.Common.DynamicObject.Services
             _assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndCollect);
             _moduleBuilder = _assemblyBuilder.DefineDynamicModule(uniqueIdentifier);
         }
-
+        
         public Type CreateNewTypeWithDynamicProperty(Type parentType,
             string typeName,
             IEnumerable<DynamicProperty> dynamicProperties)
+            
+        public Type GetTypeWithDynamicProperty(Type parentType, IEnumerable<DynamicProperty> dynamicProperties)
+        {
+            var type = _assemblyBuilder.GetType(parentType.Name);
+            return type ?? CreateNewTypeWithDynamicProperty(parentType, dynamicProperties);
+        }
+
+        private Type CreateNewTypeWithDynamicProperty(Type parentType, IEnumerable<DynamicProperty> dynamicProperties)
         {
             _typeBuilder = _moduleBuilder.DefineType(typeName, TypeAttributes.Public);
             _typeBuilder.SetParent(parentType);

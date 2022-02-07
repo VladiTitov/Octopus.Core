@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.ConfigsModels.Rabbit;
-using Octopus.Core.RabbitMq.Services.Interfaces;
+using Octopus.Core.RabbitMq.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 

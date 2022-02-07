@@ -29,6 +29,8 @@ namespace Octopus.Core.Common.DynamicObject.Services
                 typeof(DynamicEntity), 
                 dynamicEntity.EntityName, 
                 _dynamicProperties);
+            _dynamicProperties = ConfigureDynamicProperties(dynamicPropertiesFilePath);
+            return _dynamicTypeFactory.GetTypeWithDynamicProperty(typeof(DynamicEntity), _dynamicProperties);
         }
             
 

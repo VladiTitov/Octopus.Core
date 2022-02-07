@@ -18,7 +18,7 @@ namespace Octopus.Core.RabbitMq.Services
             var channel = _context.Connection.CreateModel();
 
             channel.ExchangeDeclare(exchange: configuration.ExchangeName, type: configuration.ExchangeType);
-            channel.QueueDeclare(queue: configuration.QueueName);
+            channel.QueueDeclare(queue: configuration.QueueName, durable: true, exclusive: false, autoDelete: true);
             channel.QueueBind(queue: configuration.QueueName, exchange: configuration.ExchangeName, routingKey: configuration.RoutingKey);
 
             return channel;

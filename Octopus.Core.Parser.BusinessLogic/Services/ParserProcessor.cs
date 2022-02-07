@@ -11,7 +11,7 @@ using Octopus.Core.Parser.WorkerService.Interfaces.Services;
 using Octopus.Core.Parser.WorkerService.Services.Factories;
 using Octopus.Core.Parser.WorkerService.Services.Parsers;
 using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
-using Octopus.Core.RabbitMq.Services.Interfaces;
+using Octopus.Core.RabbitMq.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

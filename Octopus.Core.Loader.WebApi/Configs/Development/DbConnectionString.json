@@ -2,6 +2,7 @@
   "ConnectionString": {
     "DbType": "PostgreSql",
     "DbScheme": "loaderScheme",
+    "DbTable": "People",
     "Server": "localhost",
     "Port": 5432,
     "Database": "postgres",

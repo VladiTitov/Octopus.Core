@@ -1,0 +1,16 @@
+{
+  "Subscribers": [
+    {
+      "ExchangeType": "direct",
+      "ExchangeName": "octopus.exchange",
+      "QueueName": "InputFilesQueue",
+      "RoutingKey": "inputFiles"
+    }
+  ],
+  "Publisher": {
+    "ExchangeType": "direct",
+    "ExchangeName": "octopus.exchange",
+    "QueueName": "JsonFilesQueue",
+    "RoutingKey": "jsonFiles"
+  }
+}
