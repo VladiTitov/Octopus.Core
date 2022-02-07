@@ -7,7 +7,7 @@ using Octopus.Core.Common.DynamicObject.Models;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context
 {
-    public class MongoContext : IMongoContext, IDisposable
+    public class MongoContext : IMongoContext
     {
         private readonly IMongoDatabase _database;
 
@@ -19,10 +19,5 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context
 
         public IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string entityName) => 
             _database.GetCollection<DynamicEntityWithProperties>(entityName);
-
-        public void Dispose()
-        { 
-            GC.SuppressFinalize(this);
-        }
     }
 }

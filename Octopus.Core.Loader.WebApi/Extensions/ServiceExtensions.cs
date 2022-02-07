@@ -46,39 +46,39 @@ namespace Octopus.Core.Loader.WebApi.Extensions
 
         public static void AddDynamicEntityServicesExtension(this IServiceCollection services)
         {
-            services.AddSingleton<IDynamicObjectCreateService, DynamicObjectCreateService>();
-            services.AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>();
-            services.AddSingleton<IDynamicEntityService, DynamicEntityService>();
-            services.AddSingleton<IDynamicEntityRepository, DynamicEntityRepository>();
+            services.AddSingleton<IDynamicObjectCreateService, DynamicObjectCreateService>()
+                .AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>()
+                .AddSingleton<IDynamicEntityService, DynamicEntityService>()
+                .AddSingleton<IDynamicEntityRepository, DynamicEntityRepository>();
         }
 
         public static void AddDataBaseServicesExtension(this IServiceCollection services)
         {
-            services.AddSingleton<IDatabaseProvidersFactory, DatabaseProvidersFactory>();
-            services.AddSingleton<IMigrationCreateService, MigrationCreateService>();
-            services.AddSingleton<IQueryFactoryService, QueryFactoryService>();
-            services.AddSingleton<IQueryHandlerService, QueryHandlerService>();
-            services.AddSingleton<IDatabaseContext, DapperDbContext>();
+            services.AddSingleton<IDatabaseProvidersFactory, DatabaseProvidersFactory>()
+                .AddSingleton<IMigrationCreateService, MigrationCreateService>()
+                .AddSingleton<IQueryFactoryService, QueryFactoryService>()
+                .AddSingleton<IQueryHandlerService, QueryHandlerService>()
+                .AddSingleton<IDatabaseContext, DapperDbContext>();
         }
 
         public static void AddHelpersServicesExtension(this IServiceCollection services)
         {
-            services.AddSingleton<IDataReaderService, DataReaderService>();
-            services.AddSingleton<IJsonDeserializer, JsonDeserializer>();
+            services.AddSingleton<IDataReaderService, DataReaderService>()
+                .AddSingleton<IJsonDeserializer, JsonDeserializer>();
         }
 
         public static void AddRabbitMqServicesExtension(this IServiceCollection services)
         {
-            services.AddSingleton<IRabbitMqContext, RabbitMqContext>();
-            services.AddSingleton<IRabbitMqSubscriber, RabbitMqSubscriber>();
-            services.AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>();
-            services.AddSingleton<IEventProcessor, MessageHandler>();
+            services.AddSingleton<IRabbitMqContext, RabbitMqContext>()
+                .AddSingleton<IRabbitMqSubscriber, RabbitMqSubscriber>()
+                .AddSingleton<IRabbitMqPublisher, RabbitMqPublisher>()
+                .AddSingleton<IEventProcessor, MessageHandler>();
         }
 
-        public static void AddMongoDbServicesExtension(this IServiceCollection services) 
+        public static void AddMongoDbServicesExtension(this IServiceCollection services)
         {
-            services.AddSingleton<IMongoContext, MongoContext>();
-            services.AddSingleton<IMongoRepository, MongoRepository>();
+            services.AddSingleton<IMongoContext, MongoContext>()
+                .AddSingleton<IMongoRepository, MongoRepository>();
         }
     }
 }
