@@ -4,33 +4,27 @@ using System.Collections.Generic;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Extensions;
-using Octopus.Core.Common.Helpers.JsonDeserializer;
 
 namespace Octopus.Core.Common.DynamicObject.Services
 {
     public class DynamicObjectCreateService : IDynamicObjectCreateService
     {
         private IEnumerable<DynamicProperty> _dynamicProperties;
-        private readonly IJsonDeserializer _jsonDeserializer;
         private readonly IDynamicTypeFactory _dynamicTypeFactory;
 
-        public DynamicObjectCreateService(IJsonDeserializer jsonDeserializer, IDynamicTypeFactory dynamicTypeFactory)
+        public DynamicObjectCreateService(IDynamicTypeFactory dynamicTypeFactory)
         {
             _dynamicTypeFactory = dynamicTypeFactory;
-            _jsonDeserializer = jsonDeserializer;
             _dynamicProperties = new List<DynamicProperty>();
         }
 
         public Type CreateTypeByDescription(DynamicEntityWithProperties dynamicEntity) 
         {
             _dynamicProperties = dynamicEntity.Properties;
-            return _dynamicTypeFactory.
-                CreateNewTypeWithDynamicProperty(
+            return _dynamicTypeFactory.GetTypeWithDynamicProperty(
                 typeof(DynamicEntity), 
                 dynamicEntity.EntityName, 
                 _dynamicProperties);
-            _dynamicProperties = ConfigureDynamicProperties(dynamicPropertiesFilePath);
-            return _dynamicTypeFactory.GetTypeWithDynamicProperty(typeof(DynamicEntity), _dynamicProperties);
         }
             
 
