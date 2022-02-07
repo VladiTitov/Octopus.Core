@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Octopus.Core.Common\Octopus.Core.Common.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Parser.BusinessLogic\Octopus.Core.Parser.BusinessLogic.csproj" />
+    <ProjectReference Include="..\Octopus.Core.RabbitMq\Octopus.Core.RabbitMq.csproj" />
   </ItemGroup>
 
 </Project>
