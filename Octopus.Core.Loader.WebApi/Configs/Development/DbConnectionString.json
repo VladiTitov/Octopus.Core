@@ -1,12 +1,12 @@
 {
   "ConnectionString": {
-    "DbType": "DbType",
-    "DbScheme": "DbScheme",
-    "DbTable": "DbTable",
-    "Server": "Server",
-    "Port": 1111,
-    "Database": "Database",
-    "UserName": "UserName",
-    "Password": "Password"
+    "DbType": "PostgreSql",
+    "DbScheme": "loaderScheme",
+    "DbTable": "People",
+    "Server": "localhost",
+    "Port": 5432,
+    "Database": "postgres",
+    "UserName": "postgres",
+    "Password": "postgres"
   }
 }

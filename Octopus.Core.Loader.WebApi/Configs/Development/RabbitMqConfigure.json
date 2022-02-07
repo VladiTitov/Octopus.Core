@@ -2,8 +2,8 @@
   "Subscribers": [
     {
       "ExchangeType": "fanout",
-      "ExchangeName": "exchange.name",
-      "QueueName": "queue.name",
+      "ExchangeName": "loader.exchange",
+      "QueueName": "loader-queue",
       "RoutingKey": "routingKey"
     }
   ],
