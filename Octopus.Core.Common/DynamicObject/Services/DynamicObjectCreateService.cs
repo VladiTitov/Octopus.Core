@@ -22,11 +22,11 @@ namespace Octopus.Core.Common.DynamicObject.Services
         {
             _dynamicProperties = dynamicEntity.Properties;
             return _dynamicTypeFactory.GetTypeWithDynamicProperty(
-                typeof(DynamicEntity), 
-                dynamicEntity.EntityName, 
+                typeof(DynamicEntity),
+                dynamicEntity.EntityName,
                 _dynamicProperties);
         }
-            
+        
 
         public IEnumerable<object> AddValuesToDynamicObject(Type extendedType, IEnumerable<string[]> values) => 
             values.Select(value => GetObjectWithProperty(extendedType, value)).ToList();
@@ -53,7 +53,6 @@ namespace Octopus.Core.Common.DynamicObject.Services
                         break;
                 }
             }
-
             return obj;
         }
     }
