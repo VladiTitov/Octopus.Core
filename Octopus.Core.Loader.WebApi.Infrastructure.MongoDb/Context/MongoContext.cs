@@ -17,11 +17,11 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context
             _database = client.GetDatabase(mongoDatabaseConfiguration.Value.DatabaseName);
         }
 
-        public IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string EntityName) => 
-            _database.GetCollection<DynamicEntityWithProperties>(EntityName);
+        public IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string entityName) => 
+            _database.GetCollection<DynamicEntityWithProperties>(entityName);
 
         public void Dispose()
-        {
+        { 
             GC.SuppressFinalize(this);
         }
     }

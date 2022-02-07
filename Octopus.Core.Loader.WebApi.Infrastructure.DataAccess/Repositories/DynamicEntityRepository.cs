@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
-
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Repositories
 {
     public class DynamicEntityRepository : IDynamicEntityRepository

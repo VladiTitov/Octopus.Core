@@ -5,6 +5,6 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces
 {
     public interface IMongoContext
     {
-        IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string EntityName);
+        IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string entityName);
     }
 }
