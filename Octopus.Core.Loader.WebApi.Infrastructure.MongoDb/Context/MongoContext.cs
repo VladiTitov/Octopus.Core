@@ -14,7 +14,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context
         public MongoContext(IOptions<MongoDatabaseConfiguration> mongoDatabaseConfiguration)
         {
             var client = new MongoClient(mongoDatabaseConfiguration.Value.ConnectionString);
-            _database = client.GetDatabase(mongoDatabaseConfiguration.Value.DataBaseName);
+            _database = client.GetDatabase(mongoDatabaseConfiguration.Value.DatabaseName);
         }
 
         public IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string EntityName) => 
