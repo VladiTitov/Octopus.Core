@@ -1,4 +1,5 @@
-﻿using Octopus.Core.Common.DynamicObject.Services.Interfaces;
+﻿using Octopus.Core.Common.DynamicObject.Models;
+using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -14,6 +15,6 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction
             _dynamicObjectCreateService = dynamicObjectCreateService;
         }
 
-        public abstract Task<IEnumerable<object>> Parse(FileInfo inputFile, string modelDescriptionPath);
+        public abstract Task<IEnumerable<object>> Parse(FileInfo inputFile, DynamicEntityWithProperties modelDescription);
     }
 }

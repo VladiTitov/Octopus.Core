@@ -1,10 +1,6 @@
 {
   "ProcessorConfiguration": {
     "RunInterval": 10,
-    "ExpectedModelsDescriptionPaths": [
-      "C:\\IN\\Descriptions\\person.json",
-      "E:\\model2.json"
-    ],
     "OutputDirectoryPath": "C:\\OUT\\"
   }
 }

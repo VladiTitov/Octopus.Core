@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Common.Constants;
+using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
@@ -23,7 +24,7 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
             _options = options.Value;
         }
 
-        public override async Task<IEnumerable<object>> Parse(FileInfo inputFile, string modelDescriptionPath)
+        public override async Task<IEnumerable<object>> Parse(FileInfo inputFile, DynamicEntityWithProperties modelDescription)
         {
             IEnumerable<string[]> values;
             IEnumerable<object> objects;
@@ -39,7 +40,7 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
 
             try
             {
-                var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescriptionPath);
+                var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescription);
 
                 objects = _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, values);
             }

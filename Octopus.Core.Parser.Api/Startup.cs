@@ -11,12 +11,10 @@ namespace Octopus.Core.Parser.Api
     public class Startup
     {
         private IConfiguration _configuration;
-        private IWebHostEnvironment _environment;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
-            _environment = environment;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -25,7 +23,7 @@ namespace Octopus.Core.Parser.Api
                 .AddMvcCore()
                 .AddApiExplorer();
 
-            services.ConfigureServices(_configuration, _environment);
+            services.ConfigureServices(_configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

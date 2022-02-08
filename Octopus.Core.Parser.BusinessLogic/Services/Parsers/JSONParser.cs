@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Common.Constants;
+using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
@@ -23,14 +24,15 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
             _options = options.Value;
         }
 
-        public async override Task<IEnumerable<object>> Parse(FileInfo inputFile, string modelDescriptionPath)
+        public async override Task<IEnumerable<object>> Parse(FileInfo inputFile, DynamicEntityWithProperties modelDescription)
         {
             Type typeListOfExtendedType;
 
             try
             {
                 var typeListOf = typeof(List<>);
-                var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescriptionPath);
+
+                var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescription);
                 typeListOfExtendedType = typeListOf.MakeGenericType(extendedType);
             }
             catch (Exception ex)
