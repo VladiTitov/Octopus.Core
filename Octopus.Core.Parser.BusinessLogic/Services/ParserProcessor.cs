@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using Octopus.Core.Common.Constants;
+using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Enums;
 using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Extensions;
 using Octopus.Core.Common.Models;
+using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
 using Octopus.Core.Parser.WorkerService.Configs.Implementations;
 using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using Octopus.Core.Parser.WorkerService.Interfaces.Services;
@@ -29,16 +31,17 @@ namespace Octopus.Core.Parser.WorkerService.Services
         private readonly IOptions<CsvParserConfiguration> _csvOptions;
         private readonly IOptions<XmlParserConfiguration> _xmlOptions;
         private readonly IOptions<JsonParserConfiguration> _jsonOptions;
-        private readonly List<string> _descriptionModelPaths;
         private readonly IDynamicObjectCreateService _dynamicObjectCreateService;
         private readonly IRabbitMqPublisher _rabbitMqPublisher;
+        private readonly IMongoRepository _mongoRepository;
 
         public ParserProcessor(IOptions<CsvParserConfiguration> csvOptions,
             IOptions<XmlParserConfiguration> xmlOptions,
             IOptions<JsonParserConfiguration> jsonOptions,
             IOptions<ProcessorConfiguration> processorOptions,
             IDynamicObjectCreateService dynamicObjectCreateService,
-            IRabbitMqPublisher rabbitMqPublisher)
+            IRabbitMqPublisher rabbitMqPublisher, 
+            IMongoRepository mongoRepository)
         {
             _processorOptions = processorOptions.Value;
 
@@ -46,24 +49,23 @@ namespace Octopus.Core.Parser.WorkerService.Services
             _xmlOptions = xmlOptions;
             _jsonOptions = jsonOptions;
 
-            _descriptionModelPaths = new List<string>(_processorOptions.ExpectedModelsDescriptionPaths);
-
             _parserFactory = RegisterParserFactory();
 
             _dynamicObjectCreateService = dynamicObjectCreateService;
 
             _rabbitMqPublisher = rabbitMqPublisher;
+            _mongoRepository = mongoRepository;
         }
 
         public async Task Parse(IEntityDescription request)
         {
             if (request != null)
             {
-                var modelDescriptionPath = GetExpectedModelDescriptionPath(request.EntityType);
+                var modelDescription = await GetExpectedModelDescription(request.EntityType);
 
                 var inputFile = new FileInfo(request.EntityFilePath);
 
-                var objects = await ParseFile(inputFile, modelDescriptionPath);
+                var objects = await ParseFile(inputFile, modelDescription);
 
                 var outputEntityDescription = GetOutputEntityDescription(request.EntityType);
 
@@ -83,17 +85,16 @@ namespace Octopus.Core.Parser.WorkerService.Services
             return Task.CompletedTask;
         }
 
-        private string GetExpectedModelDescriptionPath(string modelName)
+        private async Task<DynamicEntityWithProperties> GetExpectedModelDescription(string modelName)
         {
-            foreach (var path in _descriptionModelPaths)
+            var dynamicEntity = await _mongoRepository.GetEntity(modelName);
+
+            if (dynamicEntity == null)
             {
-                if (path.Contains(modelName))
-                {
-                    return path;
-                }
+                throw new IncorrectInputDataException(ErrorMessages.NoDescriptionProvided);
             }
 
-            throw new IncorrectInputDataException(ErrorMessages.NoDescriptionProvided);
+            return dynamicEntity;
         }
 
         private void SerializeObjectsToOutputFile(IEnumerable<object> objects, string outputFilePath)
@@ -126,13 +127,13 @@ namespace Octopus.Core.Parser.WorkerService.Services
             return factory;
         }
 
-        private async Task<IEnumerable<object>> ParseFile(FileInfo file, string modelDescriptionPath)
+        private async Task<IEnumerable<object>> ParseFile(FileInfo file, DynamicEntityWithProperties modelDescription)
         {
             var extension = file.GetFileExtension();
 
             var parser = GetParserByExtension(extension);
 
-            return await parser.Parse(file, modelDescriptionPath);
+            return await parser.Parse(file, modelDescription);
         }
 
         private BaseParser GetParserByExtension(FileExtension fileExtension)
