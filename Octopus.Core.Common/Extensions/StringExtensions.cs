@@ -1,11 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using Octopus.Core.Common.Exceptions;
+using Octopus.Core.Common.Models;
 
 namespace Octopus.Core.Common.Extensions
 {
     public static class StringExtensions
     {
+        public static IEntityDescription GetEntityDescription(this string item)
+        {
+            try
+            {
+                return JsonSerializer.Deserialize<EntityDescription>(item);
+            }
+            catch (Exception ex)
+            {
+                throw new ParsingException(ex.Message);
+            }
+        }
+
         public static string GetProperty(this string item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));

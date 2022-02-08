@@ -1,8 +1,8 @@
 ﻿using MongoDB.Driver;
 using Microsoft.Extensions.Options;
+using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
-using Octopus.Core.Common.DynamicObject.Models;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context
 {
@@ -16,7 +16,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context
             _database = client.GetDatabase(mongoDatabaseConfiguration.Value.DatabaseName);
         }
 
-        public IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string entityName) => 
-            _database.GetCollection<DynamicEntityWithProperties>(entityName);
+        public IMongoCollection<DynamicEntityWithProperties> GetMongoCollection(string entityName)
+            => _database
+                .GetCollection<DynamicEntityWithProperties>(entityName);
     }
 }

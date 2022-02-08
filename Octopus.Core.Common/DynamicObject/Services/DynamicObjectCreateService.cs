@@ -27,8 +27,11 @@ namespace Octopus.Core.Common.DynamicObject.Services
                 _dynamicProperties);
         }
 
-        public IEnumerable<object> AddValuesToDynamicObject(Type extendedType, IEnumerable<string[]> values) => 
-            values.Select(value => GetObjectWithProperty(extendedType, value)).ToList();
+        public IEnumerable<object> AddValuesToDynamicObject(Type extendedType,
+            IEnumerable<string[]> values) => 
+            values
+                .Select(value => GetObjectWithProperty(extendedType, value))
+                .ToList();
 
         private object GetObjectWithProperty(Type dynamicType, string[] objValues)
         {
@@ -37,7 +40,9 @@ namespace Octopus.Core.Common.DynamicObject.Services
 
             foreach (var property in properties)
             {
-                var index = _dynamicProperties.FirstOrDefault(i => i.PropertyName.Equals(property.Name)).ValueIndex;
+                var index = _dynamicProperties
+                    .FirstOrDefault(i => i.PropertyName.Equals(property.Name))
+                    .ValueIndex;
 
                 switch (property.PropertyType.Name)
                 {
