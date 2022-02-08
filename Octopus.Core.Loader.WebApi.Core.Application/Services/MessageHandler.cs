@@ -1,6 +1,7 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Models;
 using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 using Octopus.Core.RabbitMq.Interfaces;
@@ -24,10 +25,13 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
         public async void ProcessEvent(string message)
         {
             var entityDescription = GetEntityDescription(message);
-            if (entityDescription == null) return;
+            if (entityDescription != null) await LoadDataInDatabase(entityDescription);
+        }
 
+        public async Task LoadDataInDatabase(IEntityDescription entityDescription)
+        {
             var objects = await _dataReaderService.GetDataFromFileAsync(entityDescription);
-            await _dynamicEntityService.AddRangeAsync(objects, entityDescription.EntityType);
+            await _dynamicEntityService.AddRangeAsync(objects);
         }
 
         public IEntityDescription GetEntityDescription(string message)
@@ -36,7 +40,7 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
             {
                 return JsonSerializer.Deserialize<EntityDescription>(message);
             }
-            catch (Exception ex)
+            catch (ParsingException ex)
             {
                 _logger.LogError(ex.Message);
                 return null;

@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
@@ -25,19 +25,34 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Repositories
             _migrationService = migrationService;
         }
 
-        public async Task AddRange(IEnumerable<object> items, string entityName)
+        public async Task AddRange(IEnumerable<object> items)
         {
-            var query = _queryFactory.GetInsertQuery(items.FirstOrDefault(), entityName);
-            try
+            if (items.Any())
             {
-                await _queryHandler.Execute(query, items);
+                var firstItemInCollection = items.FirstOrDefault();
+                if (firstItemInCollection != null)
+                {
+                    var entityName = firstItemInCollection.GetType().Name;
+                    var query = GetQuery(firstItemInCollection);
+
+                    try
+                    {
+                        await _queryHandler.Execute(query, items);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex.Message);
+                        await _migrationService.CreateMigrationAsync(entityName);
+                        await AddRange(items);
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex.Message);
-                await _migrationService.CreateMigrationAsync(entityName);
-                await AddRange(items, entityName);
-            }
+        }
+
+        public string GetQuery(object item)
+        {
+            var entityName = item.GetType().Name;
+            return _queryFactory.GetInsertQuery(item, entityName);
         }
     }
 }

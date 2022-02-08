@@ -43,5 +43,7 @@ namespace Octopus.Core.Common.Extensions
 
             return string.Join(".", name.Split('.').Select(n => char.ToLower(n[0]) + n.Substring(1)));
         }
+
+
     }
 }

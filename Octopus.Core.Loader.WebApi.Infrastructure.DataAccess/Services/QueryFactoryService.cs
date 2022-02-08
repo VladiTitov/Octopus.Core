@@ -1,32 +1,21 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Options;
-using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Common.Constants;
-using Octopus.Core.Common.DynamicObject.Models;
-using System.Threading.Tasks;
 using Octopus.Core.Common.Extensions;
+using Octopus.Core.Common.DynamicObject.Models;
+using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
-using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
 {
     public class QueryFactoryService : IQueryFactoryService
     {
         private readonly ConnectionStringConfig _connectionString;
-        private readonly IMongoRepository _mongoRepository;
 
-        public QueryFactoryService(IOptions<ConnectionStringConfig> connectionString,
-            IMongoRepository mongoRepository)
+        public QueryFactoryService(IOptions<ConnectionStringConfig> connectionString)
         {
             _connectionString = connectionString.Value;
-            _mongoRepository = mongoRepository;
-        }
-
-        private async Task<IList<DynamicProperty>> GetDynamicProperties(string entityName)
-        {
-            var dynamicEntity = await _mongoRepository.GetEntity(entityName);
-            return dynamicEntity.Properties;
         }
 
         public string GetInsertQuery(object item, string entityName)
@@ -40,9 +29,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
                    $"VALUES({propertyInfo.GetValuesNames()})";
         }
 
-        public async Task<string> GetCreateTableQuery(string entityName)
+        public string GetCreateTableQuery(string entityName, IList<DynamicProperty> dynamicProperties)
         {
-            var dynamicProperties = await GetDynamicProperties(entityName);
             var propertiesTable = dynamicProperties
                 .GetPropertiesNames()
                 .ToQuery(",\n");
@@ -56,9 +44,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
                                                 $"{QueryConstants.IfNotExistsQuery} " +
                                                 $"{_connectionString.DbScheme};";
 
-        public async Task<string> GetCreateCommentQuery(string entityName)
+        public string GetCreateCommentQuery(string entityName, IList<DynamicProperty> dynamicProperties)
         {
-            var dynamicProperties = await GetDynamicProperties(entityName);
             var commentsList = dynamicProperties
                 .Select(property => $"{QueryConstants.CreateCommentOnColumnQuery} " +
                                     $"\"{_connectionString.DbScheme}\".\"{property.PropertyName}\" " +

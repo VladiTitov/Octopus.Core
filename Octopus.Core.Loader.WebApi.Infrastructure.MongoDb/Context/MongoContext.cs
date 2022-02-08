@@ -1,5 +1,4 @@
-﻿using System;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;

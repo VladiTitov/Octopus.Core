@@ -14,7 +14,7 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
             _repository = repository;
         }
 
-        public async Task AddRangeAsync(IEnumerable<object> items, string entityName) => 
-            await _repository.AddRange(items, entityName);
+        public async Task AddRangeAsync(IEnumerable<object> items) => 
+            await _repository.AddRange(items);
     }
 }
