@@ -1,0 +1,7 @@
+{
+  "MongoDatabaseParams": {
+    "DataBaseName": "DynamicEntitiesDatabase",
+    "Server": "localhost",
+    "Port": "27017"
+  }
+}

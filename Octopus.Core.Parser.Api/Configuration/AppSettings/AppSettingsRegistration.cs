@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Octopus.Core.Common.ApiConfigs;
+using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Common.ConfigsModels.Rabbit;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 using Octopus.Core.Common.Constants;
@@ -23,6 +24,7 @@ namespace Octopus.Core.Parser.Api.Configuration.AppSettings
                 .Configure<JsonParserConfiguration>(configuration.GetSection(nameof(JsonParserConfiguration)))
                 .Configure<XmlParserConfiguration>(configuration.GetSection(nameof(XmlParserConfiguration)))
                 .AddSingleton(configuration.GetSection(ConfigurationSectionNames.Subscribers)
-                    .Get<IEnumerable<SubscriberConfiguration>>());
+                    .Get<IEnumerable<SubscriberConfiguration>>())
+                .Configure<MongoDatabaseConfiguration>(configuration.GetSection("MongoDatabaseParams"));
     }
 }

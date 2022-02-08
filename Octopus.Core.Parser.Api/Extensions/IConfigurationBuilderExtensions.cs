@@ -15,7 +15,8 @@ namespace Octopus.Core.Parser.Api.Extensions
                 .AddJsonFile($"{baseConfigPath}/Parsers/XmlParser.json")
                 .AddJsonFile($"{baseConfigPath}/Processor.json")
                 .AddJsonFile($"{baseConfigPath}/RabbitMq.json")
-                .AddJsonFile($"{baseConfigPath}/RabbitMqConnectionString.json");
+                .AddJsonFile($"{baseConfigPath}/RabbitMqConnectionString.json")
+                .AddJsonFile($"{baseConfigPath}/MongoDbConnectionString.json");
         }
     }
 }
