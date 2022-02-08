@@ -28,6 +28,9 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
         public async Task<IEnumerable<object>> GetDataFromFileAsync(IEntityDescription entityDescription)
         {
             var dynamicEntity = await _mongoRepository.GetEntity(entityDescription.EntityType);
+
+            if (dynamicEntity == null) throw new ArgumentNullException($"Dynamic entity {entityDescription.EntityType} not found in MongoDb");
+
             var dynamicType = GetDynamicType(dynamicEntity);
             
             return await _jsonDeserializer.GetDynamicObjects(dynamicType, entityDescription.EntityFilePath);

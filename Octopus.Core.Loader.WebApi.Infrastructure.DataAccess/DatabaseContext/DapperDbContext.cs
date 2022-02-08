@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
+using Octopus.Core.Common.Constants;
+using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Constants;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 
@@ -11,8 +13,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.DatabaseContext
         private readonly ConnectionStringConfig _connectionString;
         private readonly IDatabaseProvidersFactory _providersFactory;
 
-        public DapperDbContext(
-            IOptions<ConnectionStringConfig> connectionString,
+        public DapperDbContext(IOptions<ConnectionStringConfig> connectionString,
             IDatabaseProvidersFactory databaseProviders)
         {
             _connectionString = connectionString.Value;
@@ -28,7 +29,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.DatabaseContext
                 ProvidersNamesConstants.SqlServer => _providersFactory.CreateSqlServerConnection(),
                 ProvidersNamesConstants.MySql => _providersFactory.CreateMySqlConnection(),
                 ProvidersNamesConstants.Oracle => _providersFactory.CreateOracleConnection(),
-                _ => null
+                _ => throw new DatabaseProviderException($"{ErrorMessages.DatabaseProviderException} {_connectionString.DbType}")
             };
         }
     }
