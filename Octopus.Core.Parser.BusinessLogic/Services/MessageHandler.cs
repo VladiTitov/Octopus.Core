@@ -11,12 +11,12 @@ namespace Octopus.Core.Parser.BusinessLogic.Services
     {
         private IEntityDescription _entityDescription;
         private readonly IParserProcessor _parserProcessor;
+        private readonly IValidationService _validationService;
 
-        public MessageHandler(IParserProcessor parserProcessor)
+        public MessageHandler(IParserProcessor parserProcessor, IValidationService validationService)
         {
             _parserProcessor = parserProcessor;
-
-            _parserProcessor.StartProcessing();
+            _validationService = validationService;
         }
 
         public async void ProcessEvent(string message)
@@ -24,7 +24,10 @@ namespace Octopus.Core.Parser.BusinessLogic.Services
             try
             {
                 _entityDescription = JsonSerializer.Deserialize<EntityDescription>(message);
-                await _parserProcessor.Parse(_entityDescription);
+
+                var parserInputData = await _validationService.ValidateEntityDescription(_entityDescription);
+
+                await _parserProcessor.ProcessInputData(parserInputData);
             }
             catch (IncorrectInputDataException ex)
             {

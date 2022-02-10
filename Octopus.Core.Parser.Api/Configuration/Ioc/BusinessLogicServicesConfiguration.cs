@@ -14,6 +14,8 @@ namespace Octopus.Core.Parser.Api.Configuration.Ioc
                 .AddSingleton<IParserProcessor, ParserProcessor>()
                 .AddSingleton<IDynamicObjectCreateService, DynamicObjectCreateService>()
                 .AddSingleton<IJsonDeserializer, JsonDeserializer>()
-                .AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>();
+                .AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>()
+                .AddSingleton<IValidationService, ValidationService>()
+                .AddSingleton<IParseResultSender, ParseResultSender>();
     }
 }

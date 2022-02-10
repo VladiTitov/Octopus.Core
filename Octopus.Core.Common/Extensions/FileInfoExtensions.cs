@@ -1,4 +1,5 @@
 ﻿using Octopus.Core.Common.Enums;
+using System;
 using System.IO;
 
 namespace Octopus.Core.Common.Extensions
@@ -23,6 +24,26 @@ namespace Octopus.Core.Common.Extensions
                 default:
                     return FileExtension.Unknown;
             }
+        }
+
+        public static bool IsAvailable(this FileInfo file)
+        {
+            try
+            {
+                using (var fs = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                }
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return true;
         }
     }
 }
