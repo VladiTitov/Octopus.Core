@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
+using Octopus.Core.Common.ConfigsModels.Parsers;
 using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Exceptions;
-using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
-using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
+using Octopus.Core.Parser.BusinessLogic.Services.Parsers.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +12,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Octopus.Core.Parser.WorkerService.Services.Parsers
+namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
 {
     public class JSONParser : BaseParser
     {
@@ -47,7 +47,7 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
             catch (Exception ex)
             {
                 throw new ParsingException($"{ErrorMessages.JsonParserException} {ex.Message}");
-            }            
+            }
         }
 
         private async Task<IEnumerable<object>> GetObjects(Type extendedType, string fileName)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Octopus.Core.Common.ConfigsModels.Parsers;
 using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
@@ -7,12 +8,10 @@ using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Extensions;
 using Octopus.Core.Common.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
-using Octopus.Core.Parser.WorkerService.Configs.Implementations;
-using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
-using Octopus.Core.Parser.WorkerService.Interfaces.Services;
-using Octopus.Core.Parser.WorkerService.Services.Factories;
-using Octopus.Core.Parser.WorkerService.Services.Parsers;
-using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
+using Octopus.Core.Parser.BusinessLogic.Interfaces.Services;
+using Octopus.Core.Parser.BusinessLogic.Services.Factories;
+using Octopus.Core.Parser.BusinessLogic.Services.Parsers;
+using Octopus.Core.Parser.BusinessLogic.Services.Parsers.Abstraction;
 using Octopus.Core.RabbitMq.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,7 +19,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Octopus.Core.Parser.WorkerService.Services
+namespace Octopus.Core.Parser.BusinessLogic.Services
 {
     public class ParserProcessor : IParserProcessor
     {
@@ -99,7 +98,6 @@ namespace Octopus.Core.Parser.WorkerService.Services
 
         private void SerializeObjectsToOutputFile(IEnumerable<object> objects, string outputFilePath)
         {
-           
             var serializerOptions = new JsonSerializerOptions { WriteIndented = true };
 
             var jsonString = JsonSerializer.Serialize(objects, serializerOptions);

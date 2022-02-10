@@ -1,18 +1,18 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Octopus.Core.Common.ConfigsModels.Parsers;
 using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Exceptions;
-using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
-using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
+using Octopus.Core.Parser.BusinessLogic.Services.Parsers.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace Octopus.Core.Parser.WorkerService.Services.Parsers
+namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
 {
     public class XMLParser : BaseParser
     {
@@ -36,7 +36,7 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
             {
                 throw new DynamicServiceException($"{ErrorMessages.DynamicServiceException} {ex.Message}");
             }
-            
+
             try
             {
                 var xmldoc = new XmlDocument();

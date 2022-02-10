@@ -2,8 +2,8 @@
 using Octopus.Core.Common.DynamicObject.Services;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Helpers.JsonDeserializer;
-using Octopus.Core.Parser.WorkerService.Interfaces.Services;
-using Octopus.Core.Parser.WorkerService.Services;
+using Octopus.Core.Parser.BusinessLogic.Interfaces.Services;
+using Octopus.Core.Parser.BusinessLogic.Services;
 
 namespace Octopus.Core.Parser.Api.Configuration.Ioc
 {

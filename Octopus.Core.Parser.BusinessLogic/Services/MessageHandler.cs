@@ -1,6 +1,6 @@
 ﻿using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Models;
-using Octopus.Core.Parser.WorkerService.Interfaces.Services;
+using Octopus.Core.Parser.BusinessLogic.Interfaces.Services;
 using Octopus.Core.RabbitMq.Interfaces;
 using System;
 using System.Text.Json;

@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
+using Octopus.Core.Common.ConfigsModels.Parsers;
 using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Exceptions;
-using Octopus.Core.Parser.WorkerService.Configs.Implementations;
-using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
+using Octopus.Core.Parser.BusinessLogic.Services.Parsers.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Octopus.Core.Parser.WorkerService.Services.Parsers
+namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
 {
     public class CSVParser : BaseParser
     {
