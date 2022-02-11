@@ -28,10 +28,9 @@ namespace Octopus.Core.Common.DynamicObject.Services
         }
 
         public IEnumerable<object> AddValuesToDynamicObject(Type extendedType,
-            IEnumerable<string[]> values) => 
+            IEnumerable<string[]> values) =>
             values
-                .Select(value => GetObjectWithProperty(extendedType, value))
-                .ToList();
+                .Select(value => GetObjectWithProperty(extendedType, value));
 
         private object GetObjectWithProperty(Type dynamicType, string[] objValues)
         {
