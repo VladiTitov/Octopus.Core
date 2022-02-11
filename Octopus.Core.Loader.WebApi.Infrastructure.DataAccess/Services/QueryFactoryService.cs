@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.Extensions;
@@ -18,25 +17,28 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
             _connectionString = connectionString.Value;
         }
 
-        public string GetInsertQuery(object item, string entityName)
+        public string GetInsertQuery(DynamicEntityWithProperties dynamicEntity)
         {
-            var propertyInfo = item
-                .GetType()
-                .GetProperties();
+            var properties = dynamicEntity
+                .Properties
+                .Select(i => i.PropertyName)
+                .ToList();
+
             return $"{QueryConstants.CreateInsertQuery} " +
-                   $"{_connectionString.DbScheme}.{entityName} " +
-                   $"({propertyInfo.GetPropertiesNames()}) " +
-                   $"VALUES({propertyInfo.GetValuesNames()})";
+                   $"{_connectionString.DbScheme}.{dynamicEntity.EntityName} " +
+                   $"({properties.GetPropertiesNames()}) " +
+                   $"VALUES({properties.GetValuesNames()})";
         }
 
-        public string GetCreateTableQuery(string entityName, IList<DynamicProperty> dynamicProperties)
+        public string GetCreateTableQuery(DynamicEntityWithProperties dynamicEntity)
         {
-            var propertiesTable = dynamicProperties
+            var propertiesTable = dynamicEntity.Properties
                 .GetPropertiesNames()
                 .ToQuery(",\n");
+
             return $"{QueryConstants.CreateTableQuery} " +
                    $"{QueryConstants.IfNotExistsQuery} " +
-                   $"{_connectionString.DbScheme}.{entityName} " +
+                   $"{_connectionString.DbScheme}.{dynamicEntity.EntityName} " +
                    $"({propertiesTable});";
         }
 
@@ -44,9 +46,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
                                                 $"{QueryConstants.IfNotExistsQuery} " +
                                                 $"{_connectionString.DbScheme};";
 
-        public string GetCreateCommentQuery(string entityName, IList<DynamicProperty> dynamicProperties)
+        public string GetCreateCommentQuery(DynamicEntityWithProperties dynamicEntity)
         {
-            var commentsList = dynamicProperties
+            var commentsList = dynamicEntity.Properties
                 .Select(property => $"{QueryConstants.CreateCommentOnColumnQuery} " +
                                     $"\"{_connectionString.DbScheme}\".\"{property.PropertyName}\" " +
                                     $"IS '{property.DynamicEntityDataBaseProperty.Comment}';").ToList();

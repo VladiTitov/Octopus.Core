@@ -16,6 +16,8 @@
 
         public const string DatabaseProviderException = "A connection provider cannot be created for this database type - ";
 
+        public const string DynamicEntityNotFound = "Dynamic entity not found in MongoDb. Type - ";
+
         public const string UnhandledException = "An unhandled exception was thrown. The inner exception is ";
     }
 }

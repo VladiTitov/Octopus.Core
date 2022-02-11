@@ -11,8 +11,8 @@ namespace Octopus.Core.Loader.WebApi.Configuration.Ioc
             => services
                 .AddSingleton<IDatabaseProvidersFactory, DatabaseProvidersFactory>()
                 .AddSingleton<IMigrationCreateService, MigrationCreateService>()
-                .AddSingleton<IQueryFactoryService, QueryFactoryService>()
                 .AddSingleton<IQueryHandlerService, QueryHandlerService>()
-                .AddSingleton<IDatabaseContext, DapperDbContext>();
+                .AddSingleton<IDatabaseContext, DapperDbContext>()
+                .AddSingleton<IQueryFactoryService, QueryFactoryService>();
     }
 }

@@ -1,38 +1,41 @@
 ﻿using System.Threading.Tasks;
+using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
-using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
 {
     public class MigrationCreateService : IMigrationCreateService
     {
-        private readonly IMongoRepository _mongoRepository;
+        
         private readonly IQueryFactoryService _queryFactory;
         private readonly IQueryHandlerService _queryHandler;
+        private DynamicEntityWithProperties _dynamicEntity;
 
         public MigrationCreateService(IQueryFactoryService queryFactory,
-            IQueryHandlerService queryHandler,
-            IMongoRepository mongoRepository)
+            IQueryHandlerService queryHandler)
         {
             _queryFactory = queryFactory;
             _queryHandler = queryHandler;
-            _mongoRepository = mongoRepository;
         }
 
-        public async Task CreateMigrationAsync(string entityName)
+        public async Task CreateMigrationAsync(DynamicEntityWithProperties dynamicEntity)
         {
-            await CreateSchemeAsync(entityName);
-            await CreateTableAsync(entityName);
+            _dynamicEntity = dynamicEntity;
+            await CreateSchemeAsync();
+            await CreateTableAsync();
         }
 
-        public async Task CreateTableAsync(string entityName)
+        public async Task CreateTableAsync()
         {
-            var dynamicEntity = await _mongoRepository.GetEntity(entityName);
-            var query = _queryFactory.GetCreateTableQuery(entityName, dynamicEntity.Properties);
+            var query = _queryFactory.GetCreateTableQuery(_dynamicEntity);
             await _queryHandler.Execute(query);
         }
 
-        public async Task CreateSchemeAsync(string entityName) =>
-            await _queryHandler.Execute(_queryFactory.GetCreateSchemeQuery());
+        public async Task CreateSchemeAsync()
+        {
+            var query = _queryFactory.GetCreateSchemeQuery();
+            await _queryHandler.Execute(query);
+        }
+            
     }
 }

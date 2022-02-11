@@ -32,23 +32,23 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
             }
             catch (ParsingException ex)
             {
-
+                _logger.LogError(ex.Message);
             }
             catch (MongoDbException ex)
             {
-
+                _logger.LogError(ex.Message);
             }
             catch (DatabaseProviderException ex)
             {
-
+                _logger.LogError(ex.Message);
             }
             catch (ArgumentNullException ex)
             {
-                
+                _logger.LogError(ex.Message);
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex.Message);
             }
         }
 

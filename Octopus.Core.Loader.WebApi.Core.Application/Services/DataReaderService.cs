@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Helpers.JsonDeserializer;
@@ -29,14 +30,14 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
         {
             var dynamicEntity = await _mongoRepository.GetEntity(entityDescription.EntityType);
 
-            if (dynamicEntity == null) throw new ArgumentNullException($"Dynamic entity {entityDescription.EntityType} not found in MongoDb");
+            if (dynamicEntity == null) throw new ArgumentNullException($"{ErrorMessages.DynamicEntityNotFound}{entityDescription.EntityType}");
 
             var dynamicType = GetDynamicType(dynamicEntity);
             
             return await _jsonDeserializer.GetDynamicObjects(dynamicType, entityDescription.EntityFilePath);
         }
 
-        public Type GetDynamicType(DynamicEntityWithProperties dynamicEntity)
+        private Type GetDynamicType(DynamicEntityWithProperties dynamicEntity)
         {
             var typeListOf = typeof(List<>);
             var extendedType = _dynamicObjectCreate.CreateTypeByDescription(dynamicEntity); 
