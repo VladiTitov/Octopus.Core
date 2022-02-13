@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Extensions;
 using Octopus.Core.Common.Models;
-using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 using Octopus.Core.RabbitMq.Interfaces;
+using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Core.Application.Services
 {
     public class MessageHandler : IEventProcessor
     {
         private readonly ILogger<MessageHandler> _logger;
-        private readonly IDynamicEntityService _dynamicEntityService;
-        private readonly IDataReaderService _dataReaderService;
+        private readonly IServiceProvider _serviceProvider;
 
         public MessageHandler(ILogger<MessageHandler> logger,
-            IDataReaderService dataReaderService,
-            IDynamicEntityService dynamicEntityService)
+            IServiceProvider serviceProvider)
         {
             _logger = logger;
-            _dataReaderService = dataReaderService;
-            _dynamicEntityService = dynamicEntityService;
+            _serviceProvider = serviceProvider;
         }
 
         public async void ProcessEvent(string message)
@@ -54,8 +52,13 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
 
         public async Task LoadDataInDatabase(IEntityDescription entityDescription)
         {
-            var objects = await _dataReaderService.GetDataFromFileAsync(entityDescription);
-            await _dynamicEntityService.AddRangeAsync(objects);
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var dataReaderService = scope.ServiceProvider.GetRequiredService<IDataReaderService>();
+                var objects = await dataReaderService.GetDataFromFileAsync(entityDescription);
+                var dynamicEntityService = scope.ServiceProvider.GetRequiredService<IDynamicEntityService>();
+                await dynamicEntityService.AddRangeAsync(objects);
+            }
         }
     }
 }

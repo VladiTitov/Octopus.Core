@@ -1,59 +1,37 @@
-﻿using System.Linq;
-using Microsoft.Extensions.Options;
-using Octopus.Core.Common.Constants;
-using Octopus.Core.Common.Extensions;
-using Octopus.Core.Common.DynamicObject.Models;
-using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
+﻿using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
 {
     public class QueryFactoryService : IQueryFactoryService
     {
-        private readonly ConnectionStringConfig _connectionString;
+        private readonly CreateCommentQueryModel _createCommentQueryModel;
+        private readonly CreateSchemeQueryModel _createSchemeQueryModel;
+        private readonly CreateTableQueryModel _createTableQueryModel;
+        private readonly InsertQueryModel _insertQueryModel;
 
-        public QueryFactoryService(IOptions<ConnectionStringConfig> connectionString)
+        public QueryFactoryService(CreateCommentQueryModel createCommentQueryModel,
+            CreateSchemeQueryModel createSchemeQueryModel,
+            CreateTableQueryModel createTableQueryModel,
+            InsertQueryModel insertQueryModel)
         {
-            _connectionString = connectionString.Value;
+            _createCommentQueryModel = createCommentQueryModel;
+            _createSchemeQueryModel = createSchemeQueryModel;
+            _createTableQueryModel = createTableQueryModel;
+            _insertQueryModel = insertQueryModel;
         }
 
-        public string GetInsertQuery(DynamicEntityWithProperties dynamicEntity)
-        {
-            var properties = dynamicEntity
-                .Properties
-                .Select(i => i.PropertyName)
-                .ToList();
+        public string GetCreateSchemeQuery() 
+            => _createSchemeQueryModel.GetQuery();
 
-            return $"{QueryConstants.CreateInsertQuery} " +
-                   $"{_connectionString.DbScheme}.{dynamicEntity.EntityName} " +
-                   $"({properties.GetPropertiesNames()}) " +
-                   $"VALUES({properties.GetValuesNames()})";
-        }
+        public string GetInsertQuery(DynamicEntityWithProperties dynamicEntity) 
+            => _insertQueryModel.GetQuery(dynamicEntity);
 
-        public string GetCreateTableQuery(DynamicEntityWithProperties dynamicEntity)
-        {
-            var propertiesTable = dynamicEntity.Properties
-                .GetPropertiesNames()
-                .ToQuery(",\n");
+        public string GetCreateTableQuery(DynamicEntityWithProperties dynamicEntity) 
+            => _createTableQueryModel.GetQuery(dynamicEntity);
 
-            return $"{QueryConstants.CreateTableQuery} " +
-                   $"{QueryConstants.IfNotExistsQuery} " +
-                   $"{_connectionString.DbScheme}.{dynamicEntity.EntityName} " +
-                   $"({propertiesTable});";
-        }
-
-        public string GetCreateSchemeQuery() => $"{QueryConstants.CreateSchemaQuery} " +
-                                                $"{QueryConstants.IfNotExistsQuery} " +
-                                                $"{_connectionString.DbScheme};";
-
-        public string GetCreateCommentQuery(DynamicEntityWithProperties dynamicEntity)
-        {
-            var commentsList = dynamicEntity.Properties
-                .Select(property => $"{QueryConstants.CreateCommentOnColumnQuery} " +
-                                    $"\"{_connectionString.DbScheme}\".\"{property.PropertyName}\" " +
-                                    $"IS '{property.DynamicEntityDataBaseProperty.Comment}';").ToList();
-
-            return commentsList.ToQuery("");
-        }
+        public string GetCreateCommentQuery(DynamicEntityWithProperties dynamicEntity) 
+            => _createCommentQueryModel.GetQuery(dynamicEntity);
     }
 }

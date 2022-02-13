@@ -9,7 +9,7 @@ namespace Octopus.Core.Loader.WebApi.Configuration.Ioc
     {
         public static IServiceCollection RegisterMongoDbServices(this IServiceCollection services)
             => services
-                .AddSingleton<IMongoContext, MongoContext>()
-                .AddSingleton<IMongoRepository, MongoRepository>();
+                .AddScoped<IMongoContext, MongoContext>()
+                .AddScoped<IMongoRepository, MongoRepository>();
     }
 }

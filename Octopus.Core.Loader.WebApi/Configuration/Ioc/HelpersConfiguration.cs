@@ -9,7 +9,7 @@ namespace Octopus.Core.Loader.WebApi.Configuration.Ioc
     {
         public static IServiceCollection RegisterHelpersServices(this IServiceCollection services)
             => services
-                .AddSingleton<IDataReaderService, DataReaderService>()
+                .AddScoped<IDataReaderService, DataReaderService>()
                 .AddSingleton<IJsonDeserializer, JsonDeserializer>();
     }
 }

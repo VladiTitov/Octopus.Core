@@ -10,11 +10,11 @@ namespace Octopus.Core.Loader.WebApi.Configuration.Ioc
 {
     public static class DynamicEntityConfiguration
     {
-        public static IServiceCollection RegisterDynamicEntityServices(this IServiceCollection services) 
+        public static IServiceCollection RegisterDynamicEntityServices(this IServiceCollection services)
             => services
-                .AddSingleton<IDynamicObjectCreateService, DynamicObjectCreateService>()
-                .AddSingleton<IDynamicTypeFactory, DynamicTypeFactory>()
-                .AddSingleton<IDynamicEntityService, DynamicEntityService>()
-                .AddSingleton<IDynamicEntityRepository, DynamicEntityRepository>();
+                .AddScoped<IDynamicObjectCreateService, DynamicObjectCreateService>()
+                .AddScoped<IDynamicTypeFactory, DynamicTypeFactory>()
+                .AddScoped<IDynamicEntityRepository, DynamicEntityRepository>()
+                .AddScoped<IDynamicEntityService, DynamicEntityService>();
     }
 }
