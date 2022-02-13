@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Options;
-using Octopus.Core.Common.Constants;
-using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
+﻿using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Constants;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
 {
@@ -10,9 +9,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
     {
         private readonly ConnectionStringConfig _connectionString;
 
-        public CreateSchemeQueryModel(IOptions<ConnectionStringConfig> connectionString)
+        public CreateSchemeQueryModel(ConnectionStringConfig connectionString)
         {
-            _connectionString = connectionString.Value;
+            _connectionString = connectionString;
         }
 
         public string GetQuery()

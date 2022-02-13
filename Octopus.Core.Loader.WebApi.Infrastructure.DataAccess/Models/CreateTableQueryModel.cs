@@ -1,25 +1,29 @@
-﻿using Microsoft.Extensions.Options;
-using Octopus.Core.Common.Constants;
+﻿using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.Extensions;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Constants;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Extensions;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
 {
-    public class CreateTableQueryModel : IQueryModelFromDynamicEntity
+    public class CreateTableQueryModel : IQueryModel
     {
         private ConnectionStringConfig _connectionString;
+        private DynamicEntityWithProperties _dynamicEntity;
 
-        public CreateTableQueryModel(IOptions<ConnectionStringConfig> connectionString)
+        public CreateTableQueryModel(ConnectionStringConfig connectionString,
+            DynamicEntityWithProperties dynamicEntity)
         {
-            _connectionString = connectionString.Value;
+            _connectionString = connectionString;
+            _dynamicEntity = dynamicEntity;
         }
 
-        public string GetQuery(DynamicEntityWithProperties dynamicEntity)
+        public string GetQuery()
         {
-            var propertiesTable = dynamicEntity.Properties
+            var propertiesTable = _dynamicEntity.Properties
                 .GetPropertiesNames()
                 .ToQuery(",\n");
 
@@ -32,7 +36,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
                     .AddSeparator(" ")
                     .AddPart(_connectionString.DbScheme)
                     .AddSeparator(".")
-                    .AddPart(dynamicEntity.EntityName)
+                    .AddPart(_dynamicEntity.EntityName)
                     .AddSeparator(" ")
                     .AddPart($"({propertiesTable});")
                     .GetQuery();

@@ -1,4 +1,6 @@
-﻿using Octopus.Core.Common.DynamicObject.Models;
+﻿using Microsoft.Extensions.Options;
+using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
+using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models;
 
@@ -6,32 +8,27 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
 {
     public class QueryFactoryService : IQueryFactoryService
     {
-        private readonly CreateCommentQueryModel _createCommentQueryModel;
-        private readonly CreateSchemeQueryModel _createSchemeQueryModel;
-        private readonly CreateTableQueryModel _createTableQueryModel;
-        private readonly InsertQueryModel _insertQueryModel;
+        private readonly ConnectionStringConfig _connectionString;
 
-        public QueryFactoryService(CreateCommentQueryModel createCommentQueryModel,
-            CreateSchemeQueryModel createSchemeQueryModel,
-            CreateTableQueryModel createTableQueryModel,
-            InsertQueryModel insertQueryModel)
+        public QueryFactoryService(IOptions<ConnectionStringConfig> connectionString)
         {
-            _createCommentQueryModel = createCommentQueryModel;
-            _createSchemeQueryModel = createSchemeQueryModel;
-            _createTableQueryModel = createTableQueryModel;
-            _insertQueryModel = insertQueryModel;
+            _connectionString = connectionString.Value;
         }
 
         public string GetCreateSchemeQuery() 
-            => _createSchemeQueryModel.GetQuery();
+            => new CreateSchemeQueryModel(_connectionString)
+            .GetQuery();
 
         public string GetInsertQuery(DynamicEntityWithProperties dynamicEntity) 
-            => _insertQueryModel.GetQuery(dynamicEntity);
+            => new InsertQueryModel(_connectionString, dynamicEntity)
+            .GetQuery();
 
-        public string GetCreateTableQuery(DynamicEntityWithProperties dynamicEntity) 
-            => _createTableQueryModel.GetQuery(dynamicEntity);
+        public string GetCreateTableQuery(DynamicEntityWithProperties dynamicEntity)
+            => new CreateTableQueryModel(_connectionString, dynamicEntity)
+            .GetQuery();
 
-        public string GetCreateCommentQuery(DynamicEntityWithProperties dynamicEntity) 
-            => _createCommentQueryModel.GetQuery(dynamicEntity);
+        public string GetCreateCommentQuery(DynamicEntityWithProperties dynamicEntity)
+            => new CreateCommentQueryModel(_connectionString, dynamicEntity)
+            .GetQuery();
     }
 }

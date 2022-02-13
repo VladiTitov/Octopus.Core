@@ -1,26 +1,28 @@
 ﻿using System.Linq;
-using Microsoft.Extensions.Options;
-using Octopus.Core.Common.Constants;
 using Octopus.Core.Common.Extensions;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Constants;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
 {
-    public class InsertQueryModel : IQueryModelFromDynamicEntity
+    public class InsertQueryModel : IQueryModel
     {
         private ConnectionStringConfig _connectionString;
+        private DynamicEntityWithProperties _dynamicEntity;
 
-        public InsertQueryModel(IOptions<ConnectionStringConfig> connectionString)
+        public InsertQueryModel(ConnectionStringConfig connectionString,
+            DynamicEntityWithProperties dynamicEntity)
         {
-            _connectionString = connectionString.Value;
+            _connectionString = connectionString;
+            _dynamicEntity = dynamicEntity;
         }
 
-        public string GetQuery(DynamicEntityWithProperties dynamicEntity)
+        public string GetQuery()
         {
-            var properties = dynamicEntity
+            var properties = _dynamicEntity
                 .Properties
                 .Select(i => i.PropertyName)
                 .ToList();
@@ -28,15 +30,16 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
             using (var quieryBuilder = new QueryBuilderService())
             {
                 return quieryBuilder
-                    .AddPart(QueryConstants.CreateInsertQuery)
-                    .AddSeparator(" ")
-                    .AddPart(_connectionString.DbScheme)
-                    .AddSeparator(".")
-                    .AddPart(dynamicEntity.EntityName)
-                    .AddSeparator(" ")
-                    .AddPart($"({properties.GetPropertiesNames()})")
-                    .AddPart($" VALUES ({properties.GetValuesNames()})")
-                    .AddSeparator(";")
+                        .AddPart(QueryConstants.CreateInsertQuery)
+                        .AddSeparator(" ")
+                        .AddPart(_connectionString.DbScheme)
+                        .AddSeparator(".")
+                        .AddPart(_dynamicEntity.EntityName)
+                        .AddSeparator(" ")
+                        .AddPart($"({properties.GetPropertiesNames()})")
+                        .AddPart($" {QueryConstants.Values} ")
+                        .AddPart($"({properties.GetValuesNames()})")
+                        .AddSeparator(";")
                     .GetQuery();
             }
         }
