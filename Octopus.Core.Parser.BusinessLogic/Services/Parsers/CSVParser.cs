@@ -29,7 +29,6 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
             DynamicEntityWithProperties modelDescription)
         {
             IEnumerable<string[]> intermediateStringValues;
-            IEnumerable<object> objects;
 
             try
             {
@@ -44,14 +43,13 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
             {
                 var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescription);
 
-                objects = _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, intermediateStringValues);
+                return _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, 
+                    intermediateStringValues);
             }
             catch (Exception ex)
             {
                 throw new DynamicServiceException($"{ErrorMessages.DynamicServiceException} {ex.Message}");
             }
-
-            return objects;
         }
 
         private async Task<IEnumerable<string[]>> GetStringValues(FileInfo inputFile)

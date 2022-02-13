@@ -18,14 +18,14 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
     {
         private readonly JsonParserConfiguration _options;
 
-        public JSONParser(IOptions<JsonParserConfiguration> options, 
+        public JSONParser(IOptions<JsonParserConfiguration> options,
             IDynamicObjectCreateService dynamicObjectCreateService)
             : base(dynamicObjectCreateService)
         {
             _options = options.Value;
         }
 
-        public async override Task<IEnumerable<object>> Parse(FileInfo inputFile, 
+        public async override Task<IEnumerable<object>> Parse(FileInfo inputFile,
             DynamicEntityWithProperties modelDescription)
         {
             Type extendedType;
@@ -62,11 +62,14 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
         {
             using (FileStream openStream = File.OpenRead(fileName))
             {
-                var methodDeserialize = typeof(JsonSerializer).GetMethod("DeserializeAsync", 
-                    new[] 
-                    { 
-                        typeof(Stream), typeof(JsonSerializerOptions), typeof(CancellationToken) 
-                    });
+                var typeOfParameters = new[]
+                    {
+                        typeof(Stream),
+                        typeof(JsonSerializerOptions),
+                        typeof(CancellationToken)
+                    };
+
+                var methodDeserialize = typeof(JsonSerializer).GetMethod("DeserializeAsync", typeOfParameters);
 
                 methodDeserialize = methodDeserialize.MakeGenericMethod(extendedType);
 
