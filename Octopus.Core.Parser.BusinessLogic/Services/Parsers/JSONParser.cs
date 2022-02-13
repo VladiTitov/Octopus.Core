@@ -18,22 +18,21 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
     {
         private readonly JsonParserConfiguration _options;
 
-        public JSONParser(IOptions<JsonParserConfiguration> options, IDynamicObjectCreateService dynamicObjectCreateService)
+        public JSONParser(IOptions<JsonParserConfiguration> options, 
+            IDynamicObjectCreateService dynamicObjectCreateService)
             : base(dynamicObjectCreateService)
         {
             _options = options.Value;
         }
 
-        public async override Task<IEnumerable<object>> Parse(FileInfo inputFile, DynamicEntityWithProperties modelDescription)
+        public async override Task<IEnumerable<object>> Parse(FileInfo inputFile, 
+            DynamicEntityWithProperties modelDescription)
         {
-            Type typeListOfExtendedType;
+            Type extendedType;
 
             try
             {
-                var typeListOf = typeof(List<>);
-
-                var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescription);
-                typeListOfExtendedType = typeListOf.MakeGenericType(extendedType);
+                extendedType = BuildGenericExtendedType(modelDescription);
             }
             catch (Exception ex)
             {
@@ -42,7 +41,7 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
 
             try
             {
-                return await GetObjects(typeListOfExtendedType, inputFile.FullName);
+                return await GetObjects(extendedType, inputFile.FullName);
             }
             catch (Exception ex)
             {
@@ -50,11 +49,24 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
             }
         }
 
+        private Type BuildGenericExtendedType(DynamicEntityWithProperties modelDescription)
+        {
+            var typeListOf = typeof(List<>);
+
+            var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescription);
+
+            return typeListOf.MakeGenericType(extendedType);
+        }
+
         private async Task<IEnumerable<object>> GetObjects(Type extendedType, string fileName)
         {
             using (FileStream openStream = File.OpenRead(fileName))
             {
-                var methodDeserialize = typeof(JsonSerializer).GetMethod("DeserializeAsync", new[] { typeof(Stream), typeof(JsonSerializerOptions), typeof(CancellationToken) });
+                var methodDeserialize = typeof(JsonSerializer).GetMethod("DeserializeAsync", 
+                    new[] 
+                    { 
+                        typeof(Stream), typeof(JsonSerializerOptions), typeof(CancellationToken) 
+                    });
 
                 methodDeserialize = methodDeserialize.MakeGenericMethod(extendedType);
 

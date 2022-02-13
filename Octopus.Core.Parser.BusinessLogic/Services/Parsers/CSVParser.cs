@@ -18,20 +18,22 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
     {
         private readonly CsvParserConfiguration _options;
 
-        public CSVParser(IOptions<CsvParserConfiguration> options, IDynamicObjectCreateService dynamicObjectCreateService)
+        public CSVParser(IOptions<CsvParserConfiguration> options, 
+            IDynamicObjectCreateService dynamicObjectCreateService)
             : base(dynamicObjectCreateService)
         {
             _options = options.Value;
         }
 
-        public override async Task<IEnumerable<object>> Parse(FileInfo inputFile, DynamicEntityWithProperties modelDescription)
+        public override async Task<IEnumerable<object>> Parse(FileInfo inputFile, 
+            DynamicEntityWithProperties modelDescription)
         {
-            IEnumerable<string[]> values;
+            IEnumerable<string[]> intermediateStringValues;
             IEnumerable<object> objects;
 
             try
             {
-                values = await GetValues(inputFile);
+                intermediateStringValues = await GetStringValues(inputFile);
             }
             catch (Exception ex)
             {
@@ -42,7 +44,7 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
             {
                 var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescription);
 
-                objects = _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, values);
+                objects = _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, intermediateStringValues);
             }
             catch (Exception ex)
             {
@@ -52,7 +54,7 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
             return objects;
         }
 
-        private async Task<IEnumerable<string[]>> GetValues(FileInfo inputFile)
+        private async Task<IEnumerable<string[]>> GetStringValues(FileInfo inputFile)
         {
             var result = new List<string[]>();
 
@@ -66,7 +68,7 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
                 }
             }
 
-            return result.Skip(_options.SkipLines).ToList();
+            return result.Skip(_options.SkipLines);
         }
     }
 }

@@ -18,13 +18,15 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
     {
         private readonly XmlParserConfiguration _options;
 
-        public XMLParser(IOptions<XmlParserConfiguration> options, IDynamicObjectCreateService dynamicObjectCreateService)
+        public XMLParser(IOptions<XmlParserConfiguration> options,
+            IDynamicObjectCreateService dynamicObjectCreateService)
             : base(dynamicObjectCreateService)
         {
             _options = options.Value;
         }
 
-        public async override Task<IEnumerable<object>> Parse(FileInfo inputFile, DynamicEntityWithProperties modelDescription)
+        public async override Task<IEnumerable<object>> Parse(FileInfo inputFile,
+            DynamicEntityWithProperties modelDescription)
         {
             Type extendedType;
 
@@ -39,26 +41,31 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
 
             try
             {
-                var xmldoc = new XmlDocument();
-                xmldoc.Load(inputFile.FullName);
-
-                var rootElement = xmldoc.DocumentElement;
-                var list = new List<dynamic>();
-
-                foreach (XmlNode item in rootElement.ChildNodes)
-                {
-                    var json = JsonConvert.SerializeXmlNode(item, Newtonsoft.Json.Formatting.None, true);
-                    var dynamicEntity = JsonConvert.DeserializeObject(json, extendedType);
-
-                    list.Add(dynamicEntity);
-                }
-
-                return list;
+                return await GetObjects(extendedType, inputFile.FullName);
             }
             catch (Exception ex)
             {
                 throw new ParsingException($"{ErrorMessages.XmlParserException} {ex.Message}");
             }
+        }
+
+        private async Task<IEnumerable<object>> GetObjects(Type extendedType, string fileName)
+        {
+            var xmldoc = new XmlDocument();
+            xmldoc.Load(fileName);
+            var rootElement = xmldoc.DocumentElement;
+
+            var parsedObjects = new List<dynamic>();
+
+            foreach (XmlNode item in rootElement.ChildNodes)
+            {
+                var json = JsonConvert.SerializeXmlNode(item, Newtonsoft.Json.Formatting.None, true);
+                var dynamicEntity = JsonConvert.DeserializeObject(json, extendedType);
+
+                parsedObjects.Add(dynamicEntity);
+            }
+
+            return parsedObjects;
         }
     }
 }
