@@ -10,7 +10,7 @@ namespace Octopus.Core.Loader.WebApi
 {
     public class Startup
     {
-        public IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration)
         {

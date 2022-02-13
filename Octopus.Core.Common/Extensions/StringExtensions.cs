@@ -55,10 +55,7 @@ namespace Octopus.Core.Common.Extensions
         public static string ToCamelCase(this string name)
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
-
             return string.Join(".", name.Split('.').Select(n => char.ToLower(n[0]) + n.Substring(1)));
         }
-
-
     }
 }

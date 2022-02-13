@@ -6,7 +6,6 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
 {
     public class MigrationCreateService : IMigrationCreateService
     {
-        
         private readonly IQueryFactoryService _queryFactory;
         private readonly IQueryHandlerService _queryHandler;
         private DynamicEntityWithProperties _dynamicEntity;
@@ -36,6 +35,5 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
             var query = _queryFactory.GetCreateSchemeQuery();
             await _queryHandler.Execute(query);
         }
-            
     }
 }
