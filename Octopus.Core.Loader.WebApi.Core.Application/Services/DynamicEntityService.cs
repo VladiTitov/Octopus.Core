@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Octopus.Core.Common.Constants;
+using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
@@ -38,7 +39,7 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
             var entityName = items.FirstOrDefault().GetType().Name;
             var dynamicEntity = await _mongoRepository.GetEntity(entityName);
 
-            if (dynamicEntity == null) throw new ArgumentNullException($"{ErrorMessages.DynamicEntityNotFound}{entityName}");
+            if (dynamicEntity == null) throw new NotFoundException($"{ErrorMessages.DynamicEntityNotFound}{entityName}");
 
             var query = _queryFactory.GetInsertQuery(dynamicEntity);
 
