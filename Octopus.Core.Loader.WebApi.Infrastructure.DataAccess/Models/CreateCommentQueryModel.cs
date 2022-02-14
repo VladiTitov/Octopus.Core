@@ -31,7 +31,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
             using (var queryBuilder = new QueryBuilderService())
             {
                 return queryBuilder
-                            .AddPart(QueryConstants.CreateCommentOnColumnQuery)
+                            .AddPart(QueryConstants.CommentOnColumn)
                             .AddSeparator(" \"")
                             .AddPart(_connectionString.DbScheme)
                             .AddSeparator("\".\"")

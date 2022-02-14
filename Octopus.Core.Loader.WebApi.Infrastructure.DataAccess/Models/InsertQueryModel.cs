@@ -30,7 +30,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
             using (var quieryBuilder = new QueryBuilderService())
             {
                 return quieryBuilder
-                        .AddPart(QueryConstants.CreateInsertQuery)
+                        .AddPart(QueryConstants.InsertInto)
                         .AddSeparator(" ")
                         .AddPart(_connectionString.DbScheme)
                         .AddSeparator(".")

@@ -19,14 +19,14 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
             using (var queryBuilder = new QueryBuilderService())
             {
                 return queryBuilder
-                .AddPart(QueryConstants.CreateSchemaQuery)
-                .AddSeparator(" ")
-                .AddPart(QueryConstants.IfNotExistsQuery)
-                .AddSeparator(" ")
-                .AddPart(_connectionString.DbScheme)
-                .AddSeparator(";")
-                .GetQuery();
-            }  
+                    .AddPart(QueryConstants.CreateSchema)
+                    .AddSeparator(" ")
+                    .AddPart(QueryConstants.IfNotExists)
+                    .AddSeparator(" ")
+                    .AddPart(_connectionString.DbScheme)
+                    .AddSeparator(";")
+                    .GetQuery();
+            }
         }
     }
 }

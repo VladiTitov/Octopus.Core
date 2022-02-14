@@ -35,7 +35,7 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
         {
             if (items == null) throw new ArgumentNullException(nameof(items));
 
-            var entityName = GetFirstEntityNameFromCollection(items);
+            var entityName = items.FirstOrDefault().GetType().Name;
             var dynamicEntity = await _mongoRepository.GetEntity(entityName);
 
             if (dynamicEntity == null) throw new ArgumentNullException($"{ErrorMessages.DynamicEntityNotFound}{entityName}");
@@ -52,13 +52,6 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
                 await _migrationService.CreateMigrationAsync(dynamicEntity);
                 await AddRangeAsync(items);
             }
-        }
-
-        private string GetFirstEntityNameFromCollection(IEnumerable<object> items)
-        {
-            var firstItemInCollection = items.FirstOrDefault();
-            if (firstItemInCollection == null) throw new ArgumentNullException(nameof(firstItemInCollection));
-            return firstItemInCollection.GetType().Name;
         }
     }
 }

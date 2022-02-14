@@ -10,19 +10,6 @@ namespace Octopus.Core.Common.Helpers.JsonDeserializer
 {
     public class JsonDeserializer : IJsonDeserializer
     {
-        public IList<T> GetDynamicProperties<T>(string configDir)
-        {
-            try
-            {
-                return JsonSerializer.Deserialize<IList<T>>(File.ReadAllText(configDir));
-            }
-            catch (Exception ex)
-            {
-                throw new ParsingException(ex.Message);
-            }
-        }
-            
-
         public async Task<IEnumerable<object>> GetDynamicObjects(Type extendedType, string fileName)
         {
             using (FileStream openStream = File.OpenRead(fileName))

@@ -2,13 +2,13 @@
 {
     public static class QueryConstants
     {
-        public const string CreateInsertQuery = "INSERT INTO";
-        public const string CreateTableQuery = "CREATE TABLE";
-        public const string CreateSchemaQuery = "CREATE SCHEMA";
-        public const string CreateCommentOnColumnQuery = "COMMENT ON COLUMN";
-        public const string PrimaryKeyQuery = "PRIMARY KEY";
-        public const string NotNullQuery = "NOT NULL";
-        public const string IfNotExistsQuery = "IF NOT EXISTS";
+        public const string InsertInto = "INSERT INTO";
+        public const string CreateTable = "CREATE TABLE";
+        public const string CreateSchema = "CREATE SCHEMA";
+        public const string CommentOnColumn = "COMMENT ON COLUMN";
+        public const string PrimaryKey = "PRIMARY KEY";
+        public const string NotNull = "NOT NULL";
+        public const string IfNotExists = "IF NOT EXISTS";
         public const string Is = "IS";
         public const string Values = "VALUES";
     }
