@@ -30,9 +30,7 @@ namespace Octopus.Core.Common.Extensions
         {
             try
             {
-                using (var fs = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                }
+                using var fs = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
             }
             catch (IOException)
             {

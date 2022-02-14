@@ -41,7 +41,7 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
 
             try
             {
-                return await GetObjects(extendedType, inputFile.FullName);
+                return GetObjects(extendedType, inputFile.FullName);
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
             }
         }
 
-        private async Task<IEnumerable<object>> GetObjects(Type extendedType, string fileName)
+        private IEnumerable<object> GetObjects(Type extendedType, string fileName)
         {
             var xmldoc = new XmlDocument();
             xmldoc.Load(fileName);
