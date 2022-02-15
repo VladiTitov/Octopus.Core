@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction
+namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers.Abstraction
 {
     public abstract class BaseParser
     {

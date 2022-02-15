@@ -1,10 +1,10 @@
 ﻿using Octopus.Core.Common.Enums;
-using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
+using Octopus.Core.Parser.BusinessLogic.Services.Parsers.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Octopus.Core.Parser.WorkerService.Services.Factories
+namespace Octopus.Core.Parser.BusinessLogic.Services.Factories
 {
     public class ParserFactory
     {

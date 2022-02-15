@@ -2,11 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Octopus.Core.Common.ApiConfigs;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
+using Octopus.Core.Common.ConfigsModels.Parsers;
 using Octopus.Core.Common.ConfigsModels.Rabbit;
 using Octopus.Core.Common.ConfigsModels.Rabbit.Base;
 using Octopus.Core.Common.Constants;
-using Octopus.Core.Parser.WorkerService.Configs.Implementations;
-using Octopus.Core.Parser.WorkerService.Configuration.Implementations;
 using System.Collections.Generic;
 
 namespace Octopus.Core.Parser.Api.Configuration.AppSettings
