@@ -9,10 +9,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Extensions
     {
         public static IEnumerable<string> GetPropertiesNames(this IList<DynamicProperty> properties) 
             => properties
-                .Select(property => property.GetTableStroke());
+                .Select(property => property.GetTableRow());
 
-
-        public static string GetTableStroke(this DynamicProperty property)
+        public static string GetTableRow(this DynamicProperty property)
             => $"{property.GetTablePropertyName()} " +
                $"{property.GetTablePropertyType()} " +
                $"{property.PrimaryKeyCheck()} " +
