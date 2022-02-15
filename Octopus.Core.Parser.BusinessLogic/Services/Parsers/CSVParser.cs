@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
+using Octopus.Core.Common.ConfigsModels.Parsers;
 using Octopus.Core.Common.Constants;
+using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Exceptions;
-using Octopus.Core.Parser.WorkerService.Configs.Implementations;
-using Octopus.Core.Parser.WorkerService.Services.Parsers.Abstraction;
+using Octopus.Core.Parser.BusinessLogic.Services.Parsers.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,26 +12,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Octopus.Core.Parser.WorkerService.Services.Parsers
+namespace Octopus.Core.Parser.BusinessLogic.Services.Parsers
 {
     public class CSVParser : BaseParser
     {
         private readonly CsvParserConfiguration _options;
 
-        public CSVParser(IOptions<CsvParserConfiguration> options, IDynamicObjectCreateService dynamicObjectCreateService)
+        public CSVParser(IOptions<CsvParserConfiguration> options, 
+            IDynamicObjectCreateService dynamicObjectCreateService)
             : base(dynamicObjectCreateService)
         {
             _options = options.Value;
         }
 
-        public override async Task<IEnumerable<object>> Parse(FileInfo inputFile, string modelDescriptionPath)
+        public override async Task<IEnumerable<object>> Parse(FileInfo inputFile, 
+            DynamicEntityWithProperties modelDescription)
         {
-            IEnumerable<string[]> values;
-            IEnumerable<object> objects;
+            IEnumerable<string[]> intermediateStringValues;
 
             try
             {
-                values = await GetValues(inputFile);
+                intermediateStringValues = await GetStringValues(inputFile);
             }
             catch (Exception ex)
             {
@@ -39,19 +41,18 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
 
             try
             {
-                var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescriptionPath);
+                var extendedType = _dynamicObjectCreateService.CreateTypeByDescription(modelDescription);
 
-                objects = _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, values);
+                return _dynamicObjectCreateService.AddValuesToDynamicObject(extendedType, 
+                    intermediateStringValues);
             }
             catch (Exception ex)
             {
                 throw new DynamicServiceException($"{ErrorMessages.DynamicServiceException} {ex.Message}");
             }
-
-            return objects;
         }
 
-        private async Task<IEnumerable<string[]>> GetValues(FileInfo inputFile)
+        private async Task<IEnumerable<string[]>> GetStringValues(FileInfo inputFile)
         {
             var result = new List<string[]>();
 
@@ -65,7 +66,7 @@ namespace Octopus.Core.Parser.WorkerService.Services.Parsers
                 }
             }
 
-            return result.Skip(_options.SkipLines).ToList();
+            return result.Skip(_options.SkipLines);
         }
     }
 }

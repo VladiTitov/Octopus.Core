@@ -1,11 +1,25 @@
 ﻿using System;
+using System.Text.Json;
 using System.Collections.Generic;
-using System.Linq;
+using Octopus.Core.Common.Models;
+using Octopus.Core.Common.Exceptions;
 
 namespace Octopus.Core.Common.Extensions
 {
     public static class StringExtensions
     {
+        public static IEntityDescription GetEntityDescription(this string item)
+        {
+            try
+            {
+                return JsonSerializer.Deserialize<EntityDescription>(item);
+            }
+            catch (Exception ex)
+            {
+                throw new ParsingException(ex.Message);
+            }
+        }
+
         public static string GetProperty(this string item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
@@ -37,11 +51,11 @@ namespace Octopus.Core.Common.Extensions
             return value;
         }
 
-        public static string ToCamelCase(this string name)
+        public static string ToCamelCase(this string item)
         {
-            if (name == null) throw new ArgumentNullException(nameof(name));
-
-            return string.Join(".", name.Split('.').Select(n => char.ToLower(n[0]) + n.Substring(1)));
+            var firstPartUpper = char.ToUpper(item[0]);
+            var secondPartLower = item.Substring(1).ToLower();
+            return $"{firstPartUpper}{secondPartLower}";
         }
     }
 }

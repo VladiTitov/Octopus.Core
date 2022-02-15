@@ -1,36 +1,34 @@
 ﻿using Octopus.Core.Common.ConfigsModels.Rabbit;
-using Octopus.Core.RabbitMq.Context;
+using Octopus.Core.RabbitMq.Interfaces;
 using RabbitMQ.Client;
 
 namespace Octopus.Core.RabbitMq.Services
 {
     public class RabbitMqInitializer
     {
-        public IConnection Connection { get; set; }
+        private readonly IRabbitMqContext _context;
 
         public RabbitMqInitializer(IRabbitMqContext context)
         {
-            if (Connection == null) Connection = context.Connection;
+            _context = context;
         }
 
         public IModel InitializeRabbitMqChannel(RabbitMqConfiguration configuration)
         {
-            var channel = Connection.CreateModel();
+            var channel = _context.Connection.CreateModel();
 
             channel.ExchangeDeclare(exchange: configuration.ExchangeName, type: configuration.ExchangeType);
-            channel.QueueDeclare(queue: configuration.QueueName);
+            channel.QueueDeclare(queue: configuration.QueueName, durable: true, exclusive: false, autoDelete: true);
             channel.QueueBind(queue: configuration.QueueName, exchange: configuration.ExchangeName, routingKey: configuration.RoutingKey);
 
             return channel;
         }
 
-        //public void Dispose()
-        //{
-        //    if (Channel.IsOpen)
-        //    {
-        //        Channel.Close();
-        //        _connection.Close();
-        //    }
-        //}
+        public void Dispose()
+        {
+            if (!_context.Connection.IsOpen) return;
+            _context.Connection.Close();
+            _context.Connection = null;
+        }
     }
 }

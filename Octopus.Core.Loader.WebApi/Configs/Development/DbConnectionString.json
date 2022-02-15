@@ -1,0 +1,11 @@
+{
+  "ConnectionString": {
+    "DbType": "PostgreSql",
+    "DbScheme": "loaderScheme",
+    "Server": "localhost",
+    "Port": 5432,
+    "Database": "postgres",
+    "UserName": "postgres",
+    "Password": "postgres"
+  }
+}

@@ -25,9 +25,11 @@ namespace Octopus.Core.Common.DynamicObject.Services
             _moduleBuilder = _assemblyBuilder.DefineDynamicModule(uniqueIdentifier);
         }
 
-        public Type CreateNewTypeWithDynamicProperty(Type parentType, IEnumerable<DynamicProperty> dynamicProperties)
+        private Type CreateNewTypeWithDynamicProperty(Type parentType, 
+            string typeName,
+            IEnumerable<DynamicProperty> dynamicProperties)
         {
-            _typeBuilder = _moduleBuilder.DefineType(parentType.Name, TypeAttributes.Public);
+            _typeBuilder = _moduleBuilder.DefineType(typeName, TypeAttributes.Public);
             _typeBuilder.SetParent(parentType);
 
             foreach (var property in dynamicProperties)
@@ -35,12 +37,18 @@ namespace Octopus.Core.Common.DynamicObject.Services
 
             return _typeBuilder.CreateType();
         }
+            
+        public Type GetTypeWithDynamicProperty(Type parentType, string typeName, IEnumerable<DynamicProperty> dynamicProperties)
+        {
+            var type = _assemblyBuilder.GetType(typeName);
+            return type ?? CreateNewTypeWithDynamicProperty(parentType, typeName, dynamicProperties);
+        }
 
         private void AddDynamicPropertyToType(DynamicProperty property)
         {
             var propertyType = property.SystemType;
-            var propertyName = $"{property.PropertyName}";
-            var fieldName = $"_{propertyName.ToCamelCase()}";
+            var propertyName = $"{property.PropertyName.ToCamelCase()}";
+            var fieldName = $"_{propertyName.ToLower()}";
 
             var fieldBuilder = _typeBuilder.DefineField(fieldName, propertyType, FieldAttributes.Public);
             var getSetAttributes = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;

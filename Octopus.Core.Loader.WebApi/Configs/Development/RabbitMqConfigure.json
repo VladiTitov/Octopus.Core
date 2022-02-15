@@ -1,0 +1,16 @@
+{
+  "Subscribers": [
+    {
+      "ExchangeType": "fanout",
+      "ExchangeName": "loader.exchange",
+      "QueueName": "loader-queue",
+      "RoutingKey": "routingKey"
+    }
+  ],
+  "Publisher": {
+    "ExchangeType": "fanout",
+    "ExchangeName": "exchange.name",
+    "QueueName": "queue.name",
+    "RoutingKey": "routingKey"
+  }
+}

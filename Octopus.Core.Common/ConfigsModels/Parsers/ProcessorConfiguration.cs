@@ -1,10 +1,8 @@
-﻿namespace Octopus.Core.Parser.WorkerService.Configuration.Implementations
+﻿namespace Octopus.Core.Common.ConfigsModels.Parsers
 {
     public class ProcessorConfiguration
     {
         public int RunInterval { get; set; }
-
-        public string[] ExpectedModelsDescriptionPaths { get; set; }
 
         public string OutputDirectoryPath { get; set; }
     }

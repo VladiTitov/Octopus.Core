@@ -1,4 +1,4 @@
-﻿namespace Octopus.Core.Parser.WorkerService.Configuration.Implementations
+﻿namespace Octopus.Core.Common.ConfigsModels.Parsers
 {
     public class XmlParserConfiguration
     {
