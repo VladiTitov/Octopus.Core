@@ -17,11 +17,6 @@ namespace Octopus.Core.Loader.WebApi
                 {
                     confBuilder.AddJsonFileExtension(hostContext);
                 })
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.ConfigureExtension(hostContext);
-                    services.AddConfigurationsExtension(hostContext);
-                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

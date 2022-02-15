@@ -47,8 +47,8 @@ namespace Octopus.Core.Common.DynamicObject.Services
         private void AddDynamicPropertyToType(DynamicProperty property)
         {
             var propertyType = property.SystemType;
-            var propertyName = $"{property.PropertyName}";
-            var fieldName = $"_{propertyName.ToCamelCase()}";
+            var propertyName = $"{property.PropertyName.ToCamelCase()}";
+            var fieldName = $"_{propertyName.ToLower()}";
 
             var fieldBuilder = _typeBuilder.DefineField(fieldName, propertyType, FieldAttributes.Public);
             var getSetAttributes = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;

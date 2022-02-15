@@ -5,6 +5,6 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces
 {
     public interface IDynamicEntityRepository
     {
-        Task AddRange(IEnumerable<object> items, string entityName);
+        Task AddRange(string query, IEnumerable<object> items);
     }
 }

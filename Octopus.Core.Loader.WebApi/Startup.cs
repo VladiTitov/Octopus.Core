@@ -3,31 +3,24 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Octopus.Core.Loader.WebApi.Extensions;
-using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Context;
-using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
-using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Repositories;
+using Octopus.Core.Loader.WebApi.Configuration.Ioc;
+using Octopus.Core.Loader.WebApi.Configuration.Swagger;
 
 namespace Octopus.Core.Loader.WebApi
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSwaggerExtension();
-            services.AddHelpersServicesExtension();
-            services.AddDynamicEntityServicesExtension();
-            services.AddDataBaseServicesExtension();
-            services.AddRabbitMqServicesExtension();
-            services.AddMongoDbServicesExtension();
+            services.ConfigureServices(_configuration);
         }
          
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -38,7 +31,7 @@ namespace Octopus.Core.Loader.WebApi
             }
 
             app.UseRouting();
-            app.UseSwaggerExtension();
+            app.ConfigureSwagger();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
