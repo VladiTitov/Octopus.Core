@@ -10,8 +10,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
 {
     public class InsertQueryModel : IQueryModel
     {
-        private ConnectionStringConfig _connectionString;
-        private DynamicEntityWithProperties _dynamicEntity;
+        private readonly ConnectionStringConfig _connectionString;
+        private readonly DynamicEntityWithProperties _dynamicEntity;
 
         public InsertQueryModel(ConnectionStringConfig connectionString,
             DynamicEntityWithProperties dynamicEntity)
@@ -27,9 +27,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
                 .Select(i => i.PropertyName)
                 .ToList();
 
-            using (var quieryBuilder = new QueryBuilderService())
+            using (var queryBuilder = new QueryBuilderService())
             {
-                return quieryBuilder
+                return queryBuilder
                         .AddPart(QueryConstants.InsertInto)
                         .AddSeparator(" ")
                         .AddPart(_connectionString.DbScheme)

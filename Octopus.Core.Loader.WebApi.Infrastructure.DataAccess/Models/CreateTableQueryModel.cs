@@ -11,8 +11,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
 {
     public class CreateTableQueryModel : IQueryModel
     {
-        private ConnectionStringConfig _connectionString;
-        private DynamicEntityWithProperties _dynamicEntity;
+        private readonly ConnectionStringConfig _connectionString;
+        private readonly DynamicEntityWithProperties _dynamicEntity;
 
         public CreateTableQueryModel(ConnectionStringConfig connectionString,
             DynamicEntityWithProperties dynamicEntity)

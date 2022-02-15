@@ -9,8 +9,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
 {
     public class CreateCommentQueryModel : IQueryModel
     {
-        private ConnectionStringConfig _connectionString;
-        private DynamicEntityWithProperties _dynamicEntity;
+        private readonly ConnectionStringConfig _connectionString;
+        private readonly DynamicEntityWithProperties _dynamicEntity;
 
         public CreateCommentQueryModel(ConnectionStringConfig connectionString,
             DynamicEntityWithProperties dynamicEntity)
