@@ -5,6 +5,6 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Interfaces
 {
     public interface IDynamicEntityService
     {
-        Task AddRangeAsync(IEnumerable<object> items, string entityName);
+        Task AddRangeAsync(IEnumerable<object> items);
     }
 }

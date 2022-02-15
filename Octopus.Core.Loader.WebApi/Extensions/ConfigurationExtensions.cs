@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace Octopus.Core.Loader.WebApi.Extensions
 {

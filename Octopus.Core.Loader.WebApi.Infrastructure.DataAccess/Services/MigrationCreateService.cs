@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
@@ -7,6 +8,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
     {
         private readonly IQueryFactoryService _queryFactory;
         private readonly IQueryHandlerService _queryHandler;
+        private DynamicEntityWithProperties _dynamicEntity;
 
         public MigrationCreateService(IQueryFactoryService queryFactory,
             IQueryHandlerService queryHandler)
@@ -15,20 +17,23 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
             _queryHandler = queryHandler;
         }
 
-        public async Task CreateMigrationAsync(string entityName)
+        public async Task CreateMigrationAsync(DynamicEntityWithProperties dynamicEntity)
         {
-            await CreateSchemeAsync(entityName);
-            await CreateTableAsync(entityName);
+            _dynamicEntity = dynamicEntity;
+            await CreateSchemeAsync();
+            await CreateTableAsync();
         }
 
-        public async Task CreateTableAsync(string entityName) 
+        public async Task CreateTableAsync()
         {
-            var query = await _queryFactory.GetCreateTableQuery(entityName);
+            var query = _queryFactory.GetCreateTableQuery(_dynamicEntity);
             await _queryHandler.Execute(query);
         }
-            
 
-        public async Task CreateSchemeAsync(string entityName) =>
-            await _queryHandler.Execute(_queryFactory.GetCreateSchemeQuery());
+        public async Task CreateSchemeAsync()
+        {
+            var query = _queryFactory.GetCreateSchemeQuery();
+            await _queryHandler.Execute(query);
+        }
     }
 }

@@ -1,45 +1,63 @@
 ﻿using System;
-using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Octopus.Core.Common.Exceptions;
+using Octopus.Core.Common.Extensions;
 using Octopus.Core.Common.Models;
-using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 using Octopus.Core.RabbitMq.Interfaces;
+using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Core.Application.Services
 {
     public class MessageHandler : IEventProcessor
     {
         private readonly ILogger<MessageHandler> _logger;
-        private readonly IDynamicEntityService _dynamicEntityService;
-        private readonly IDataReaderService _dataReaderService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public MessageHandler(ILogger<MessageHandler> logger, IDataReaderService dataReaderService,
-            IDynamicEntityService dynamicEntityService)
+        public MessageHandler(ILogger<MessageHandler> logger,
+            IServiceProvider serviceProvider)
         {
             _logger = logger;
-            _dataReaderService = dataReaderService;
-            _dynamicEntityService = dynamicEntityService;
+            _serviceProvider = serviceProvider;
         }
 
         public async void ProcessEvent(string message)
         {
-            var entityDescription = GetEntityDescription(message);
-            if (entityDescription == null) return;
-
-            var objects = await _dataReaderService.GetDataFromFileAsync(entityDescription);
-            await _dynamicEntityService.AddRangeAsync(objects, entityDescription.EntityType);
-        }
-
-        public IEntityDescription GetEntityDescription(string message)
-        {
             try
             {
-                return JsonSerializer.Deserialize<EntityDescription>(message);
+                await LoadDataInDatabase(message.GetEntityDescription());
+            }
+            catch (ParsingException ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            catch (MongoDbException ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            catch (DatabaseProviderException ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                _logger.LogError(ex.Message);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return null;
+            }
+        }
+
+        public async Task LoadDataInDatabase(IEntityDescription entityDescription)
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var dataReaderService = scope.ServiceProvider.GetRequiredService<IDataReaderService>();
+                var objects = await dataReaderService.GetDataFromFileAsync(entityDescription);
+                var dynamicEntityService = scope.ServiceProvider.GetRequiredService<IDynamicEntityService>();
+                await dynamicEntityService.AddRangeAsync(objects);
             }
         }
     }
