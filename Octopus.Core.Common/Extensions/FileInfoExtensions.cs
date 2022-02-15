@@ -31,6 +31,8 @@ namespace Octopus.Core.Common.Extensions
             try
             {
                 using var fs = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+
+                return true;
             }
             catch (IOException)
             {
@@ -40,8 +42,6 @@ namespace Octopus.Core.Common.Extensions
             {
                 throw;
             }
-
-            return true;
         }
     }
 }

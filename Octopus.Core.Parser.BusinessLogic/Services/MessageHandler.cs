@@ -1,15 +1,14 @@
 ﻿using Octopus.Core.Common.Exceptions;
+using Octopus.Core.Common.Extensions;
 using Octopus.Core.Common.Models;
 using Octopus.Core.Parser.BusinessLogic.Interfaces.Services;
 using Octopus.Core.RabbitMq.Interfaces;
 using System;
-using System.Text.Json;
 
 namespace Octopus.Core.Parser.BusinessLogic.Services
 {
     public class MessageHandler : IEventProcessor
     {
-        private IEntityDescription _entityDescription;
         private readonly IParserProcessor _parserProcessor;
         private readonly IValidationService _validationService;
 
@@ -23,9 +22,7 @@ namespace Octopus.Core.Parser.BusinessLogic.Services
         {
             try
             {
-                _entityDescription = JsonSerializer.Deserialize<EntityDescription>(message);
-
-                var parserInputData = await _validationService.ValidateEntityDescription(_entityDescription);
+                var parserInputData = await _validationService.ValidateEntityDescription(message.GetEntityDescription());
 
                 await _parserProcessor.ProcessInputData(parserInputData);
             }
