@@ -13,9 +13,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Repositories
             _queryHandler = queryHandler;
         }
 
-        public async Task AddRange(string query, IEnumerable<object> items)
+        public async Task AddRangeAsync(string query, IEnumerable<object> items)
         {
-            await _queryHandler.Execute(query, items);
+            await _queryHandler.ExecuteAsync(query, items);
         }
     }
 }

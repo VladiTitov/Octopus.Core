@@ -1,6 +1,7 @@
 ﻿using Dapper;
-using System.Collections.Generic;
+using System.Data.Common;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
@@ -8,25 +9,42 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
     public class QueryHandlerService : IQueryHandlerService
     {
         private readonly IDatabaseContext _context;
+        private readonly IDatabaseExceptionFactory _exceptionFactory;
 
-        public QueryHandlerService(IDatabaseContext context)
+        public QueryHandlerService(IDatabaseContext context,
+            IDatabaseExceptionFactory exceptionFactory)
         {
             _context = context;
+            _exceptionFactory = exceptionFactory;
         }
 
-        public async Task Execute(string query)
+        public async Task ExecuteAsync(string query)
         {
-            using (var db = _context.CreateConnection())
+            try
             {
-                await db.ExecuteAsync(query);
+                using (var db = _context.CreateConnection())
+                {
+                    await db.ExecuteAsync(query);
+                }
+            }
+            catch (DbException ex)
+            {
+                _exceptionFactory.GetDatabaseError(ex);
             }
         }
 
-        public async Task Execute(string query, IEnumerable<object> items)
+        public async Task ExecuteAsync(string query, IEnumerable<object> items)
         {
-            using (var db = _context.CreateConnection())
+            try
             {
-                await db.ExecuteAsync(query, items);
+                using (var db = _context.CreateConnection())
+                {
+                    await db.ExecuteAsync(query, items);
+                }
+            }
+            catch (DbException ex)
+            {
+                _exceptionFactory.GetDatabaseError(ex);
             }
         }
     }

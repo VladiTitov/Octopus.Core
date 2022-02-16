@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.DatabaseContext;
-using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.DatabaseContext;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations;
 
 namespace Octopus.Core.Loader.WebApi.Configuration.Ioc
 {
@@ -9,10 +10,12 @@ namespace Octopus.Core.Loader.WebApi.Configuration.Ioc
     {
         public static IServiceCollection RegisterDataBaseServices(this IServiceCollection services)
             => services
+                .AddScoped<IDatabaseExceptionFactory, DatabaseExceptionFactory>()
                 .AddScoped<IDatabaseProvidersFactory, DatabaseProvidersFactory>()
-                .AddScoped<IMigrationCreateService, MigrationCreateService>()
+                .AddScoped<IMigrationService, MigrationService>()
+                .AddScoped<IMigrationRepository, MigrationRepository>()
                 .AddScoped<IQueryHandlerService, QueryHandlerService>()
-                .AddScoped<IDatabaseContext, DapperDbContext>()
-                .AddScoped<IQueryFactoryService, QueryFactoryService>();
+                .AddScoped<IQueryFactoryService, QueryFactoryService>()
+                .AddScoped<IDatabaseContext, DapperDbContext>();
     }
 }

@@ -5,7 +5,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces
 {
     public interface IQueryHandlerService
     {
-        Task Execute(string query);
-        Task Execute(string query, IEnumerable<object> items);
+        Task ExecuteAsync(string query);
+        Task ExecuteAsync(string query, IEnumerable<object> items);
     }
 }

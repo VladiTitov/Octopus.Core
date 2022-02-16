@@ -25,7 +25,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.DatabaseContext
             return _connectionString.DbType switch
             {
                 ProvidersNamesConstants.PostgreSql => _providersFactory.CreatePostgresConnection(),
-                ProvidersNamesConstants.SqlLite => _providersFactory.CreateSqlLiteConnection(),
+                ProvidersNamesConstants.SqLite => _providersFactory.CreateSqlLiteConnection(),
                 ProvidersNamesConstants.SqlServer => _providersFactory.CreateSqlServerConnection(),
                 ProvidersNamesConstants.MySql => _providersFactory.CreateMySqlConnection(),
                 ProvidersNamesConstants.Oracle => _providersFactory.CreateOracleConnection(),

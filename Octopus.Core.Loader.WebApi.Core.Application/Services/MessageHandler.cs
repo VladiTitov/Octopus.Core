@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Octopus.Core.Common.Models;
 using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Extensions;
-using Octopus.Core.Common.Models;
 using Octopus.Core.RabbitMq.Interfaces;
 using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 
