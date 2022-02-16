@@ -30,5 +30,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
         public string GetCreateCommentQuery(DynamicEntityWithProperties dynamicEntity)
             => new CreateCommentQueryModel(_connectionString, dynamicEntity)
             .GetQuery();
+
+        public string GetExistsTableQuery(string table, string column, string value) 
+            => new ExistsTableQueryModel()
+                .GetQuery(table, column, value);
     }
 }

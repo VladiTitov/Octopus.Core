@@ -2,9 +2,14 @@
 {
     public static class QueryConstants
     {
+        public const string Select = "SELECT ";
         public const string InsertInto = "INSERT INTO";
-        public const string CreateTable = "CREATE TABLE";
-        public const string CreateSchema = "CREATE SCHEMA";
+        public const string Create = "CREATE ";
+        public const string Table = "TABLE ";
+        public const string Schema = "SCHEMA ";
+        public const string Exists = "EXISTS";
+        public const string Where = " WHERE ";
+        public const string From = " FROM ";
         public const string CommentOnColumn = "COMMENT ON COLUMN";
         public const string PrimaryKey = "PRIMARY KEY";
         public const string NotNull = "NOT NULL";

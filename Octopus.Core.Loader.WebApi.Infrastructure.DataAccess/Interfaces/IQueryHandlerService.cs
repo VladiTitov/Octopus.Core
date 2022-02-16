@@ -7,5 +7,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces
     {
         Task ExecuteAsync(string query);
         Task ExecuteAsync(string query, IEnumerable<object> items);
+        Task<T> QueryAsync<T>(string query);
+        Task<IEnumerable<T>> QueryListAsync<T>(string query);
     }
 }

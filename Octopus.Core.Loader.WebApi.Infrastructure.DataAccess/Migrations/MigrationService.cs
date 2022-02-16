@@ -19,7 +19,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
 
         public void UndefinedTableHandler()
         {
-            throw new NotImplementedException();
+            _migrationRepository.CreateSchemeAsync();
         }
 
         public void UniqueViolationNameHandler()

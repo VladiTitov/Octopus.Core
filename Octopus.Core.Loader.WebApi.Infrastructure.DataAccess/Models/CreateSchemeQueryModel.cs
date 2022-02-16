@@ -19,7 +19,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
             using (var queryBuilder = new QueryBuilderService())
             {
                 return queryBuilder
-                    .AddPart(QueryConstants.CreateSchema)
+                    .AddPart(QueryConstants.Create)
+                    .AddPart(QueryConstants.Schema)
                     .AddSeparator(" ")
                     .AddPart(QueryConstants.IfNotExists)
                     .AddSeparator(" ")

@@ -18,14 +18,23 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
 
         public async Task CreateSchemeAsync()
         {
-            var query = _queryFactory.GetCreateSchemeQuery();
-            await _queryHandler.ExecuteAsync(query);
+            if (!await IsItemExistsAsync("INFORMATION_SCHEMA.TABLES", "table_schema", "loaderscheme"))
+            {
+                var query = _queryFactory.GetCreateSchemeQuery();
+                await _queryHandler.ExecuteAsync(query);
+            }
         }
 
         public async Task CreateTableAsync(DynamicEntityWithProperties dynamicEntity)
         {
             var query = _queryFactory.GetCreateTableQuery(dynamicEntity);
             await _queryHandler.ExecuteAsync(query);
+        }
+
+        private async Task<bool> IsItemExistsAsync(string table, string column, string value)
+        {
+            var queryExists = _queryFactory.GetExistsTableQuery(table, column, value);
+            return await _queryHandler.QueryAsync<bool>(queryExists);
         }
     }
 }

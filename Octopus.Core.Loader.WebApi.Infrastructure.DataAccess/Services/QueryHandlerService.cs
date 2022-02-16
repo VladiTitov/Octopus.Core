@@ -24,7 +24,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
             {
                 using (var db = _context.CreateConnection())
                 {
-                    await db.ExecuteAsync(query);
+                    var pr = await db.ExecuteAsync(query);
                 }
             }
             catch (DbException ex)
@@ -47,5 +47,43 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
                 _exceptionFactory.GetDatabaseError(ex);
             }
         }
+
+        public async Task<T> QueryAsync<T>(string query)
+        {
+            var result = default(T);
+            try
+            {
+                using (var db = _context.CreateConnection())
+                {
+                    result = await db.QueryFirstAsync<T>(query);
+                }
+            }
+            catch (DbException ex)
+            {
+                _exceptionFactory.GetDatabaseError(ex);
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<T>> QueryListAsync<T>(string query)
+        {
+            IEnumerable<T> result = null;
+            try
+            {
+                using (var db = _context.CreateConnection())
+                {
+                    result = await db.QueryAsync<T>(query);
+                }
+            }
+            catch (DbException ex)
+            {
+                _exceptionFactory.GetDatabaseError(ex);
+            }
+
+            return result;
+        }
+
+        
     }
 }
