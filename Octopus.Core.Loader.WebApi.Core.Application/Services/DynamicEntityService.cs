@@ -50,11 +50,13 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
             {
                 _logger.LogError(ex.Message);
                 _migrationService.InvalidSchemaNameHandler();
+                await AddRangeAsync(items);
             }
             catch (UndefinedTableException ex)
             {
                 _logger.LogError(ex.Message);
-                _migrationService.UndefinedTableHandler();
+                _migrationService.UndefinedTableHandler(_dynamicEntity);
+                await AddRangeAsync(items);
             }
             catch (UniqueViolationException ex)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
@@ -14,12 +15,12 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
 
         public void InvalidSchemaNameHandler()
         {
-            throw new NotImplementedException();
+            _migrationRepository.CreateSchemeAsync();
         }
 
-        public void UndefinedTableHandler()
+        public void UndefinedTableHandler(DynamicEntityWithProperties dynamicEntity)
         {
-            _migrationRepository.CreateSchemeAsync();
+            _migrationRepository.CreateTableAsync(dynamicEntity);
         }
 
         public void UniqueViolationNameHandler()
