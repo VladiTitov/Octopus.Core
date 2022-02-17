@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Octopus.Core.Common.Models;
 using Octopus.Core.Common.Constants;
-using Octopus.Core.Common.DynamicObject.Models;
-using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Common.Exceptions;
 using Octopus.Core.Common.Helpers.JsonDeserializer;
-using Octopus.Core.Common.Models;
+using Octopus.Core.Common.DynamicObject.Services.Interfaces;
 using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
 
@@ -28,20 +27,18 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
         }
 
         public async Task<IEnumerable<object>> GetDataFromFileAsync(IEntityDescription entityDescription)
+            => await _jsonDeserializer
+                .GetDynamicObjects(
+                    type: await GetDynamicType(entityDescription.EntityType), 
+                    fileName: entityDescription.EntityFilePath);
+
+        private async Task<Type> GetDynamicType(string dynamicEntityName)
         {
-            var dynamicEntity = await _mongoRepository.GetEntity(entityDescription.EntityType);
-
-            if (dynamicEntity == null) throw new NotFoundException($"{ErrorMessages.DynamicEntityNotFound}{entityDescription.EntityType}");
-
-            var dynamicType = GetDynamicType(dynamicEntity);
+            var dynamicEntity = await _mongoRepository.GetEntity(dynamicEntityName);
+            if (dynamicEntity == null) throw new NotFoundException($"{ErrorMessages.DynamicEntityNotFound}{dynamicEntityName}");
             
-            return await _jsonDeserializer.GetDynamicObjects(dynamicType, entityDescription.EntityFilePath);
-        }
-
-        private Type GetDynamicType(DynamicEntityWithProperties dynamicEntity)
-        {
             var typeListOf = typeof(List<>);
-            var extendedType = _dynamicObjectCreate.CreateTypeByDescription(dynamicEntity); 
+            var extendedType = _dynamicObjectCreate.CreateTypeByDescription(dynamicEntity);
             return typeListOf.MakeGenericType(extendedType);
         }
     }

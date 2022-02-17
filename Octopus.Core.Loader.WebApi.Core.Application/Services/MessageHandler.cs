@@ -56,6 +56,7 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
             {
                 var dataReaderService = scope.ServiceProvider.GetRequiredService<IDataReaderService>();
                 var objects = await dataReaderService.GetDataFromFileAsync(entityDescription);
+
                 var dynamicEntityService = scope.ServiceProvider.GetRequiredService<IDynamicEntityService>();
                 await dynamicEntityService.AddRangeAsync(objects);
             }

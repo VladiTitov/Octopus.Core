@@ -4,7 +4,6 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Octopus.Core.Common.Exceptions;
 
 namespace Octopus.Core.Common.Helpers.JsonDeserializer
 {
@@ -14,23 +13,18 @@ namespace Octopus.Core.Common.Helpers.JsonDeserializer
         {
             using (FileStream openStream = File.OpenRead(fileName))
             {
-                var methodDeserialize = typeof(JsonSerializer).GetMethod("DeserializeAsync",
-                    new[]
+                var typeOfParameters = new[]
                 {
                     typeof(Stream),
                     typeof(JsonSerializerOptions),
                     typeof(CancellationToken)
-                });
+                };
+
+                var methodDeserialize = typeof(JsonSerializer).GetMethod("DeserializeAsync", typeOfParameters);
 
                 methodDeserialize = methodDeserialize.MakeGenericMethod(extendedType);
 
-                return await (dynamic)methodDeserialize.Invoke(null,
-                    new object[]
-                    {
-                        openStream,
-                        null,
-                        default
-                    });
+                return await (dynamic)methodDeserialize.Invoke(null, new object[] { openStream, null, default });
             }
         }
     }

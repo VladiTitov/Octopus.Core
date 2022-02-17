@@ -23,16 +23,17 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
 
         public async Task CreateSchemeAsync()
         {
-            if (!await IsItemExistsAsync("pg_catalog.pg_namespace", "nspname", _connectionString.Database))
-            {
-                var query = _queryFactory.GetCreateSchemeQuery();
-                await _queryHandler.ExecuteAsync(query);
-            }
+            var query = _queryFactory.GetCreateSchemeQuery();
+            await _queryHandler.ExecuteAsync(query);
         }
 
         public async Task CreateTableAsync(DynamicEntityWithProperties dynamicEntity)
         {
-            await CreateSchemeAsync();
+            if (!await IsItemExistsAsync(
+                table: "pg_catalog.pg_namespace", 
+                column:"nspname", 
+                value:_connectionString.Database)) 
+                await CreateSchemeAsync();
 
             var query = _queryFactory.GetCreateTableQuery(dynamicEntity);
             await _queryHandler.ExecuteAsync(query);

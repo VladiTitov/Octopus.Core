@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
-using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Common.DynamicObject.Models;
-using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
+using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models;
+using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
 {
