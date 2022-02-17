@@ -1,7 +1,11 @@
-﻿using Dapper;
+﻿using System;
+using Dapper;
+using System.Linq;
 using System.Data.Common;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
@@ -73,7 +77,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
             {
                 using (var db = _context.CreateConnection())
                 {
-                    result = await db.QueryAsync<T>(query);
+                    SqlMapper.SetTypeMap(typeof(T), GetTypeMap<T>());
+                    var temp = await db.QueryAsync<T>(query);
+                    result = temp.ToList();
                 }
             }
             catch (DbException ex)
@@ -84,6 +90,21 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
             return result;
         }
 
-        
+        private CustomPropertyTypeMap GetTypeMap<T>()
+        {
+            return new CustomPropertyTypeMap(typeof(T), (type, columnName)
+                => type
+                    .GetProperties()
+                    .FirstOrDefault(prop => GetDescriptionFromAttribute(prop) == columnName.ToLower()));
+        }
+
+        private string GetDescriptionFromAttribute(MemberInfo member)
+        {
+            if (member == null) return null;
+
+            var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(member, typeof(DescriptionAttribute), false);
+            return (attribute?.Description ?? member.Name).ToLower();
+        }
+
     }
 }

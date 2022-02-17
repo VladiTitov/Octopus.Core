@@ -23,9 +23,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
             _migrationRepository.CreateTableAsync(dynamicEntity);
         }
 
-        public void UniqueViolationNameHandler()
+        public void UniqueViolationNameHandler(DynamicEntityWithProperties dynamicEntity)
         {
-            throw new NotImplementedException();
+            _migrationRepository.TableCheck(dynamicEntity);
         }
 
         public void NotNullViolationHandler()

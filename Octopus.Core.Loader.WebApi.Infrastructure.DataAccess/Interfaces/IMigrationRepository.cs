@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Octopus.Core.Common.DynamicObject.Models;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces
@@ -7,5 +8,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces
     {
         Task CreateSchemeAsync();
         Task CreateTableAsync(DynamicEntityWithProperties dynamicEntity);
+        void TableCheck(DynamicEntityWithProperties dynamicEntity);
+        Task<IEnumerable<DynamicEntityProperty>> GetTableColumnsAsync(string tableName);
     }
 }

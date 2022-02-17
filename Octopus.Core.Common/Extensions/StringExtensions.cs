@@ -54,7 +54,7 @@ namespace Octopus.Core.Common.Extensions
         public static string ToCamelCase(this string item)
         {
             var firstPartUpper = char.ToUpper(item[0]);
-            var secondPartLower = item.Substring(1).ToLower();
+            var secondPartLower = item[1..].ToLower();
             return $"{firstPartUpper}{secondPartLower}";
         }
     }

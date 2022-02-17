@@ -6,7 +6,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces
     {
         void InvalidSchemaNameHandler();
         void UndefinedTableHandler(DynamicEntityWithProperties dynamicEntity);
-        void UniqueViolationNameHandler();
+        void UniqueViolationNameHandler(DynamicEntityWithProperties dynamicEntity);
         void NotNullViolationHandler();
         void UndefinedColumnHandler();
     }

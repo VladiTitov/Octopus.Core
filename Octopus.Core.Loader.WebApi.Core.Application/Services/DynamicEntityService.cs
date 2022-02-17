@@ -61,7 +61,7 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
             catch (UniqueViolationException ex)
             {
                 _logger.LogError(ex.Message);
-                _migrationService.UniqueViolationNameHandler();
+                _migrationService.UniqueViolationNameHandler(_dynamicEntity);
             }
             catch (NotNullViolationException ex)
             {
