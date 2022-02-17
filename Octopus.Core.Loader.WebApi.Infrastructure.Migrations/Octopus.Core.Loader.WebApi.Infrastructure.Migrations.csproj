@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Octopus.Core.Common\Octopus.Core.Common.csproj" />
+    <ProjectReference Include="..\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,20 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 using System.Collections.Generic;
-using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
+using Microsoft.Extensions.Options;
 using Octopus.Core.Common.DynamicObject.Models;
+using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces;
 
-namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.ProvidersMigrations
 {
-    public class MigrationRepository : IMigrationRepository
+    public class PostgresMigrationService : IPostgresMigrationService
     {
         private readonly ConnectionStringConfig _connectionString;
         private readonly IQueryFactoryService _queryFactory;
         private readonly IQueryHandlerService _queryHandler;
 
-        public MigrationRepository(IOptions<ConnectionStringConfig> connectionString,
+        public PostgresMigrationService(IOptions<ConnectionStringConfig> connectionString,
             IQueryFactoryService queryFactory,
             IQueryHandlerService queryHandler)
         {
@@ -33,8 +36,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
         {
             if (!await IsItemExistsAsync(
                 table: "pg_catalog.pg_namespace",
-                column:"nspname", 
-                value:_connectionString.Database)) 
+                column: "nspname",
+                value: _connectionString.Database))
                 await CreateSchemeAsync();
 
             var query = _queryFactory.GetCreateTableQuery(dynamicEntity);
@@ -47,7 +50,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
             var columns = await GetTableColumnsAsync(entityName);
             var entityProperties = dynamicEntity
                 .Properties
-                .Select(i=> new DynamicEntityProperty()
+                .Select(i => new TableColumn()
                 {
                     PropertyName = i.PropertyName,
                     PropertyTypeName = i.SystemTypeName
@@ -60,10 +63,10 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Migrations
             var sequenceEqual = list1.SequenceEqual(list2);
         }
 
-        public async Task<IEnumerable<DynamicEntityProperty>> GetTableColumnsAsync(string tableName)
+        public async Task<IEnumerable<TableColumn>> GetTableColumnsAsync(string tableName)
         {
             var query = $"select column_name, data_type from information_schema.columns where table_name = '{tableName.ToLower()}';";
-            return await _queryHandler.QueryListAsync<DynamicEntityProperty>(query);
+            return await _queryHandler.QueryListAsync<TableColumn>(query);
         }
 
         private async Task<bool> IsItemExistsAsync(string table, string column, string value)

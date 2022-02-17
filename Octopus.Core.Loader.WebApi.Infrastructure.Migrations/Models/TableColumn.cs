@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace Octopus.Core.Common.DynamicObject.Models
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Models
 {
-    public class DynamicEntityProperty
+    public class TableColumn
     {
         [Description("column_name")]
         public string PropertyName { get; set; }

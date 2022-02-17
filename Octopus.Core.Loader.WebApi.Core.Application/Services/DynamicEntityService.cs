@@ -10,6 +10,7 @@ using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Exceptions;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Core.Application.Services
 {
@@ -22,6 +23,7 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
         private readonly IMongoRepository _mongoRepository;
 
         private DynamicEntityWithProperties _dynamicEntity;
+        private IProviderMigration _providerMigration;
         private string _query;
 
         public DynamicEntityService(ILogger<DynamicEntityService> logger,
@@ -41,6 +43,7 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
         {
             if (_dynamicEntity == null) _dynamicEntity = await GetDynamicEntityAsync(items);
             if (_query == null) _query = _queryFactory.GetInsertQuery(_dynamicEntity);
+            if (_providerMigration == null) _providerMigration = _migrationService.GetMigrationForProvider();
 
             try
             {
@@ -49,29 +52,29 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
             catch (InvalidSchemaNameException ex)
             {
                 _logger.LogError(ex.Message);
-                _migrationService.InvalidSchemaNameHandler();
+                _providerMigration.InvalidSchemaNameHandler();
                 await AddRangeAsync(items);
             }
             catch (UndefinedTableException ex)
             {
                 _logger.LogError(ex.Message);
-                _migrationService.UndefinedTableHandler(_dynamicEntity);
+                _providerMigration.UndefinedTableHandler(_dynamicEntity);
                 await AddRangeAsync(items);
             }
             catch (UniqueViolationException ex)
             {
                 _logger.LogError(ex.Message);
-                _migrationService.UniqueViolationNameHandler(_dynamicEntity);
+                _providerMigration.UniqueViolationNameHandler(_dynamicEntity);
             }
             catch (NotNullViolationException ex)
             {
                 _logger.LogError(ex.Message);
-                _migrationService.NotNullViolationHandler();
+                _providerMigration.NotNullViolationHandler();
             }
             catch (UndefinedColumnException ex)
             {
                 _logger.LogError(ex.Message);
-                _migrationService.UndefinedColumnHandler();
+                _providerMigration.UndefinedColumnHandler();
             }
             catch (Exception ex)
             {

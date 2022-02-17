@@ -1,0 +1,41 @@
+﻿using System;
+using Octopus.Core.Common.DynamicObject.Models;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces;
+
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.ProvidersMigrations
+{
+    public class PostgresMigration : IProviderMigration
+    {
+        private readonly IPostgresMigrationService _migrationService;
+
+        public PostgresMigration(IPostgresMigrationService migrationService)
+        {
+            _migrationService = migrationService;
+        }
+
+        public void InvalidSchemaNameHandler()
+        {
+            _migrationService.CreateSchemeAsync();
+        }
+
+        public void NotNullViolationHandler()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UndefinedColumnHandler()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UndefinedTableHandler(DynamicEntityWithProperties dynamicEntity)
+        {
+            _migrationService.CreateTableAsync(dynamicEntity);
+        }
+
+        public void UniqueViolationNameHandler(DynamicEntityWithProperties dynamicEntity)
+        {
+            _migrationService.TableCheck(dynamicEntity);
+        }
+    }
+}
