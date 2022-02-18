@@ -36,7 +36,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Services
 
         public void UniqueViolationNameHandler(DynamicEntityWithProperties dynamicEntity)
         {
-            _migrationService.TableCheck(dynamicEntity);
+            _migrationService.TableCheckAsync(dynamicEntity);
         }
     }
 }

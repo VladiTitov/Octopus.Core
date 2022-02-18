@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.csproj" />
     <ProjectReference Include="..\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.csproj" />
   </ItemGroup>

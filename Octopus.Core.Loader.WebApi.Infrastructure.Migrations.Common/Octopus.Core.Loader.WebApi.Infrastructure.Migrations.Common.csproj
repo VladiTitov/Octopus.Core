@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Octopus.Core.Common\Octopus.Core.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Constants\" />
+  </ItemGroup>
+
 </Project>

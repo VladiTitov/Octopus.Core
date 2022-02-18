@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Services;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Services;
 
@@ -12,6 +13,8 @@ namespace Octopus.Core.Loader.WebApi.Configuration.Ioc
             => services
                 .AddScoped<IMigrationService, MigrationService>()
                 .AddScoped<IMigrationForProvidersFactory, MigrationForProvidersFactory>()
-                .AddScoped<IPostgresMigrationService, PostgresMigrationService>();
+                .AddScoped<IPostgresMigrationService, PostgresMigrationService>()
+                .AddScoped<ISchemaHandler, SchemaHandler>()
+                .AddScoped<ITableHandler, TableHandler>();
     }
 }
