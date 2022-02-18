@@ -1,5 +1,5 @@
 ﻿using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Constants;
-using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Services;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Models
 {

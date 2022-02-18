@@ -1,7 +1,7 @@
 ﻿using System;
-using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Interfaces;
 
-namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Services
 {
     public class QueryBuilderService : IQueryBuilderService, IDisposable
     {

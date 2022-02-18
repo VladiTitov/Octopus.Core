@@ -1,6 +1,6 @@
-﻿using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services;
+﻿using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Services;
 
-namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Interfaces
 {
     public interface IQueryBuilderService
     {

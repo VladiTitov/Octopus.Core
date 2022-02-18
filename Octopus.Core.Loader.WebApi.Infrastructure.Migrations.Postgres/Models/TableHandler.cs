@@ -5,6 +5,7 @@ using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Constants;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Models;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Services;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Constants;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Interfaces;
 
@@ -30,35 +31,42 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Models
 
         public async Task TableCheck(DynamicEntityWithProperties dynamicEntity)
         {
-            var entityName = dynamicEntity.EntityName;
-            var columns = await GetTableColumnsAsync(entityName);
-            var entityProperties = dynamicEntity
-                .Properties
-                .Select(i => new TableColumn()
+            var columnsList = await GetColumnsFromTableAsync(dynamicEntity.EntityName);
+            var entityProperties = GetColumnsFromDynamicEntity(dynamicEntity);
+        }
+
+        private IEnumerable<TableColumn> GetColumnsFromDynamicEntity(DynamicEntityWithProperties dynamicEntity)
+        {
+            return dynamicEntity.Properties.Select(i
+                => new TableColumn()
                 {
                     PropertyName = i.PropertyName,
                     PropertyTypeName = i.SystemTypeName
-                })
-                .ToList();
-
-            var list1 = entityProperties.Select(i => i.PropertyName);
-            var list2 = columns.Select(i => i.PropertyName);
-
-            var sequenceEqual = list1.SequenceEqual(list2);
+                });
         }
+
+        private async Task<IEnumerable<TableColumn>> GetColumnsFromTableAsync(string entityName) 
+            => await GetTableColumnsAsync(entityName);
 
         public async Task<IEnumerable<TableColumn>> GetTableColumnsAsync(string tableName)
         {
-            var query = $"{QueryConstants.Select}" +
-                        $"{PostgresConstants.ColumnName}," +
-                        $"{PostgresConstants.DataType}" +
-                        $"{QueryConstants.From}" +
-                        $"{PostgresConstants.DatabaseColumnsList} " +
-                        $"{QueryConstants.Where}" +
-                        $"{PostgresConstants.TableName} = " +
-                        $"'{tableName.ToLower()}';";
+            using (var queryBuilder = new QueryBuilderService())
+            {
+                var query = queryBuilder
+                    .AddPart(QueryConstants.Select)
+                    .AddPart(PostgresConstants.ColumnName)
+                    .AddSeparator(",")
+                    .AddPart(PostgresConstants.DataType)
+                    .AddPart(QueryConstants.From)
+                    .AddPart(PostgresConstants.DatabaseColumnsList)
+                    .AddPart(QueryConstants.Where)
+                    .AddPart(PostgresConstants.TableName)
+                    .AddSeparator(" = ")
+                    .AddPart($"'{tableName.ToLower()}';")
+                    .GetQuery();
 
-            return await _queryHandler.QueryListAsync<TableColumn>(query);
+                return await _queryHandler.QueryListAsync<TableColumn>(query);
+            }
         }
     }
 }
