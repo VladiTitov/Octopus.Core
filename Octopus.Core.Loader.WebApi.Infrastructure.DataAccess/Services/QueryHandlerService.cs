@@ -1,11 +1,11 @@
-﻿using System;
-using Dapper;
+﻿using Dapper;
+using System;
 using System.Linq;
+using System.Reflection;
 using System.Data.Common;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Reflection;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
@@ -105,6 +105,5 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
             var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(member, typeof(DescriptionAttribute), false);
             return (attribute?.Description ?? member.Name).ToLower();
         }
-
     }
 }

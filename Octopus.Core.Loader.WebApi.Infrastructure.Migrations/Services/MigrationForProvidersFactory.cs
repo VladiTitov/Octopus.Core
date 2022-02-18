@@ -1,5 +1,7 @@
 ﻿using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces;
-using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.ProvidersMigrations;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Services;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Services
 {
@@ -12,6 +14,6 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Services
             _postgresMigrationService = postgresMigrationService;
         }
 
-        public IProviderMigration GetPostgresProviderMigration() => new PostgresMigration(_postgresMigrationService);
+        public IProviderMigration GetPostgresProviderMigration() => new PostgresMigrationHandler(_postgresMigrationService);
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System;
 using Octopus.Core.Common.DynamicObject.Models;
-using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Interfaces;
 
-namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.ProvidersMigrations
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Services
 {
-    public class PostgresMigration : IProviderMigration
+    public class PostgresMigrationHandler : IProviderMigration
     {
         private readonly IPostgresMigrationService _migrationService;
 
-        public PostgresMigration(IPostgresMigrationService migrationService)
+        public PostgresMigrationHandler(IPostgresMigrationService migrationService)
         {
             _migrationService = migrationService;
         }

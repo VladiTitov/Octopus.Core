@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Models
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Models
 {
     public class TableColumn
     {

@@ -1,6 +1,6 @@
-﻿using Octopus.Core.Common.Models;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Octopus.Core.Common.Models;
 
 namespace Octopus.Core.Loader.WebApi.Core.Application.Interfaces
 {

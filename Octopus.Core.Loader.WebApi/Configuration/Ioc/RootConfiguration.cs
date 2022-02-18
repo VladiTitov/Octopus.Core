@@ -12,6 +12,7 @@ namespace Octopus.Core.Loader.WebApi.Configuration.Ioc
             => services
                 .AppSettingsSectionsRegister(configuration)
                 .RegisterDynamicEntityServices()
+                .RegisterMigrationsServices()
                 .RegisterDataBaseServices()
                 .RegisterRabbitMqServices()
                 .RegisterMongoDbServices()

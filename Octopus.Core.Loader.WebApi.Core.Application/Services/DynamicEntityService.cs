@@ -10,6 +10,7 @@ using Octopus.Core.Loader.WebApi.Core.Application.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Exceptions;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Core.Application.Services

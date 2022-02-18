@@ -1,4 +1,4 @@
-﻿using Octopus.Core.Common.DynamicObject.Models;
+﻿using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Interfaces;
 
 namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces
 {

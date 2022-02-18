@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 using Octopus.Core.Common.DynamicObject.Models;
-using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Models;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Models;
 
-namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Interfaces
 {
     public interface IPostgresMigrationService
     {

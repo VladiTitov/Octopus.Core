@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Octopus.Core.Common\Octopus.Core.Common.csproj" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess\Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.csproj" />
     <ProjectReference Include="..\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.csproj" />
-    <ProjectReference Include="..\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.csproj" />
   </ItemGroup>
 
 </Project>

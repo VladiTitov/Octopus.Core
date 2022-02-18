@@ -1,6 +1,6 @@
 ﻿using Octopus.Core.Common.DynamicObject.Models;
 
-namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Interfaces
 {
     public interface IProviderMigration
     {

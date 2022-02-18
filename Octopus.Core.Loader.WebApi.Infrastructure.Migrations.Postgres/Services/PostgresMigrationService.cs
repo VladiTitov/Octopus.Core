@@ -1,15 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Common.ConfigsModels.ConnectionStrings;
-using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
-using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Interfaces;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Models;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Interfaces;
 
-namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.ProvidersMigrations
+namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Services
 {
     public class PostgresMigrationService : IPostgresMigrationService
     {
@@ -76,3 +75,4 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.ProvidersMigratio
         }
     }
 }
+

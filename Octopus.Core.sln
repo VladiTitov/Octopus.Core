@@ -30,7 +30,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WebApi.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WebApi.Infrastructure.MongoDb", "Octopus.Core.Loader.WebApi.Infrastructure.MongoDb\Octopus.Core.Loader.WebApi.Infrastructure.MongoDb.csproj", "{30DB9F94-E279-4067-81E9-C23816453433}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.WebApi.Infrastructure.Migrations", "Octopus.Core.Loader.WebApi.Infrastructure.Migrations\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.csproj", "{4AE54C68-58CF-452F-BA5D-1FA5BCF70EB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Octopus.Core.Loader.WebApi.Infrastructure.Migrations", "Octopus.Core.Loader.WebApi.Infrastructure.Migrations\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.csproj", "{4AE54C68-58CF-452F-BA5D-1FA5BCF70EB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common", "Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.csproj", "{A1D07CB9-6A62-4C0A-AF51-5D6B611B8C8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres", "Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres\Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.csproj", "{C6D26EAF-67B2-42C1-B711-572E5F035DAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +78,14 @@ Global
 		{4AE54C68-58CF-452F-BA5D-1FA5BCF70EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AE54C68-58CF-452F-BA5D-1FA5BCF70EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AE54C68-58CF-452F-BA5D-1FA5BCF70EB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1D07CB9-6A62-4C0A-AF51-5D6B611B8C8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1D07CB9-6A62-4C0A-AF51-5D6B611B8C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1D07CB9-6A62-4C0A-AF51-5D6B611B8C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1D07CB9-6A62-4C0A-AF51-5D6B611B8C8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6D26EAF-67B2-42C1-B711-572E5F035DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D26EAF-67B2-42C1-B711-572E5F035DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D26EAF-67B2-42C1-B711-572E5F035DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D26EAF-67B2-42C1-B711-572E5F035DAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +102,8 @@ Global
 		{F062BACF-BD4E-4E78-8754-124A3CD74208} = {56AE4BDB-4BEC-4F8C-930C-2D8478308C31}
 		{30DB9F94-E279-4067-81E9-C23816453433} = {A6CE7D9A-650C-439C-8607-E8AF03ED9767}
 		{4AE54C68-58CF-452F-BA5D-1FA5BCF70EB7} = {A6CE7D9A-650C-439C-8607-E8AF03ED9767}
+		{A1D07CB9-6A62-4C0A-AF51-5D6B611B8C8B} = {A6CE7D9A-650C-439C-8607-E8AF03ED9767}
+		{C6D26EAF-67B2-42C1-B711-572E5F035DAE} = {A6CE7D9A-650C-439C-8607-E8AF03ED9767}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D937E79C-E80C-4670-8CC4-7B2965DBF301}
