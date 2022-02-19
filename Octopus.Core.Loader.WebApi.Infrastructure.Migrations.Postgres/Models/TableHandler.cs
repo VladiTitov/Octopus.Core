@@ -6,6 +6,7 @@ using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Constants;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Services;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Extensions;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Constants;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Interfaces;
 
@@ -32,7 +33,12 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Models
         public async Task TableCheck(DynamicEntityWithProperties dynamicEntity)
         {
             var columnsList = await GetColumnsFromTableAsync(dynamicEntity.EntityName);
-            var entityProperties = GetColumnsFromDynamicEntity(dynamicEntity);
+            var entityProperties = GetColumnsFromDynamicEntity(dynamicEntity).ToList();
+
+            if (!columnsList.IsEquals(entityProperties))
+            {
+                //Необходимо обновить таблицу
+            }
         }
 
         private IEnumerable<TableColumn> GetColumnsFromDynamicEntity(DynamicEntityWithProperties dynamicEntity)
@@ -45,10 +51,7 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Models
                 });
         }
 
-        private async Task<IEnumerable<TableColumn>> GetColumnsFromTableAsync(string entityName) 
-            => await GetTableColumnsAsync(entityName);
-
-        public async Task<IEnumerable<TableColumn>> GetTableColumnsAsync(string tableName)
+        private async Task<IEnumerable<TableColumn>> GetColumnsFromTableAsync(string tableName)
         {
             using (var queryBuilder = new QueryBuilderService())
             {
@@ -62,7 +65,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Models
                     .AddPart(QueryConstants.Where)
                     .AddPart(PostgresConstants.TableName)
                     .AddSeparator(" = ")
-                    .AddPart($"'{tableName.ToLower()}';")
+                    .AddPart($"'{tableName.ToLower()}' ")
+                    .AddPart(" order by ordinal_position;")
                     .GetQuery();
 
                 return await _queryHandler.QueryListAsync<TableColumn>(query);
