@@ -70,7 +70,7 @@ namespace Octopus.Core.Loader.WebApi.Core.Application.Services
             catch (NotNullViolationException ex)
             {
                 _logger.LogError(ex.Message);
-                _providerMigration.NotNullViolationHandler();
+                _providerMigration.NotNullViolationHandler(_dynamicEntity);
             }
             catch (UndefinedColumnException ex)
             {

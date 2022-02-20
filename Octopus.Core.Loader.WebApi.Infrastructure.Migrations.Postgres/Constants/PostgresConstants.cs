@@ -4,6 +4,7 @@
     {
         public const string DatabaseColumnsList = "information_schema.columns";
         public const string DatabaseSchemaList = "pg_catalog.pg_namespace";
+        public const string IsNullable = "is_nullable";
         public const string AllSchemesColumn = "nspname";
         public const string TableName = "table_name";
         public const string ColumnName = "column_name";

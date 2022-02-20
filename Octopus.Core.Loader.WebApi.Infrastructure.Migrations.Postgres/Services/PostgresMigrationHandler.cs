@@ -19,9 +19,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Services
             _migrationService.CreateSchemeAsync();
         }
 
-        public void NotNullViolationHandler()
+        public void NotNullViolationHandler(DynamicEntityWithProperties dynamicEntity)
         {
-            throw new NotImplementedException();
+            _migrationService.TableCheckAsync(dynamicEntity);
         }
 
         public void UndefinedColumnHandler()

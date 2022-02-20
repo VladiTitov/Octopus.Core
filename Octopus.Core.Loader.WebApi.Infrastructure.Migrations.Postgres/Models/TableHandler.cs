@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using Octopus.Core.Common.DynamicObject.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Constants;
 using Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Interfaces;
-using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Models;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Services;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Extensions;
+using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Common.Interfaces;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Constants;
 using Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Interfaces;
 
@@ -41,17 +41,19 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Models
             }
         }
 
-        private IEnumerable<TableColumn> GetColumnsFromDynamicEntity(DynamicEntityWithProperties dynamicEntity)
-        {
-            return dynamicEntity.Properties.Select(i
-                => new TableColumn()
-                {
-                    PropertyName = i.PropertyName,
-                    PropertyTypeName = i.SystemTypeName
-                });
-        }
+        private IEnumerable<ITableColumn> GetColumnsFromDynamicEntity(DynamicEntityWithProperties dynamicEntity) 
+            => dynamicEntity
+                .Properties
+                .Select(i 
+                    => new PostgresTableColumn()
+                    {
+                        PropertyName = i.PropertyName,
+                        PropertyTypeName = i.SystemTypeName,
+                        PropertyIsNullable = i.DynamicEntityDataBaseProperty.IsNotNull
 
-        private async Task<IEnumerable<TableColumn>> GetColumnsFromTableAsync(string tableName)
+                    });
+        
+        private async Task<IEnumerable<ITableColumn>> GetColumnsFromTableAsync(string tableName)
         {
             using (var queryBuilder = new QueryBuilderService())
             {
@@ -60,6 +62,8 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Models
                     .AddPart(PostgresConstants.ColumnName)
                     .AddSeparator(",")
                     .AddPart(PostgresConstants.DataType)
+                    .AddSeparator(",")
+                    .AddPart(PostgresConstants.IsNullable)
                     .AddPart(QueryConstants.From)
                     .AddPart(PostgresConstants.DatabaseColumnsList)
                     .AddPart(QueryConstants.Where)
@@ -69,8 +73,9 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.Migrations.Postgres.Models
                     .AddPart(" order by ordinal_position;")
                     .GetQuery();
 
-                return await _queryHandler.QueryListAsync<TableColumn>(query);
+                return await _queryHandler.QueryListAsync<PostgresTableColumn>(query);
             }
+
         }
     }
 }

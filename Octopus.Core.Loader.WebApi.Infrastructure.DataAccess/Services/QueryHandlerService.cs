@@ -90,20 +90,27 @@ namespace Octopus.Core.Loader.WebApi.Infrastructure.DataAccess.Services
             return result;
         }
 
-        private CustomPropertyTypeMap GetTypeMap<T>()
-        {
-            return new CustomPropertyTypeMap(typeof(T), (type, columnName)
-                => type
-                    .GetProperties()
-                    .FirstOrDefault(prop => GetDescriptionFromAttribute(prop) == columnName.ToLower()));
-        }
+        private CustomPropertyTypeMap GetTypeMap<T>() 
+            => new CustomPropertyTypeMap(
+                type: typeof(T),
+                propertySelector: (type, columnName)
+                    => type
+                        .GetProperties()
+                        .FirstOrDefault(
+                            prop 
+                                => GetDescriptionFromAttribute(prop) == columnName
+                                    .ToLower()));
 
         private string GetDescriptionFromAttribute(MemberInfo member)
         {
             if (member == null) return null;
 
-            var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(member, typeof(DescriptionAttribute), false);
-            return (attribute?.Description ?? member.Name).ToLower();
+            var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(
+                element: member,
+                attributeType: typeof(DescriptionAttribute),
+                inherit: false);
+            var descriptionFromAttribute = attribute?.Description ?? member.Name;
+            return descriptionFromAttribute.ToLower();
         }
     }
 }
